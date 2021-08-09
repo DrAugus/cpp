@@ -12,7 +12,7 @@
 
 ```
 CMakeFiles\TRAINING.dir/objects.a(main.cc.obj): In function `main':
-D:/Users/dell/CLionProjects/AugusCode/src/TRAINING/main.cc:15: undefined reference to `whywhywhy()'
+D:/Users/dell/CLionProjects/augus_cpp/src/TRAINING/main.cc:15: undefined reference to `whywhywhy()'
 collect2.exe: error: ld returned 1 exit status
 mingw32-make.exe[3]: *** [src\TRAINING\CMakeFiles\TRAINING.dir\build.make:121: src/TRAINING/TRAINING.exe] Error 1
 mingw32-make.exe[2]: *** [CMakeFiles\Makefile2:412: src/TRAINING/CMakeFiles/TRAINING.dir/all] Error 2

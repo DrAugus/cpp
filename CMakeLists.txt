@@ -1,7 +1,7 @@
 #cmake 最低版本要求
 cmake_minimum_required(VERSION 3.9)
 #定义工程名称
-project(AugusCode
+project(augus_cpp
         LANGUAGES CXX
         VERSION 1.0.0
         DESCRIPTION "All my test in C++."
@@ -53,17 +53,17 @@ find_package(Doxygen OPTIONAL_COMPONENTS dot dia)
 
 
 #生成可执行文件
-add_executable(AugusCode main.cc)
-#add_executable(AugusCode ${DIR_SRC})  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
+add_executable(augus_cpp main.cc)
+#add_executable(augus_cpp ${DIR_SRC})  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
 
 #生成库文件
-#add_library(AugusCode SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
-#add_library(AugusCode STATIC ${DIR_SRC})
-#target_link_library(AugusCode lib1,lib2,lib3)
+#add_library(augus_cpp SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
+#add_library(augus_cpp STATIC ${DIR_SRC})
+#target_link_library(augus_cpp lib1,lib2,lib3)
 
 #指定编译包含的源文件 搜索所有的 cpp 文件
 #aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src DIR_SRC) # 搜索当前目录下的所有.cpp文件
-#add_library(AugusCode ${DIR_SRC})
+#add_library(augus_cpp ${DIR_SRC})
 
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}
