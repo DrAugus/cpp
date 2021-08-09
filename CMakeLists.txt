@@ -1,0 +1,89 @@
+#cmake 最低版本要求
+cmake_minimum_required(VERSION 3.9)
+#定义工程名称
+project(AugusCode
+        LANGUAGES CXX
+        VERSION 1.0.0
+        DESCRIPTION "All my test in C++."
+        )
+#打印相关消息消息
+message(status "Project Directory: ${PROJECT_SOURCE_DIR}")
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(MSVC)
+    # set(CMAKE_CXX_STANDARD 14)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+endif(MSVC)
+
+option(USE_OPENMP "flag to use OpenMP for multithreading" ON)
+if(USE_OPENMP)
+    find_package(OpenMP 3.0 COMPONENTS CXX)
+    if (OpenMP_CXX_FOUND)
+        message(STATUS "Building with OpenMP Multithreading.")
+    else()
+        message(STATUS "No OpenMP found, no multithreading.")
+    endif()
+endif()
+
+#当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
+add_subdirectory(src/HELP_OTHERS)
+add_subdirectory(src/INTERVIEW)
+add_subdirectory(src/TRAINING)
+
+cmake_policy(SET CMP0054 NEW)
+cmake_policy(SET CMP0057 NEW)
+find_package(Doxygen OPTIONAL_COMPONENTS dot dia)
+
+#指定编译类型 DEBUG/RELEASE
+#set(cmake_build_type DEBUG)
+
+# 指定编译器
+#set(cmake_c_flags_debug "-g -Wall)
+
+#添加编译选项，一些具体的编译选项大家可以自己查一下
+#add_compile_options(-std=gnu++11)
+
+#设置option，可以根据option从而选择代码中的宏定义部分
+#option(_LINUX "build the project on linux " ON)
+#if(_LINUX)
+#    add_definitions("-D_LINUX")
+#endif()
+
+
+#生成可执行文件
+add_executable(AugusCode main.cc)
+#add_executable(AugusCode ${DIR_SRC})  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
+
+#生成库文件
+#add_library(AugusCode SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
+#add_library(AugusCode STATIC ${DIR_SRC})
+#target_link_library(AugusCode lib1,lib2,lib3)
+
+#指定编译包含的源文件 搜索所有的 cpp 文件
+#aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src DIR_SRC) # 搜索当前目录下的所有.cpp文件
+#add_library(AugusCode ${DIR_SRC})
+
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+#工程配置相关，需要根据实际情况进行调整
+#include_directories(${CMAKE_SOURCE_DIR}/include) #添加引用的头文件目录，这里是相对目录的形式
+#link_directories(${CMAKE_SOURCE_DIR}/library) #添加引用的库文件目录，这里是相对目录的形式
+
+##gtest-----------------
+## libs path
+#link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
+## set libs variable
+#set(LIBS
+#        gtest) # libgtest.a
+#target_link_libraries(${PROJECT_NAME} ${LIBS})
+
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
