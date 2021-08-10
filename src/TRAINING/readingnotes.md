@@ -1,8 +1,3 @@
-## 一些比较好的博客
-
-* <a href="https://www.cnblogs.com/coderzh/" title="玩转Google开源C++单元测试框架Google Test系列">
-  玩转Google开源C++单元测试框架Google Test系列</a>
-
 # C++ Primer
 
 ### 20210512
