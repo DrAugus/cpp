@@ -3,7 +3,7 @@
 //
 
 #include "ptr.hh"
-
+#include "gtest/gtest.h"
 
 int auto_ptr::test_shared_ptr()
 {

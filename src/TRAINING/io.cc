@@ -3,6 +3,7 @@
 //
 
 #include "io.hh"
+#include "gtest/gtest.h"
 
 std::string binaryToHex(const std::string &binaryStr)
 {
@@ -22,24 +23,26 @@ void io_test::string2binary()
 
     const char *json =
         R"({"Account": "","FortressUser": "","AppName": "","AppPath": "","AppHash": "","Mac": "","Token": "","dport": 0,"TerminalPort": 0,"dst": "","TerminalIP": "","dbid": 0})";
-    std::cout << strlen(json) << std::endl;
+    std::cout << "json length: " << strlen(json) << std::endl;
 
     char a[164];
     strcpy(a, json);
 
+    std::cout << "json info: ";
     for (auto ss:a) {
         std::cout << ss;
     }
 
     std::string changed = binaryToHex(a);
 
-    std::cout << "\n string ssssssssss->";
+    std::cout << "\nchange to hex, now string-> ";
     for (auto ss:changed) {
         std::cout << ss;
     }
     std::cout << "\n";
 
-    //注意修改工作路径 为 yourpath\AugusTest\src\COMPANY_TEST
+    //--下面的注释已然看不懂了
+    //注意修改工作路径 为 yourpath\augus_cpp\src\subpath
     std::fstream f;
     std::ifstream fin("log/data.txt");   //读取文件
     if (!fin) {
@@ -51,5 +54,11 @@ void io_test::string2binary()
     f << "\n\n" << changed << std::endl;
     f.close();
 
+}
+
+
+TEST(io_test, string2binary)
+{
+    io_test::string2binary();
 }
 
