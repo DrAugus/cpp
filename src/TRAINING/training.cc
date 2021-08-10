@@ -614,6 +614,30 @@ TEST(LCSolution, readBinaryWatch)
     EXPECT_EQ(res, t);
 }
 
+int LCSolution::numberOfArithmeticSlices(std::vector<int>& nums){
+    if (nums.empty()) { return 0; }
+    if (nums.size() < 3) { return 0; }
+    int count = 0;
+    int addend = 0;
+
+    for (int i = 2; i < nums.size(); i++) {
+        if (nums[i - 1] - nums[i] == nums[i - 2] - nums[i - 1]) {
+            count += ++addend;
+        } else {
+            addend = 0;
+        }
+    }
+    return count;
+}
+
+TEST(LCSolution, numberOfArithmeticSlices)
+{
+    std::vector<int> t = {1,2,3,4,5};
+    int res = LCSolution::instance()->numberOfArithmeticSlices(t);
+    EXPECT_EQ(res, 6);
+}
+
+
 int LCSolution::findMaximumXOR(std::vector<int> &nums)
 {
     if (nums.empty()) { return 0; }

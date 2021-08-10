@@ -98,6 +98,8 @@ public:
     //401 二进制手表
     std::vector<std::string> readBinaryWatch(int turnedOn, bool brute_force);
     std::vector<std::string> readBinaryWatch(int turnedOn, int brute_force);
+    //413等差数列划分
+    int numberOfArithmeticSlices(std::vector<int>& nums);
     ///421. 数组中两个数的最大异或值
     int findMaximumXOR(std::vector<int> &nums);
     /// 442
