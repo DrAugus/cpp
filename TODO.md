@@ -2,6 +2,10 @@
 #### TOP
 一些散记
 * 如果大家想看某一个领域的论文，可以尝试搜一下awesome+*，比如awesome domain adaptaion，说不定有惊喜
+* <a href="https://www.macrumors.com/roundup/macbook-pro/" title="新款apple预测" target="_blank">Apple新款预测</a>
+* <a href="https://www.maigoo.com/" title="一个神奇的排行榜网站" target="_blank">一个神奇的排行榜网站</a>
+* <a href="https://hk.v2ex.com/" title="一个程序员社区似乎需要科学工具" target="_blank">一个程序员社区</a>
+
 
 
 ### 一些教程
