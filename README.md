@@ -13,6 +13,14 @@ RECORD MY LEARNING
 <h2>clion同时配置Makefile和Cmakelist如何让Cmakelist生效？</h2>
 似乎修改Run/Debug Configurations即可<br>如若不行移除项目的makefile让cmakelist先生效<br>
 
+<h2>关于全局变量/局部变量/静态变量的线程安全问题</h2>
+```c++
+namespace nam {
+    static std::string ss;
+}
+```
+
+
 # Notes
 
 
