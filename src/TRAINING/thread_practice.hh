@@ -38,7 +38,7 @@ void count1m(int id)
     std::cout << id;
 }
 
-int main()
+int thread_main()
 {
     std::thread threads[10];
     std::cout << "race of 10 threads that count to 1 million:\n";

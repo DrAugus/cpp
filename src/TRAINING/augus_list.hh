@@ -100,8 +100,8 @@ namespace augus_list {
                 fast = slow;
                 slow = slow->next;
                 fast->next = NULL;
-                fast = sortList(head);//前半段排序
-                slow = sortList(slow);//后半段排序
+//                fast = sortList(head);//前半段排序
+//                slow = sortList(slow);//后半段排序
                 return merge(fast,slow);
             }
 
@@ -155,7 +155,7 @@ namespace augus_list {
                 {
                     if(q->val > q->next->val)
                     {
-                        swap(q->val, q->next->val);
+                        std::swap(q->val, q->next->val);
                         isChange = true;
                     }
                 }

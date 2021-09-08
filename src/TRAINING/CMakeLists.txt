@@ -14,7 +14,7 @@ include_directories(
 aux_source_directory(. SRC)
 
 # libs path
-link_directories(../../lib)
+link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 # set libs variable
 set(LIBS
