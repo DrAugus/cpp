@@ -28,7 +28,6 @@ if(USE_OPENMP)
 endif()
 
 #当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
-add_subdirectory(src/HELP_OTHERS)
 add_subdirectory(src/INTERVIEW)
 add_subdirectory(src/TRAINING)
 
