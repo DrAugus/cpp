@@ -26,6 +26,7 @@ using augus::printTest;
 #include <numeric> // std::partial_sum
 #include <regex>
 #include <array>
+#include <climits> // for INT_MAX
 
 namespace leetcode {
 
