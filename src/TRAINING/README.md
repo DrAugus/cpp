@@ -19,3 +19,6 @@ mingw32-make.exe[2]: *** [CMakeFiles\Makefile2:412: src/TRAINING/CMakeFiles/TRAI
 mingw32-make.exe[1]: *** [CMakeFiles\Makefile2:419: src/TRAINING/CMakeFiles/TRAINING.dir/rule] Error 2
 mingw32-make.exe: *** [Makefile:295: TRAINING] Error 2
 ```
+
+
+`skipping incompatible... / cannot find -lgmockd`解决方案 重新编译gmockd库
