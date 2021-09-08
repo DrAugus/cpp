@@ -9,7 +9,7 @@ project(augus_cpp
 #打印相关消息消息
 message(status "Project Directory: ${PROJECT_SOURCE_DIR}")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
@@ -36,7 +36,7 @@ cmake_policy(SET CMP0057 NEW)
 find_package(Doxygen OPTIONAL_COMPONENTS dot dia)
 
 #指定编译类型 DEBUG/RELEASE
-#set(cmake_build_type DEBUG)
+set(cmake_build_type DEBUG)
 
 # 指定编译器
 #set(cmake_c_flags_debug "-g -Wall)
