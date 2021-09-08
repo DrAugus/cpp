@@ -95,8 +95,6 @@
 // being defined as many user-defined container types don't have
 // value_type.
 
-// GOOGLETEST_CM0001 DO NOT DELETE
-
 #ifndef GOOGLETEST_INCLUDE_GTEST_GTEST_PRINTERS_H_
 #define GOOGLETEST_INCLUDE_GTEST_GTEST_PRINTERS_H_
 
@@ -360,7 +358,7 @@ GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(char);
 GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(const char);
 GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(wchar_t);
 GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(const wchar_t);
-#ifdef __cpp_char8_t
+#ifdef __cpp_lib_char8_t
 GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(char8_t);
 GTEST_IMPL_FORMAT_C_STRING_AS_POINTER_(const char8_t);
 #endif
