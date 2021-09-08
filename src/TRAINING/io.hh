@@ -13,7 +13,6 @@
 #include <string> // for memset
 #include <map> // for std::map
 #include <stack> // for std::stack
-#include <accctrl.h>
 #include <memory>
 
 #include "augus/lib_func.hh"
