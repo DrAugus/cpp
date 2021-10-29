@@ -9,7 +9,6 @@
 
 #define _ 0
 
-using namespace std;
 
 int hhh(int &a) {
     a++;
@@ -34,8 +33,8 @@ int &f(int x) {
 }
 
 int testMax(const int card[], int count) {
-    auto pMax = max_element(card, card + count);
-    cout << *pMax;
+    auto pMax = std::max_element(card, card + count);
+    std::cout << *pMax;
     return 0;
 }
 
@@ -64,7 +63,7 @@ public:
         int cnt = 0;
         while (slices < n) {
             ++cnt;
-            slices += min(slices, m);
+            slices +=  std::min(slices, m);
         }
         return cnt;
     }
@@ -187,22 +186,22 @@ int main(int argc, char *argv[]) {
 
     return 0 ^ _ ^ 0;
 
-    string s1 = "Hello World";
-    cout << "s1 is \"Hello World\"" << endl;
-    const string &s2 = s1;
-    cout << "s2 is initialized by s1" << endl;
-    string s3(s1);
-    cout << "s3 is initialized by s1" << endl;
+    std::string s1 = "Hello World";
+    std::cout << "s1 is \"Hello World\"" << std::endl;
+    const std::string &s2 = s1;
+    std::cout << "s2 is initialized by s1" << std::endl;
+    std::string s3(s1);
+    std::cout << "s3 is initialized by s1" << std::endl;
     // compare by '=='
-    cout << "Compared by '==':" << endl;
-    cout << "s1 and \"Hello World\": " << (s1 == "Hello World") << endl;
-    cout << "s1 and s2: " << (s1 == s2) << endl;
-    cout << "s1 and s3: " << (s1 == s3) << endl;
+    std::cout << "Compared by '==':" << std::endl;
+    std::cout << "s1 and \"Hello World\": " << (s1 == "Hello World") << std::endl;
+    std::cout << "s1 and s2: " << (s1 == s2) << std::endl;
+    std::cout << "s1 and s3: " << (s1 == s3) << std::endl;
     // compare by 'compare'
-    cout << "Compared by 'compare':" << endl;
-    cout << "s1 and \"Hello World\": " << !s1.compare("Hello World") << endl;
-    cout << "s1 and s2: " << !s1.compare(s2) << endl;
-    cout << "s1 and s3: " << !s1.compare(s3) << endl;
+    std::cout << "Compared by 'compare':" << std::endl;
+    std::cout << "s1 and \"Hello World\": " << !s1.compare("Hello World") << std::endl;
+    std::cout << "s1 and s2: " << !s1.compare(s2) << std::endl;
+    std::cout << "s1 and s3: " << !s1.compare(s3) << std::endl;
 
 
 
@@ -223,12 +222,12 @@ int main(int argc, char *argv[]) {
     testMax(CARD_DATA, 54);
 
 
-    int t = 5;
-    cout << f(t) << endl;
-    f(t) = 20;
-    cout << f(t) << endl;
-    t = f(t);
-    cout << f(t) << endl;
+//    int t = 5;
+//    cout << f(t) << endl;
+//    f(t) = 20;
+//    cout << f(t) << endl;
+//    t = f(t);
+//    cout << f(t) << endl;
 
     jjj();
 
