@@ -146,7 +146,94 @@ int getAverage() {
 }
 
 
+
+
+// 3.
+// 编写基类B，并派生类C。分别定义两个类的对象，针对有虚函数和无虚函数两种情况，在运行时判别并打印对象所属的类的名称：
+//     （1） 基类的指针指向基类对象；
+//     （2） 派生类的指针指向派生类对象；
+//     （3）基类的指针指向派生类对象。
+
+struct BasicB;
+using basic_sptr = std::shared_ptr<BasicB>;
+
+struct BasicB {
+    BasicB() = default;
+    ~BasicB() = default;
+    virtual void fucku() { std::cout << "fuck\n"; }
+    void fuck2() { std::cout << "fuck2b\n"; }
+    static basic_sptr instance();
+};
+
+struct SonC;
+using son_sptr = std::shared_ptr<SonC>;
+
+struct SonC : public BasicB {
+    SonC() = default;
+    ~SonC() = default;
+    void fucku() override { std::cout << "fuck again\n"; }
+    void fuck2() { std::cout << "fuck2c\n"; }
+    static son_sptr instance();
+};
+
+basic_sptr BasicB::instance() {
+    static basic_sptr b_sptr = nullptr;
+    if (b_sptr == nullptr) {
+        b_sptr = std::make_shared<BasicB>();
+    }
+    return b_sptr;
+}
+
+son_sptr SonC::instance() {
+    static son_sptr c_sptr = nullptr;
+    if (c_sptr == nullptr) {
+        c_sptr = std::make_shared<SonC>();
+    }
+    return c_sptr;
+}
+
+
+void trimMac(std::string &s) {
+    int index = 0;
+    if (!s.empty()) {
+        while ((index = s.find('-', index)) != std::string::npos) {
+            s.erase(index, 1);
+        }
+    }
+}
+
 int main(int argc, char *argv[]) {
+
+    auto trimMac = [&](std::string &s) -> void {
+        int index = 0;
+        if (!s.empty()) {
+            while ((index = s.find('-', index)) != std::string::npos) {
+                s.erase(index, 1);
+            }
+        }
+        transform(s.begin(), s.end(), s.begin(), ::toupper);
+    };
+
+    std::string s_mac = "-AFJYGW-fawf-1-vgg3-5256-16-72---";
+    std::cout<<s_mac.size()<<std::endl;
+    trimMac(s_mac);
+    std::cout<<s_mac.size()<<std::endl;
+    std::cout<<s_mac<<std::endl;
+    transform(s_mac.begin(), s_mac.end(), s_mac.begin(), ::toupper);
+    std::cout<<s_mac<<std::endl;
+    return 0;
+
+
+
+    BasicB::instance()->fucku();
+
+    SonC::instance()->fucku();
+    auto newSon = new SonC;
+    newSon->fucku();
+
+    auto newB = new BasicB;
+    newB->fuck2();
+    return 0;
 
 
     char mag[8];
