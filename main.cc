@@ -211,7 +211,7 @@ int main(int argc, char *argv[]) {
                 s.erase(index, 1);
             }
         }
-        transform(s.begin(), s.end(), s.begin(), ::toupper);
+        std::transform(s.begin(), s.end(), s.begin(), ::toupper);
     };
 
     std::string s_mac = "-AFJYGW-fawf-1-vgg3-5256-16-72---";
@@ -219,7 +219,7 @@ int main(int argc, char *argv[]) {
     trimMac(s_mac);
     std::cout<<s_mac.size()<<std::endl;
     std::cout<<s_mac<<std::endl;
-    transform(s_mac.begin(), s_mac.end(), s_mac.begin(), ::toupper);
+    std::transform(s_mac.begin(), s_mac.end(), s_mac.begin(), ::toupper);
     std::cout<<s_mac<<std::endl;
     return 0;
 
