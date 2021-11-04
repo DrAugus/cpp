@@ -1,10 +1,5 @@
-local tbl = { "apple", "pear", "orange", "grape" }
-for key, val in pairs(tbl) do
-    print("Key", key, 'value', val)
-end
-
 a3 = {}
-for i = 1, 10 do
+for i = 1, 2 do
     a3[i] = i
 end
 for key, val in pairs(a3) do
@@ -85,3 +80,79 @@ print_table(fruits, true)
 print('sort fruits')
 table.sort(fruits)
 print_table(fruits)
+
+testt = { 'fawf', 2, fwf, 31, 414, nil, fef, a, 31414, 1414, 52 }
+function table_length(t)
+    local mn = 0
+    for k, v in pairs(t) do
+        mn = k
+    end
+    return mn
+end
+print(table_length(testt))
+
+
+--元表
+print('元表')
+myMetatable = setmetatable(
+        { 10, 9, 8, 7 },
+        {
+            __index = { key = 6 },
+            __add = function(myMetatable, newT)
+                local newLen = table_length(myMetatable) + table_length(newT)
+                for i = table_length(myMetatable), newLen do
+                    table.insert(myMetatable, table_length(myMetatable) + 1, newT[i - table_length(myMetatable)])
+                end
+                return myMetatable
+            end,
+            __call = function(myMetatable, newTable)
+                sum = 0
+                for i = 1, table_length(myMetatable) do
+                    sum = sum + myMetatable[i]
+                end
+                for i = 1, table_length(newTable) do
+                    sum = sum + newTable[i]
+                end
+                return sum
+            end,
+            __tostring = function(myMetatable, showKey)
+                if myMetatable == nil then
+                    return 'null table'
+                end
+                local str = ''
+                for i, v in pairs(myMetatable) do
+                    if showKey == nil then
+                        str = str..i..' '..v..'\n'
+                    else
+                        str = str + v + '\n'
+                    end
+                end
+                -- 移除最后一个 \n
+                str = string.sub(str, 1, -2)
+                return str
+            end
+        }
+)
+
+plusTable = { 'shit', 'ffff' }
+plusTable = { 2, 3 }
+
+print('----------')
+print_table(myMetatable)
+print('=======__add=======')
+myMetatable = myMetatable + plusTable
+print_table(myMetatable)
+print('#####__call#####')
+print(myMetatable(plusTable))
+print('000000__toString000000')
+print(myMetatable)
+print('-- rawget 1 --')
+print(rawget(myMetatable,1))
+
+
+what = {}
+function what:fuck()
+    print('i am ...')
+end
+
+what:fuck()
