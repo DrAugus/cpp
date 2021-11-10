@@ -1,3 +1,95 @@
+-- 基本方法
+-- enum implement
+enum = {}
+local function make_meta(idx, name, value, _type)
+    return {
+        __index = { value = idx, name = value, _type = _type },
+        __newindex = function()
+            error("Cannot set fields in enum value", 2)
+        end,
+        __tostring = function()
+            return string.format('<%s.%s: %d>', name, value, idx)
+        end,
+        __le = function()
+            error("Unsupported operation")
+        end,
+        __lt = function()
+            error("Unsupported operation")
+        end,
+        __eq = function(this, other)
+            return this._type == other._type and this.value == other.value
+        end,
+    }
+end
+local function check(values)
+    local found = {}
+
+    for _, v in ipairs(values) do
+        if type(v) ~= "string" then
+            error("Can create enum only from strings")
+        end
+
+        if found[v] == nil then
+            found[v] = 1
+        else
+            found[v] = found[v] + 1
+        end
+    end
+
+    local msg = "Attempted to reuse key: '%s'"
+    for k, v in pairs(found) do
+        if v > 1 then
+            error(msg:format(k))
+        end
+    end
+end
+function enum.new (name, values)
+    local _Private = {}
+    local _Type = {}
+
+    setmetatable(
+            _Private,
+            {
+                __index = function(t, k)
+                    local v = rawget(t, k)
+                    if v == nil then
+                        error("Invalid enum member: " .. k, 2)
+                    end
+                    return v
+                end
+            }
+    )
+
+    check(values)
+
+    for i, v in ipairs(values) do
+        local o = {}
+        setmetatable(o, make_meta(i, name, v, _Type))
+        _Private[v] = o
+        _Private[i] = o
+    end
+
+    -- public readonly table
+    local Enum = {}
+    setmetatable(
+            Enum,
+            {
+                __index = _Private,
+                __newindex = function()
+                    error("Cannot set enum value")
+                end,
+                __tostring = function()
+                    return string.format("<enum '%s'>", name)
+                end,
+            }
+    )
+
+    return Enum
+end
+
+------------------------------------------------
+
+
 a3 = {}
 for i = 1, 2 do
     a3[i] = i
@@ -156,4 +248,11 @@ print(myMetatable)
 print('-- rawget 1 --')
 print(rawget(myMetatable, 1))
 
+definitions = {}
+definitions.test_enum = enum.new("test_enum", {
+    "cow", "bull", "hide", "bush"
+}
+)
+print(definitions.test_enum.cow)
+print(definitions.test_enum.cow.value)
 
