@@ -7,13 +7,9 @@
 
 #include "gtest/gtest.h"
 
-#define _ 0
-
-
 int hhh(int &a) {
     a++;
     printf("---a---%d", a);
-    return 0 ^ _ ^ 0;
     return a;
 }
 
@@ -25,18 +21,21 @@ int jjj() {
     return 0;
 }
 
-int a = 4;
+int global_a = 4;
 
 int &f(int x) {
-    a = a + x;
-    return a;
+    global_a = global_a + x;
+    return global_a;
 }
 
-int testMax(const int card[], int count) {
-    auto pMax = std::max_element(card, card + count);
-    std::cout << *pMax;
-    return 0;
-}
+
+/* max_element
+ * min_element
+ * assign
+ * reverse
+ * wstring_convert
+ * */
+
 
 
 void declare() {
@@ -63,7 +62,7 @@ public:
         int cnt = 0;
         while (slices < n) {
             ++cnt;
-            slices +=  std::min(slices, m);
+            slices += std::min(slices, m);
         }
         return cnt;
     }
@@ -86,7 +85,6 @@ void convolution(const double *input1, const double *input2, double *output, int
     }
     delete[] xx;
 }
-
 
 int frogClimb(int m, int n, int h) {
     int day = 0;
@@ -145,9 +143,6 @@ int getAverage() {
     return 0;
 }
 
-
-
-
 // 3.
 // 编写基类B，并派生类C。分别定义两个类的对象，针对有虚函数和无虚函数两种情况，在运行时判别并打印对象所属的类的名称：
 //     （1） 基类的指针指向基类对象；
@@ -193,16 +188,54 @@ son_sptr SonC::instance() {
 }
 
 
-void trimMac(std::string &s) {
-    int index = 0;
-    if (!s.empty()) {
-        while ((index = s.find('-', index)) != std::string::npos) {
-            s.erase(index, 1);
-        }
-    }
-}
+
+// lambda 重载 在c++17可以实现
 
 int main(int argc, char *argv[]) {
+
+
+    std::string Kyaneos = "Kyaneos-Kyaneos-Kyaneos-Kyaneos--";
+
+    std::cout << Kyaneos << std::endl;
+
+
+    std::string maskWord = "ss3";
+    std::string maskStr(8, maskWord[0]);
+    std::cout << maskWord[0] << std::endl;
+    std::cout << maskStr << std::endl;
+
+    std::wstring ssss = L"shit";
+    std::string result;
+
+    result.assign((char *) ssss.data(), ssss.size() * 2);
+
+    std::wcout << ssss << std::endl;
+    std::wcout << ssss.data() << std::endl;
+    std::wcout << (char *) ssss.data() << std::endl;
+    std::wcout << ssss.size() * 2 << std::endl;
+
+    std::cout << ssss.data() << std::endl;
+    std::cout << (char *) ssss.data() << std::endl;
+    std::cout << ssss.size() * 2 << std::endl;
+
+    std::cout << result << std::endl;
+
+
+    return 0;
+
+    std::vector<int> vec{0, 5, 2, 9, 7, 6, 1, 3, 4, 8};
+
+    size_t compCounter = 0;
+    std::sort(vec.begin(), vec.end(), [&compCounter](int a, int b) {
+        ++compCounter;
+        return a < b;
+    });
+
+    std::cout << "number of comparisons: " << compCounter << '\n';
+
+    for (auto &v: vec)
+        std::cout << v << ", ";
+
 
     auto trimMac = [&](std::string &s) -> void {
         int index = 0;
@@ -215,24 +248,12 @@ int main(int argc, char *argv[]) {
     };
 
     std::string s_mac = "-AFJYGW-fawf-1-vgg3-5256-16-72---";
-    std::cout<<s_mac.size()<<std::endl;
+    std::cout << s_mac.size() << std::endl;
     trimMac(s_mac);
-    std::cout<<s_mac.size()<<std::endl;
-    std::cout<<s_mac<<std::endl;
+    std::cout << s_mac.size() << std::endl;
+    std::cout << s_mac << std::endl;
     std::transform(s_mac.begin(), s_mac.end(), s_mac.begin(), ::toupper);
-    std::cout<<s_mac<<std::endl;
-    return 0;
-
-
-
-    BasicB::instance()->fucku();
-
-    SonC::instance()->fucku();
-    auto newSon = new SonC;
-    newSon->fucku();
-
-    auto newB = new BasicB;
-    newB->fuck2();
+    std::cout << s_mac << std::endl;
     return 0;
 
 
@@ -271,8 +292,6 @@ int main(int argc, char *argv[]) {
     }
 
 
-    return 0 ^ _ ^ 0;
-
     std::string s1 = "Hello World";
     std::cout << "s1 is \"Hello World\"" << std::endl;
     const std::string &s2 = s1;
@@ -298,15 +317,7 @@ int main(int argc, char *argv[]) {
     print();
 
 
-    const int CARD_DATA[54] =
-            {
-                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,    //方块 A - K
-                    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
-                    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
-                    0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
-            };
 
-    testMax(CARD_DATA, 54);
 
 
 //    int t = 5;

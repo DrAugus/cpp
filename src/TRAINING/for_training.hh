@@ -16,7 +16,7 @@
 #include <map> // for std::map
 #include <cmath> // for std::min
 
-#include "augus/lib_func.hh"
+#include "augus/augus.h"
 
 namespace basic_cpp {
 

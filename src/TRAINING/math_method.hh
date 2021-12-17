@@ -10,7 +10,7 @@
 #include <random>
 #include <iostream>
 
-#include "augus/lib_func.hh"
+#include "augus/augus.h"
 
 class math_method;
 
