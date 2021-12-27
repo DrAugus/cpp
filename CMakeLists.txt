@@ -9,23 +9,23 @@ project(augus_cpp
 #打印相关消息消息
 message(status "Project Directory: ${PROJECT_SOURCE_DIR}")
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(MSVC)
+if (MSVC)
     # set(CMAKE_CXX_STANDARD 14)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-endif(MSVC)
+endif (MSVC)
 
 option(USE_OPENMP "flag to use OpenMP for multithreading" ON)
-if(USE_OPENMP)
+if (USE_OPENMP)
     find_package(OpenMP 3.0 COMPONENTS CXX)
     if (OpenMP_CXX_FOUND)
         message(STATUS "Building with OpenMP Multithreading.")
-    else()
+    else ()
         message(STATUS "No OpenMP found, no multithreading.")
-    endif()
-endif()
+    endif ()
+endif ()
 
 #当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
 add_subdirectory(src/INTERVIEW)
