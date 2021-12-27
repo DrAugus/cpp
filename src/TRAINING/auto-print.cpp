@@ -6,9 +6,8 @@
 #include <iostream>
 #include <vector>
 #include "gtest/gtest.h"
-#include "gmock/gmock-matchers.h"
 
-
+//便于输出前端需要用的json配置或者各种角色名
 int auto_print() {
     int H = 8, SH = 8;
     for (int i = 0; i < H; ++i) {

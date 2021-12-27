@@ -3,7 +3,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
-#include <iomanip>
+#include <type_traits> // std::is_same_v
 
 #include "gtest/gtest.h"
 
@@ -143,57 +143,27 @@ int getAverage() {
     return 0;
 }
 
-// 3.
-// 编写基类B，并派生类C。分别定义两个类的对象，针对有虚函数和无虚函数两种情况，在运行时判别并打印对象所属的类的名称：
-//     （1） 基类的指针指向基类对象；
-//     （2） 派生类的指针指向派生类对象；
-//     （3）基类的指针指向派生类对象。
 
-struct BasicB;
-using basic_sptr = std::shared_ptr<BasicB>;
-
-struct BasicB {
-    BasicB() = default;
-    ~BasicB() = default;
-    virtual void fucku() { std::cout << "fuck\n"; }
-    void fuck2() { std::cout << "fuck2b\n"; }
-    static basic_sptr instance();
+// lambda 重载 在c++17实现
+constexpr auto translate = [](auto idx) {
+    if constexpr (std::is_same_v<decltype(idx), int>) {
+        constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};
+        return table[idx];
+    } else if constexpr (std::is_same_v<decltype(idx), char>) {
+        std::map<char, int> table{{'a', 0},
+                                  {'b', 1},
+                                  {'c', 2},
+                                  {'d', 3},
+                                  {'e', 4},
+                                  {'f', 5},
+                                  {'g', 6},
+                                  {'h', 7}};
+        return table[idx];
+    }
 };
 
-struct SonC;
-using son_sptr = std::shared_ptr<SonC>;
-
-struct SonC : public BasicB {
-    SonC() = default;
-    ~SonC() = default;
-    void fucku() override { std::cout << "fuck again\n"; }
-    void fuck2() { std::cout << "fuck2c\n"; }
-    static son_sptr instance();
-};
-
-basic_sptr BasicB::instance() {
-    static basic_sptr b_sptr = nullptr;
-    if (b_sptr == nullptr) {
-        b_sptr = std::make_shared<BasicB>();
-    }
-    return b_sptr;
-}
-
-son_sptr SonC::instance() {
-    static son_sptr c_sptr = nullptr;
-    if (c_sptr == nullptr) {
-        c_sptr = std::make_shared<SonC>();
-    }
-    return c_sptr;
-}
-
-
-
-// lambda 重载 在c++17可以实现
 
 int main(int argc, char *argv[]) {
-
-
     std::string Kyaneos = "Kyaneos-Kyaneos-Kyaneos-Kyaneos--";
 
     std::cout << Kyaneos << std::endl;
@@ -221,8 +191,6 @@ int main(int argc, char *argv[]) {
     std::cout << result << std::endl;
 
 
-    return 0;
-
     std::vector<int> vec{0, 5, 2, 9, 7, 6, 1, 3, 4, 8};
 
     size_t compCounter = 0;
@@ -237,29 +205,6 @@ int main(int argc, char *argv[]) {
         std::cout << v << ", ";
 
 
-    auto trimMac = [&](std::string &s) -> void {
-        int index = 0;
-        if (!s.empty()) {
-            while ((index = s.find('-', index)) != std::string::npos) {
-                s.erase(index, 1);
-            }
-        }
-        std::transform(s.begin(), s.end(), s.begin(), ::toupper);
-    };
-
-    std::string s_mac = "-AFJYGW-fawf-1-vgg3-5256-16-72---";
-    std::cout << s_mac.size() << std::endl;
-    trimMac(s_mac);
-    std::cout << s_mac.size() << std::endl;
-    std::cout << s_mac << std::endl;
-    std::transform(s_mac.begin(), s_mac.end(), s_mac.begin(), ::toupper);
-    std::cout << s_mac << std::endl;
-    return 0;
-
-
-    char mag[8];
-    std::cout << sizeof(uint32_t) << std::endl;
-
     getAverage();
 
 
@@ -271,7 +216,6 @@ int main(int argc, char *argv[]) {
 
     std::cout << frogClimb(2, 1, 10) << std::endl;
 
-
     static std::default_random_engine randE(time(0));
     static std::uniform_int_distribution<uint64_t> randValue(0, 50);
     static const auto getValue = [&]() { return randValue(randE); };
@@ -279,8 +223,6 @@ int main(int argc, char *argv[]) {
     for (std::size_t i = 0; i != 3; ++i) {
         std::cout << getValue() << std::endl;
     }
-
-
 
     //以10分为一个分数段统计成绩
     std::vector<unsigned> scores(11, 0);
@@ -290,7 +232,6 @@ int main(int argc, char *argv[]) {
             ++scores[grade / 10];
         }
     }
-
 
     std::string s1 = "Hello World";
     std::cout << "s1 is \"Hello World\"" << std::endl;

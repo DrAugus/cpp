@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <type_traits> // std::is_same_v
+#include <algorithm>
 
 //测试开关
 #define TEST_COMPANY_ 1
@@ -78,7 +79,8 @@ namespace augus {
         }
     }
 
-    //命名规则 普通变量小写/下划线 类名大写所有首字母 类数据数据成员同普通变量但末尾要加_ 结构体数据成员同普通变量
+    //命名规则 普通变量小写/下划线 类名大写所有首字母如TestName
+    //类数据数据成员同普通变量如test_name但末尾要加_ 结构体数据成员同普通变量
     //https://google.github.io/styleguide/cppguide.html#Structs_vs._Classes
     //函数随意 按public首字母大写 private首词小写
     class AugusUtils {

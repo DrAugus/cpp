@@ -12,4 +12,5 @@ void augus::AugusUtils::TrimStr(std::string &s, char str) {
             s.erase(index, 1);
         }
     }
+    std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 }

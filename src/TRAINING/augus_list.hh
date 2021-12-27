@@ -79,7 +79,6 @@ namespace augus_list {
         }
 
 
-
         //归并排序（算法交换链表节点，时间复杂度O（nlogn）,不考虑递归栈空间的话空间复杂度是O（1））
         //
         //首先用快慢指针的方法找到链表中间节点，然后递归的对两个子链表排序，把两个排好序的子链表合并成一条有序的链表。归并排序应该算是链表排序最佳的选择了，保证了最好和最坏时间复杂度都是nlogn，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了O(1)
@@ -87,13 +86,11 @@ namespace augus_list {
             // IMPORTANT: Please reset any member data you declared, as
             // the same Solution instance will be reused for each test case.
             //链表归并排序
-            if(head == NULL || head->next == NULL)return head;
-            else
-            {
+            if (head == NULL || head->next == NULL)return head;
+            else {
                 //快慢指针找到中间节点
-                ListNode *fast = head,*slow = head;
-                while(fast->next != NULL && fast->next->next != NULL)
-                {
+                ListNode *fast = head, *slow = head;
+                while (fast->next != NULL && fast->next->next != NULL) {
                     fast = fast->next->next;
                     slow = slow->next;
                 }
@@ -102,41 +99,39 @@ namespace augus_list {
                 fast->next = NULL;
 //                fast = sortList(head);//前半段排序
 //                slow = sortList(slow);//后半段排序
-                return merge(fast,slow);
+                return merge(fast, slow);
             }
 
         }
         // merge two sorted list to one
-        ListNode *merge(ListNode *head1, ListNode *head2)
-        {
-            if(head1 == NULL)return head2;
-            if(head2 == NULL)return head1;
-            ListNode *res , *p ;
-            if(head1->val < head2->val)
-            {res = head1; head1 = head1->next;}
-            else{res = head2; head2 = head2->next;}
+        ListNode *merge(ListNode *head1, ListNode *head2) {
+            if (head1 == NULL)return head2;
+            if (head2 == NULL)return head1;
+            ListNode *res, *p;
+            if (head1->val < head2->val) {
+                res = head1;
+                head1 = head1->next;
+            }
+            else {
+                res = head2;
+                head2 = head2->next;
+            }
             p = res;
 
-            while(head1 != NULL && head2 != NULL)
-            {
-                if(head1->val < head2->val)
-                {
+            while (head1 != NULL && head2 != NULL) {
+                if (head1->val < head2->val) {
                     p->next = head1;
                     head1 = head1->next;
-                }
-                else
-                {
+                } else {
                     p->next = head2;
                     head2 = head2->next;
                 }
                 p = p->next;
             }
-            if(head1 != NULL)p->next = head1;
-            else if(head2 != NULL)p->next = head2;
+            if (head1 != NULL)p->next = head1;
+            else if (head2 != NULL)p->next = head2;
             return res;
         }
-
-
 
 
         //冒泡排序（算法交换链表节点val值，时间复杂度O（n^2）,空间复杂度O（1））
@@ -144,17 +139,14 @@ namespace augus_list {
             // IMPORTANT: Please reset any member data you declared, as
             // the same Solution instance will be reused for each test case.
             //链表快速排序
-            if(head == NULL || head->next == NULL)return head;
+            if (head == NULL || head->next == NULL)return head;
             ListNode *p = NULL;
             bool isChange = true;
-            while(p != head->next && isChange)
-            {
+            while (p != head->next && isChange) {
                 ListNode *q = head;
                 isChange = false;//标志当前这一轮中又没有发生元素交换，如果没有则表示数组已经有序
-                for(; q->next && q->next != p; q = q->next)
-                {
-                    if(q->val > q->next->val)
-                    {
+                for (; q->next && q->next != p; q = q->next) {
+                    if (q->val > q->next->val) {
                         std::swap(q->val, q->next->val);
                         isChange = true;
                     }
