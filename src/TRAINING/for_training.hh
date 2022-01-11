@@ -15,8 +15,11 @@
 #include <functional> // for std::function for std::greater_equal
 #include <map> // for std::map
 #include <cmath> // for std::min
+#include <tuple>
 
 #include "augus/augus.h"
+#include "gtest/gtest.h"
+#include "gmock/gmock-matchers.h"
 
 namespace basic_cpp {
 
@@ -192,6 +195,17 @@ struct pa_array
 };
 
 }//namespace primary_algorithms
+
+
+//https://changkun.de/modern-cpp/en-us/00-preface/
+namespace modern_cpp {
+
+    void usabilityEnhancements();
+
+    //结构化绑定
+    std::tuple<int, double, std::string> fTuple();
+
+}
 
 
 #endif //AUGUSTEST_FOR_TRAINING_HH
