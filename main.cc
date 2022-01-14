@@ -144,7 +144,7 @@ int getAverage() {
 }
 
 
-// lambda 重载 在c++17实现
+// lambda 重载 仅在c++17及以上支持 [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
 constexpr auto translate = [](auto idx) {
     if constexpr (std::is_same_v<decltype(idx), int>) {
         constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};

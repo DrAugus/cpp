@@ -1267,6 +1267,19 @@ TEST(fTuple, fTuple) {
 }
 
 
+void modern_cpp::testIsSame() {
+    auto a = 1;
+    auto b = 1.1;
+    decltype(a + b) z;
+    if (std::is_same_v<decltype(a), int>)
+        std::cout << " a is int" << std::endl;
+    if (std::is_same_v<decltype(b), float>)
+        std::cout << " b is float" << std::endl;
+    if (std::is_same_v<decltype(z), decltype(b)>)
+        std::cout << " z type equals b type" << std::endl;
+
+}
+
 
 
 
