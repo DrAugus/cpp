@@ -9,7 +9,7 @@
 #include "for_training.hh"
 
 using binary_tree::TreeNode;
-using augus::printTest;
+using augus::PrintTest;
 
 #include <vector> // for std::vector
 #include <iostream> // for std::cout

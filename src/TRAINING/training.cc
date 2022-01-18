@@ -135,9 +135,9 @@ int TrainingTreeNode::buildAVL()
 
 
     std::cout << "preorderTraversal ==== >";
-    augus::printTest(preorderTraversal(treeAVL));
+    augus::PrintTest(preorderTraversal(treeAVL));
     std::cout << "inorderTraversal ==== >";
-    augus::printTest(inorderTraversal(treeAVL));
+    augus::PrintTest(inorderTraversal(treeAVL));
     return 0;
 }
 

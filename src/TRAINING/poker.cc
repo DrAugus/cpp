@@ -1190,7 +1190,7 @@ bool poker::CompanyTest::Test()
     });
 
     std::vector<unsigned> res0826(test0826, test0826 + 108);
-    augus::printTest(res0826);
+    augus::PrintTest(res0826);
 
 //  return true;
 
@@ -1201,7 +1201,7 @@ bool poker::CompanyTest::Test()
                       0x4E, 0x4F, 0x4F,};
     std::cout << "source arr is \n";
     std::vector<unsigned> vec_0825(a, a + 53);
-    augus::printTest(vec_0825);
+    augus::PrintTest(vec_0825);
     std::map<unsigned, unsigned> result_map;
     InsertToMap(a, 53, result_map);
     SprintMap(result_map);
@@ -1219,7 +1219,7 @@ bool poker::CompanyTest::Test()
 
     unsigned cbChickenCard = res0825[rand() % res0825.size()];
 
-    augus::printTest(res0825);
+    augus::PrintTest(res0825);
 
 
     std::cout << "\n got chicken ->" << cbChickenCard;

@@ -11,35 +11,37 @@
 #include <type_traits> // std::is_same_v
 #include <algorithm>
 
-//测试开关
-#define TEST_COMPANY_ 1
-#define TEST_TRAINING_ 1
-#define TEST_READING_RECORD_ 1
-#define TEST_INTERVIEW_ 1
-#define TEST_POINT_ 1
-
 
 namespace augus {
 
-    template<typename T>
-    bool printTest(const std::vector<T> vec) {
-        for (auto i: vec) {
+    void PrintTest() {}
+    template<typename T, typename ...Args>
+    void PrintTest(std::vector<T> info, Args ... args) {
+        for (auto i: info) {
             std::cout << i << " ";
         }
         std::cout << std::endl;
-        return true;
+        PrintTest(args...);
+    }
+    template<typename T, typename ...Args>
+    void PrintTest(T info, Args ... args) {
+        std::cout << info << " ";
+        std::cout << std::endl;
+        PrintTest(args...);
+    }
+    template<typename T>
+    void PrintTest(std::vector<T> info) {
+        for (auto i: info) {
+            std::cout << i << " ";
+        }
+        std::cout << std::endl;
+    }
+    template<typename T>
+    void PrintTest(T info) {
+        std::cout << info << " ";
+        std::cout << std::endl;
     }
 
-/// Get Two-Dimension Array Length
-    template<typename T, size_t len>
-    int getArrayLength(T (*two_dimensional)[len], bool dimension) {
-        /// dimension true -> second dimension length ; false -> first dimension length
-        int total_length = sizeof(**two_dimensional) / sizeof(T);
-        int second_dimension_length = sizeof(two_dimensional[0]) / sizeof(T);
-        int first_dimension_length = total_length / second_dimension_length;
-
-        return dimension ? second_dimension_length : first_dimension_length;
-    }
 
 /// Evaluate Factorial
     template<typename T>

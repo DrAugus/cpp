@@ -393,39 +393,39 @@ int op_list::op_array::commonVectorOP() {
     }
 
 
-    augus::printTest(vec_test1);
+    augus::PrintTest(vec_test1);
     /// case 1 copy
     const std::vector<int> &vec_test2 = vec_test1;
     std::cout << "case 1 copy -> vec_test2 copy from vec_test1";
-    augus::printTest(vec_test2);
+    augus::PrintTest(vec_test2);
     /// case 2 copy
     std::vector<int> vec_test3(vec_test1);
     std::cout << "case 2 copy -> vec_test3 copy from vec_test1";
-    augus::printTest(vec_test3);
+    augus::PrintTest(vec_test3);
     /// std::swap vec
     std::vector<int> vec_test4 = {0, 1, 2, 5, 6, 9, 8, 2, 0, 7};
     /// clear vec_test4
     std::cout << "vec_test4 clear before->";
-    augus::printTest(vec_test4);
+    augus::PrintTest(vec_test4);
     std::vector<int>().swap(vec_test4);
     std::cout << "vec_test4 cleared";
-    augus::printTest(vec_test4);
+    augus::PrintTest(vec_test4);
     std::vector<int> vec_test5 = {0, 1, 2, 5, 6,};
     std::cout << "vec_test5 source->";
-    augus::printTest(vec_test5);
+    augus::PrintTest(vec_test5);
     vec_test5.swap(vec_test1);
     std::cout << "std::swap vec_test5 vec_test1-> Now vec_test5";
-    augus::printTest(vec_test5);
+    augus::PrintTest(vec_test5);
     /// assign
     std::vector<int> vec_test6 = {0, 1, 2, 5, 6, 8, 56};
     std::cout << "vec_test6 source";
-    augus::printTest(vec_test6);
+    augus::PrintTest(vec_test6);
     std::cout << "vec_test6 assign vec_test1";
     vec_test6.assign(vec_test1.begin(), vec_test1.end());
-    augus::printTest(vec_test6);
+    augus::PrintTest(vec_test6);
     std::cout << "vec_test6 set 3 0s";
     vec_test6.assign(3, 0);
-    augus::printTest(vec_test6);
+    augus::PrintTest(vec_test6);
     /// concat std::vector
     int arr_test0817[][13] = {
             {0,  1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
@@ -437,7 +437,7 @@ int op_list::op_array::commonVectorOP() {
         vec_res0817.insert(vec_res0817.end(), i, i + 13);
     }
     std::cout << "vec_res0817";
-    augus::printTest(vec_res0817);
+    augus::PrintTest(vec_res0817);
 
     return 0;
 }
@@ -535,7 +535,7 @@ int op_list::commonOP() {
         std::cout << i << " ";
     }
     std::vector<int> test09091221(valueInitial, valueInitial + 13);
-    augus::printTest(test09091221);
+    augus::PrintTest(test09091221);
     std::cout << "\nWHICH ONE\n";
     std::vector<int> test09091222(&valueInitial[0], &valueInitial[0] + 13);
     test09091222.capacity();
@@ -545,7 +545,7 @@ int op_list::commonOP() {
     if (!test09091222.empty()) {
         memcpy(cbCardData, &test09091222[0], 50 - count_del);
     }
-    augus::printTest(test09091222);
+    augus::PrintTest(test09091222);
 
     return 0;
 }
