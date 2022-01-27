@@ -10,11 +10,16 @@
 #include <iostream>
 #include <type_traits> // std::is_same_v
 #include <algorithm>
+#include <regex>
+#include <random>
+#include <chrono>
 
 
 namespace augus {
 
-    void PrintTest() {}
+    void PrintTest() {
+    }
+
     template<typename T, typename ...Args>
     void PrintTest(std::vector<T> info, Args ... args) {
         for (auto i: info) {
@@ -23,12 +28,14 @@ namespace augus {
         std::cout << std::endl;
         PrintTest(args...);
     }
+
     template<typename T, typename ...Args>
     void PrintTest(T info, Args ... args) {
         std::cout << info << " ";
         std::cout << std::endl;
         PrintTest(args...);
     }
+
     template<typename T>
     void PrintTest(std::vector<T> info) {
         for (auto i: info) {
@@ -36,6 +43,7 @@ namespace augus {
         }
         std::cout << std::endl;
     }
+
     template<typename T>
     void PrintTest(T info) {
         std::cout << info << " ";
@@ -85,6 +93,8 @@ namespace augus {
     //类数据数据成员同普通变量如test_name但末尾要加_ 结构体数据成员同普通变量
     //https://google.github.io/styleguide/cppguide.html#Structs_vs._Classes
     //函数随意 按public首字母大写 private首词小写
+    //所有类型命名 —— 类, 结构体, 类型定义 (typedef), 枚举, 类型模板参数
+    //  均使用相同约定, 即以大写字母开始, 每个单词首字母均大写, 不包含下划线.
     class AugusUtils {
     public:
         void TrimStr(std::string &s, char str);
@@ -95,6 +105,195 @@ namespace augus {
         ~AugusUtils() = default;
     };
 
+    class JsonCombine {
+    public:
+        // 拼接int
+        std::string GetKeyValue(const std::string &sKey, int iValue);
+        // 拼接float，保留3位
+        std::string GetKeyValue(const std::string &sKey, float fValue);
+        // 拼接string
+        std::string GetKeyValue(const std::string &sKey, const std::string &sValue);
+        // 拼接object
+        std::string GetKeyValueObject(const std::string &sKey, const std::string &sObject);
+        // 拼接array
+        std::string GetKeyValueArray(const std::string &sKey, const std::string &sArray);
+    public:
+        void use();
+    public:
+        JsonCombine() = default;
+        ~JsonCombine() = default;
+        JsonCombine(const JsonCombine &) = delete;
+        void operator=(const JsonCombine &) = delete;
+    };
+
+    class ListSort;
+
+    using ListSortPtr = std::shared_ptr<ListSort>;
+
+    struct ListNode {
+        int val;
+        ListNode *next;
+
+        explicit ListNode(int x) : val(x), next(nullptr) {
+        }
+    };
+
+    class ListSort : public std::enable_shared_from_this<ListSort> {
+    public:
+        //插入排序（算法中是直接交换节点，时间复杂度O（n^2）,空间复杂度O（1））
+        ListNode *insertionSortList(ListNode *head);
+        //选择排序（算法中只是交换节点的val值，时间复杂度O（n^2）,空间复杂度O（1））
+        ListNode *selectSortList(ListNode *head);
+        //归并排序（算法交换链表节点，时间复杂度O（nlogn）,不考虑递归栈空间的话空间复杂度是O（1））
+        //
+        //首先用快慢指针的方法找到链表中间节点，然后递归的对两个子链表排序，把两个排好序的子链表合并成一条有序的链表。归并排序应该算是链表排序最佳的选择了，保证了最好和最坏时间复杂度都是nlogn，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了O(1)
+        ListNode *mergeSortList(ListNode *head);
+        // merge two sorted list to one
+        ListNode *merge(ListNode *head1, ListNode *head2);
+        //冒泡排序（算法交换链表节点val值，时间复杂度O（n^2）,空间复杂度O（1））
+        ListNode *bubbleSortList(ListNode *head);
+        //对于希尔排序，因为排序过程中经常涉及到arr[i+gap]操作，其中gap为希尔排序的当前步长，这种操作不适合链表。
+        //
+        //对于堆排序，一般是用数组来实现二叉堆，当然可以用二叉树来实现，但是这么做太麻烦，还得花费额外的空间构建二叉树
+
+
+    public:
+        static ListSortPtr instance();
+        ListSort() = default;
+        ~ListSort() = default;
+        ListSort(const ListSort &) = delete;
+        void operator=(const ListNode &) = delete;
+
+    };
+
+
+    struct Random {
+        void randomTime() {
+            uint32_t timeSeed = time(nullptr);
+
+            std::string aa = "12:13:31";
+            time_t tmH, tmM, tmS;
+            std::default_random_engine randH, randM, randS;
+            randH.seed(timeSeed);
+            randM.seed(timeSeed);
+            randS.seed(timeSeed);
+            std::uniform_int_distribution<time_t> randTimeH{0, 23}, randTimeM(0, 59), randTimeS(0, 59);
+            tmH = randTimeH(randH);
+            tmM = randTimeM(randM);
+            tmS = randTimeS(randS);
+
+            std::string strH = (tmH < 10) ? ("0" + std::to_string(tmH)) : std::to_string(tmH);
+            std::string strM = (tmM < 10) ? ("0" + std::to_string(tmM)) : std::to_string(tmM);
+            std::string strS = (tmS < 10) ? ("0" + std::to_string(tmS)) : std::to_string(tmS);
+
+            std::cout << strH + strM + strS;
+        }
+    };
+
+    struct Regex {
+        void regexTime() {
+            try {
+                std::regex rex("^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$");
+                //        std::regex  rex("([0-9]+):([0-9]+):([0-9]+)");
+                //        std::regex rex("([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})");
+                std::string input = "11:23:12";
+
+                std::smatch smatch1;
+                while (std::cin >> input) {
+                    if (std::regex_search(input, smatch1, rex)) {
+                        if (!smatch1.empty()) { std::cout << "match\n"; }
+                        else { std::cout << "err\n"; }
+                    } else {
+                        std::cout << "no ma\n";
+                    }
+                }
+            } catch (const std::regex_error &err) {
+                std::cout << "There is an error. The error is: " << err.what() << '\n';
+                if (err.code() == std::regex_constants::error_brack) {
+                    std::cout << "This is the code of error_brack\n";
+                }
+            }
+        }
+    };
+
+
+    class Math;
+
+    using MathPtr = std::shared_ptr<Math>;
+
+    class Math : public std::enable_shared_from_this<Math> {
+    public:
+        Math() = default;
+        virtual ~Math() = default;
+        Math(const Math &) = delete;
+        Math &operator=(const Math &) = delete;
+    public:
+        static MathPtr instance();
+    public:
+        //最大公约数
+        int gcd(int a, int b) {
+            return (b == 0) ? a : gcd(b, a % b);
+        }
+
+        void getRand();
+    };//class Math
+
+    class Point {
+    protected:
+        double x;
+        double y;
+    public:
+        Point() : x(0), y(0) {
+        };
+
+        Point(double a, double b) : x(a), y(b) {
+        };
+
+        double getX() const {
+            return x;
+        }
+
+        double getY() const {
+            return y;
+        }
+    };//class Point
+
+    class CalAngle : Point {
+    public:
+        double XAngel(Point p1, Point p2) {
+            auto angle = atan2((p2.getY() - p1.getY()), (p2.getX() - p1.getX())); ///弧度
+            return angle;
+        }
+
+        double XTheta(Point p1, Point p2) {
+            auto angle = XAngel(p1, p2);
+            auto theta = angle * (180 / M_PI); ///角度
+            return theta;
+        }
+
+/// CCW counterclockwise
+        double XAngel(Point p1, Point p2, bool CCW) {
+            auto angle = atan2((p1.getY() - p2.getY()), (p2.getX() - p1.getX())); ///弧度
+            return angle;
+        }
+
+        double XTheta(Point p1, Point p2, bool CCW) {
+            auto angle = XAngel(p1, p2, true);
+            auto theta = angle * (180 / M_PI); ///角度
+            return theta;
+        }
+
+        double YAngel(Point p1, Point p2) {
+            auto angle = atan2((p2.getX() - p1.getX()), (p2.getY() - p1.getY())); ///弧度
+            return angle;
+        }
+
+        double YTheta(Point p1, Point p2) {
+            auto angle = XAngel(p1, p2);
+            auto theta = angle * (180 / M_PI); ///角度
+            return theta;
+        }
+    };//class CalAngle
 
 } //namespace augus
 

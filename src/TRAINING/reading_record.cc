@@ -404,62 +404,62 @@ struct ADC: private AD
 {
 
 };
-
-
-TEST(reading_record, something)
-{
-
-    void f();
-    X xa;
-
-
-
-    using pos = std::string::size_type;
-    pos ht = 1, wd = 4;
-    char aawfa = 'i';
-    std::string whatf = std::string(ht * wd, aawfa);
-
-    std::cout << whatf;
-
-
-
-    cpp_primer::function_part::test();
-
-
-
-    int a1 = 23, b1 = 45;
-    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
-    swap_p(&a1, &b1);
-    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
-    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
-
-    swap_p(a1, b1);
-    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
-    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
-
-    std::swap(a1, b1);
-    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
-    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
-
-    cpp_primer::expression::test();
-
-    int i = 0;
-    std::cout << i << " " << ++i << std::endl;
-    std::cout << "=====\n";
-
-    int iii = 1024;
-    int j = -iii;
-    std::cout << j << std::endl;
-
-    bool bbb = true;
-    bool mbbb = -bbb;
-    std::cout << mbbb << std::endl;
-
-
-    cpp_primer::basic_type::test();
-
-    cpp_primer::op3::withCinTest();
-    cpp_primer::op3::otherTest();
-
-
-}
+//
+//
+//TEST(reading_record, something)
+//{
+//
+//    void f();
+//    X xa;
+//
+//
+//
+//    using pos = std::string::size_type;
+//    pos ht = 1, wd = 4;
+//    char aawfa = 'i';
+//    std::string whatf = std::string(ht * wd, aawfa);
+//
+//    std::cout << whatf;
+//
+//
+//
+//    cpp_primer::function_part::test();
+//
+//
+//
+//    int a1 = 23, b1 = 45;
+//    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
+//    swap_p(&a1, &b1);
+//    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
+//    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
+//
+//    swap_p(a1, b1);
+//    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
+//    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
+//
+//    std::swap(a1, b1);
+//    std::cout << "a1 " << a1 << " b1 " << b1 << std::endl;
+//    std::cout << "a1 p " << &a1 << " b1 p " << &b1 << std::endl;
+//
+//    cpp_primer::expression::test();
+//
+//    int i = 0;
+//    std::cout << i << " " << ++i << std::endl;
+//    std::cout << "=====\n";
+//
+//    int iii = 1024;
+//    int j = -iii;
+//    std::cout << j << std::endl;
+//
+//    bool bbb = true;
+//    bool mbbb = -bbb;
+//    std::cout << mbbb << std::endl;
+//
+//
+//    cpp_primer::basic_type::test();
+//
+//    cpp_primer::op3::withCinTest();
+//    cpp_primer::op3::otherTest();
+//
+//
+//}

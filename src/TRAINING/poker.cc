@@ -7,19 +7,24 @@
 #include "gtest/gtest.h"
 
 
-unsigned poker::CommonPart::GetCardValue(unsigned cbCardData) { return cbCardData & 0x0F; }
+unsigned poker::CommonPart::GetCardValue(unsigned cbCardData) {
+    return cbCardData & 0x0F;
+}
 
-unsigned poker::CommonPart::GetCardColor(unsigned cbCardData) { return cbCardData & 0xF0; }
+unsigned poker::CommonPart::GetCardColor(unsigned cbCardData) {
+    return cbCardData & 0xF0;
+}
 
-bool poker::Poker::isJoker(unsigned cbCardData) { return cbCardData == 0x4E || cbCardData == 0x4F; }
+bool poker::Poker::isJoker(unsigned cbCardData) {
+    return cbCardData == 0x4E || cbCardData == 0x4F;
+}
 
 
-bool poker::Poker::checkData(const unsigned *cardData, unsigned cardCount)
-{
+bool poker::Poker::checkData(const unsigned *cardData, unsigned cardCount) {
     unsigned tempHandCardData[108] = {0};
     memcpy(tempHandCardData, cardData, cardCount * sizeof(cardData[0]));
     std::map<unsigned, unsigned> mapChange;
-    for (auto data:tempHandCardData) {
+    for (auto data: tempHandCardData) {
         mapChange[data]++;
         //insert 不会更新已存在的值
 //    mapChange.insert(pair<unsigned, unsigned>(data, mapChange[data]++));
@@ -28,13 +33,12 @@ bool poker::Poker::checkData(const unsigned *cardData, unsigned cardCount)
 //    for (const auto&[key, value]: mapChange) {
 //        std::cout << key << " has value " << value << std::endl;
 //    }
-    return std::all_of(mapChange.begin(),
-                       mapChange.end(),
-                       [](std::pair<unsigned, unsigned> val) { return val.second <= COUNT_DECK; });
+    return std::all_of(mapChange.begin(), mapChange.end(), [](std::pair<unsigned, unsigned> val) {
+        return val.second <= COUNT_DECK;
+    });
 }
 
-unsigned poker::Poker::GetCardLogicValue(unsigned cbCardData)
-{
+unsigned poker::Poker::GetCardLogicValue(unsigned cbCardData) {
     unsigned cbCardColor = GetCardColor(cbCardData);
     unsigned cbCardValue = GetCardValue(cbCardData);
     /// 3 4 5 6 7 8 9 10 J Q K
@@ -45,8 +49,7 @@ unsigned poker::Poker::GetCardLogicValue(unsigned cbCardData)
     return (cbCardValue == 1) ? (cbCardValue + 13) : cbCardValue;
 }
 
-unsigned poker::Poker::GetFirstColor(const unsigned cbCardData[], unsigned cbCardCnt)
-{
+unsigned poker::Poker::GetFirstColor(const unsigned cbCardData[], unsigned cbCardCnt) {
     for (unsigned i = 0; i < cbCardCnt; i++) {
         if (isJoker(cbCardData[i])) { continue; }
         return GetCardColor(cbCardData[i]);
@@ -54,8 +57,7 @@ unsigned poker::Poker::GetFirstColor(const unsigned cbCardData[], unsigned cbCar
     return 0;
 }
 
-bool poker::Poker::IsPrimaryCard(const unsigned cbCardData, const unsigned cbPrimaryColor)
-{
+bool poker::Poker::IsPrimaryCard(const unsigned cbCardData, const unsigned cbPrimaryColor) {
     bool valid = isValidCard(cbCardData);
     if (!valid) { return false; }
     bool bIsPrimary = defaultPrimaryCard(cbCardData);
@@ -63,8 +65,7 @@ bool poker::Poker::IsPrimaryCard(const unsigned cbCardData, const unsigned cbPri
     return bIsPrimary;
 }
 
-bool poker::Poker::isValidCard(const unsigned cbCardData)
-{
+bool poker::Poker::isValidCard(const unsigned cbCardData) {
     unsigned cbCardColor = GetCardColor(cbCardData);
     unsigned cbCardValue = GetCardValue(cbCardData);
     if ((cbCardData == 0x4E) || (cbCardData == 0x4F)) { return true; }
@@ -73,13 +74,11 @@ bool poker::Poker::isValidCard(const unsigned cbCardData)
 };
 
 /// 公务员：大王、小王，黑桃A、主2、6个副2；
-bool poker::Poker::defaultPrimaryCard(const unsigned cbCardData)
-{
+bool poker::Poker::defaultPrimaryCard(const unsigned cbCardData) {
     return cbCardData == 0x4E || cbCardData == 0x4F || cbCardData == 0x31 || GetCardValue(cbCardData) == 2;
 }
 
-void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enSortCardType SortCardType, bool ori)
-{
+void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enSortCardType SortCardType, bool ori) {
 
     if (cbCardCount <= 0 || cbCardCount > COUNT_MAX) { return; }
 
@@ -135,9 +134,9 @@ void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enS
         do {
             bSorted = true;
             for (unsigned i = 0; i < bLast; i++) {
-                if ((bColor[i] < bColor[i + 1]) ||
-                    ((bColor[i] == bColor[i + 1])
-                        && (GetCardLogicValue(cbCardData[i]) < GetCardLogicValue(cbCardData[i + 1])))) {
+                if ((bColor[i] < bColor[i + 1]) || ((bColor[i] == bColor[i + 1]) && (GetCardLogicValue(cbCardData[i]) <
+                                                                                     GetCardLogicValue(cbCardData[i +
+                                                                                                                  1])))) {
                     bTempData = cbCardData[i];
                     cbCardData[i] = cbCardData[i + 1];
                     cbCardData[i + 1] = bTempData;
@@ -153,27 +152,26 @@ void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enS
 
 }
 
-void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enSortCardType SortCardType)
-{
+void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enSortCardType SortCardType) {
     if (cbCardCount <= 0 || cbCardCount > COUNT_MAX) { return; }
     switch (SortCardType) {
         case enDescend:
             std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
-              return (a > b && (GetCardLogicValue(a) == GetCardLogicValue(b))
-                  || (GetCardLogicValue(a) > GetCardLogicValue(b)));
+                return (a > b && (GetCardLogicValue(a) == GetCardLogicValue(b)) ||
+                        (GetCardLogicValue(a) > GetCardLogicValue(b)));
             });
             break;
         case enAscend:
             std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
-              return (a < b && (GetCardLogicValue(a) == GetCardLogicValue(b))
-                  || (GetCardLogicValue(a) < GetCardLogicValue(b)));
+                return (a < b && (GetCardLogicValue(a) == GetCardLogicValue(b)) ||
+                        (GetCardLogicValue(a) < GetCardLogicValue(b)));
             });
             break;
         case enColor:
             // color des
             std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
-              return ((GetCardLogicValue(a) > GetCardLogicValue(b) && GetCardColor(a) == GetCardColor(b)))
-                  || (GetCardColor(a) > GetCardColor(b));
+                return ((GetCardLogicValue(a) > GetCardLogicValue(b) && GetCardColor(a) == GetCardColor(b))) ||
+                       (GetCardColor(a) > GetCardColor(b));
             });
             break;
         default:
@@ -185,8 +183,7 @@ void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enS
 
 
 
-unsigned poker::ThreeAgainstOne::GetCardLogicValue(unsigned cbCardData, unsigned byPrimaryColor)
-{
+unsigned poker::ThreeAgainstOne::GetCardLogicValue(unsigned cbCardData, unsigned byPrimaryColor) {
     //扑克属性
     unsigned cbCardColor = GetCardColor(cbCardData);
     unsigned cbCardValue = GetCardValue(cbCardData);
@@ -211,8 +208,7 @@ unsigned poker::ThreeAgainstOne::GetCardLogicValue(unsigned cbCardData, unsigned
     return (cbCardValue <= 2) ? (cbCardValue + 13) : cbCardValue;
 }
 
-bool poker::ThreeAgainstOne::isPrimaryCard(const unsigned cbCardData, const unsigned cbPrimaryColor)
-{
+bool poker::ThreeAgainstOne::isPrimaryCard(const unsigned cbCardData, const unsigned cbPrimaryColor) {
     bool valid = isValidCard(cbCardData);
     if (!valid) { return false; }
     auto value = GetCardValue(cbCardData);
@@ -222,9 +218,7 @@ bool poker::ThreeAgainstOne::isPrimaryCard(const unsigned cbCardData, const unsi
     return bIsPrimary;
 }
 
-poker::ThreeAgainstOne::CARD_TYPE
-poker::ThreeAgainstOne::GetCardType(const unsigned cbCardData[], unsigned cbCardCount, unsigned cbPrimaryColor)
-{
+poker::ThreeAgainstOne::CARD_TYPE poker::ThreeAgainstOne::GetCardType(const unsigned cbCardData[], unsigned cbCardCount, unsigned cbPrimaryColor) {
 
     //简单牌型
     switch (cbCardCount) {
@@ -235,8 +229,8 @@ poker::ThreeAgainstOne::GetCardType(const unsigned cbCardData[], unsigned cbCard
             return CT_SINGLE;
         }
         case 2: {
-            bool sameLogic =
-                GetCardLogicValue(cbCardData[0], cbPrimaryColor) == GetCardLogicValue(cbCardData[1], cbPrimaryColor);
+            bool sameLogic = GetCardLogicValue(cbCardData[0], cbPrimaryColor) ==
+                             GetCardLogicValue(cbCardData[1], cbPrimaryColor);
             bool isPrimaryColorFirst = isPrimaryCard(cbCardData[0], cbPrimaryColor);
             bool isPrimaryColorSecond = isPrimaryCard(cbCardData[1], cbPrimaryColor);
             bool sameColor = GetCardColor(cbCardData[0]) == GetCardColor(cbCardData[1]);
@@ -305,11 +299,7 @@ poker::ThreeAgainstOne::GetCardType(const unsigned cbCardData[], unsigned cbCard
 
 }
 
-void poker::ThreeAgainstOne::SortHandCardListByPrimary(unsigned cbCardData[],
-                                                      unsigned cbCardCount,
-                                                      const bool bDragonData[],
-                                                      unsigned specificColor)
-{
+void poker::ThreeAgainstOne::SortHandCardListByPrimary(unsigned cbCardData[], unsigned cbCardCount, const bool bDragonData[], unsigned specificColor) {
     SortCardList(cbCardData, cbCardCount, enColor);
 
 
@@ -344,13 +334,13 @@ void poker::ThreeAgainstOne::SortHandCardListByPrimary(unsigned cbCardData[],
     }
 
     std::vector<unsigned> fixPrimary2Data;
-    for (auto &fix : primary2Data) {
+    for (auto &fix: primary2Data) {
         if (GetCardColor(fix) == specificColor) {
             fixPrimary2Data.push_back(fix);
             fix = 0;
         }
     }
-    for (auto data : primary2Data) {
+    for (auto data: primary2Data) {
         if (data) { fixPrimary2Data.push_back(data); }
     }
 
@@ -362,7 +352,7 @@ void poker::ThreeAgainstOne::SortHandCardListByPrimary(unsigned cbCardData[],
     std::vector<unsigned> result;
 
     auto fn = [&](const std::vector<unsigned> &arr, std::vector<unsigned> &res) {
-      for (auto data : arr) { res.push_back(data); }
+        for (auto data: arr) { res.push_back(data); }
     };
     fn(primaryDragonData, result);
     fn(primary5Data, result);
@@ -379,25 +369,19 @@ void poker::ThreeAgainstOne::SortHandCardListByPrimary(unsigned cbCardData[],
 }
 
 
-bool poker::ThreeAgainstOne::findStraightType(const unsigned byHandCardData[],
-                                             unsigned byHandCardCount,
-                                             unsigned &byReferCard,
-                                             unsigned countType,
-                                             unsigned countMaxStraight,
-                                             unsigned byPrimaryColor)
-{
+bool poker::ThreeAgainstOne::findStraightType(const unsigned byHandCardData[], unsigned byHandCardCount, unsigned &byReferCard, unsigned countType, unsigned countMaxStraight, unsigned byPrimaryColor) {
     bool res = false;
     unsigned tempHandCardData[COUNT_MAX] = {0};
     memcpy(tempHandCardData, byHandCardData, byHandCardCount * sizeof(byHandCardData[0]));
     //change to logic index
-    for (auto &changeToLogic : tempHandCardData) {
+    for (auto &changeToLogic: tempHandCardData) {
         changeToLogic = GetCardLogicValue(changeToLogic, byPrimaryColor);
     }
     //change map
     std::map<unsigned, unsigned> mapLogic;
     //无须考虑八龙 故最大逻辑值为20即可
     const unsigned maxLogicIndex = 20;
-    for (auto logicIndex : tempHandCardData) {
+    for (auto logicIndex: tempHandCardData) {
         mapLogic.insert(std::pair<unsigned, unsigned>(logicIndex, mapLogic[logicIndex]++));
     }
     unsigned beginLogicIndex = byReferCard;
@@ -427,13 +411,11 @@ bool poker::ThreeAgainstOne::findStraightType(const unsigned byHandCardData[],
     return res;
 }
 
-unsigned poker::ThreeAgainstOne::findMaxLogicValue(const unsigned *cbCardData, unsigned cbCardCount,
-                                                  unsigned cbPrimaryColor, unsigned cbCurrentColor)
-{
+unsigned poker::ThreeAgainstOne::findMaxLogicValue(const unsigned *cbCardData, unsigned cbCardCount, unsigned cbPrimaryColor, unsigned cbCurrentColor) {
     unsigned tempHandCardData[COUNT_MAX];
     memset(tempHandCardData, 0, sizeof(tempHandCardData));
     memcpy(tempHandCardData, cbCardData, cbCardCount * sizeof(cbCardData[0]));
-    for (auto &changeData : tempHandCardData) {
+    for (auto &changeData: tempHandCardData) {
         if (cbCurrentColor == PRIMARY_COLOR) {
             if (!isPrimaryCard(changeData, cbPrimaryColor)) { continue; }
         } else {
@@ -446,11 +428,7 @@ unsigned poker::ThreeAgainstOne::findMaxLogicValue(const unsigned *cbCardData, u
     return *pMax;
 }
 
-bool poker::ThreeAgainstOne::analyseCardData(const unsigned *cbCardData,
-                                            unsigned cbCardCount,
-                                            tagSameAnalyseResult &AnalyseResult,
-                                            unsigned cbPrimaryColor)
-{
+bool poker::ThreeAgainstOne::analyseCardData(const unsigned *cbCardData, unsigned cbCardCount, tagSameAnalyseResult &AnalyseResult, unsigned cbPrimaryColor) {
     //设置结果
     AnalyseResult = {};
     //扑克分析
@@ -487,10 +465,7 @@ bool poker::ThreeAgainstOne::analyseCardData(const unsigned *cbCardData,
 }
 
 
-bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], const unsigned cbNextCard[],
-                                             unsigned cbFirstCount, unsigned cbNextCount,
-                                             unsigned cbPrimaryColor, unsigned cbCurrentColor)
-{
+bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], const unsigned cbNextCard[], unsigned cbFirstCount, unsigned cbNextCount, unsigned cbPrimaryColor, unsigned cbCurrentColor) {
     //目前只完成了连对 对子 单牌的逻辑处理
     using RECORD_HANDLE = unsigned;
     CARD_TYPE cbThrowCardType = GetCardType(cbFirstCard, cbFirstCount, cbPrimaryColor);
@@ -498,38 +473,21 @@ bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], cons
     switch (cbThrowCardType) {
         case CT_ERROR: {
             tagSearchCardResult tagSearchFirstCardResult = {0}, tagSearchNextCardResult = {0};
-            RECORD_HANDLE resSearchFirst = searchLineCardType(cbFirstCard, cbFirstCount,
-                                                              0, 2, 0,
-                                                              tagSearchFirstCardResult,
-                                                              cbPrimaryColor, cbCurrentColor);
+            RECORD_HANDLE resSearchFirst = searchLineCardType(cbFirstCard, cbFirstCount, 0, 2, 0, tagSearchFirstCardResult, cbPrimaryColor, cbCurrentColor);
             if (resSearchFirst) {
                 RECORD_HANDLE maxLineCount = tagSearchFirstCardResult.cbCardCount[0];
                 RECORD_HANDLE referCard = tagSearchFirstCardResult.cbResultCard[0][maxLineCount - 1];
-                RECORD_HANDLE resSearchNext = searchLineCardType(cbNextCard, cbNextCount,
-                                                                 referCard, 2, maxLineCount,
-                                                                 tagSearchNextCardResult,
-                                                                 cbPrimaryColor, cbCurrentColor);
+                RECORD_HANDLE resSearchNext = searchLineCardType(cbNextCard, cbNextCount, referCard, 2, maxLineCount, tagSearchNextCardResult, cbPrimaryColor, cbCurrentColor);
                 if (resSearchNext) { return true; }
             }
             tagSearchFirstCardResult = {0}, tagSearchNextCardResult = {0};
-            resSearchFirst =
-                searchSameCard(cbFirstCard,
-                               cbFirstCount,
-                               0,
-                               2,
-                               tagSearchFirstCardResult,
-                               cbPrimaryColor,
-                               cbCurrentColor);
+            resSearchFirst = searchSameCard(cbFirstCard, cbFirstCount, 0, 2, tagSearchFirstCardResult, cbPrimaryColor, cbCurrentColor);
             if (resSearchFirst) {
                 RECORD_HANDLE referCard = tagSearchFirstCardResult.cbResultCard[0][1];
-                RECORD_HANDLE resSearchNext = searchSameCard(cbNextCard, cbNextCount,
-                                                             referCard, 2,
-                                                             tagSearchNextCardResult,
-                                                             cbPrimaryColor, cbCurrentColor);
+                RECORD_HANDLE resSearchNext = searchSameCard(cbNextCard, cbNextCount, referCard, 2, tagSearchNextCardResult, cbPrimaryColor, cbCurrentColor);
                 if (resSearchNext) { return true; }
             }
-            unsigned
-                firstMaxLogicElement = findMaxLogicValue(cbFirstCard, cbFirstCount, cbPrimaryColor, cbCurrentColor);
+            unsigned firstMaxLogicElement = findMaxLogicValue(cbFirstCard, cbFirstCount, cbPrimaryColor, cbCurrentColor);
             unsigned nextMaxLogicElement = findMaxLogicValue(cbNextCard, cbNextCount, cbPrimaryColor, cbCurrentColor);
             if (nextMaxLogicElement > firstMaxLogicElement) {
                 return true;
@@ -548,10 +506,7 @@ bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], cons
             RECORD_HANDLE firstLogicValue = GetCardLogicValue(cbFirstCard[0], cbPrimaryColor);
             RECORD_HANDLE referCard = cbFirstCard[0];
             tagSearchCardResult tagSearchNextCardResult = {0};
-            RECORD_HANDLE resSearchNext = searchSameCard(cbNextCard, cbNextCount,
-                                                         referCard, 2,
-                                                         tagSearchNextCardResult,
-                                                         cbPrimaryColor, cbCurrentColor);
+            RECORD_HANDLE resSearchNext = searchSameCard(cbNextCard, cbNextCount, referCard, 2, tagSearchNextCardResult, cbPrimaryColor, cbCurrentColor);
             RECORD_HANDLE maxNext = 0;
             for (int i = 0; i < tagSearchNextCardResult.cbSearchCount; i++) {
                 if (tagSearchNextCardResult.cbResultCard[i][0] > maxNext) {
@@ -575,10 +530,7 @@ bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], cons
             }
             RECORD_HANDLE referCard = firstMaxLogicElement;
             RECORD_HANDLE maxLineCount = cbFirstCount / 2;
-            RECORD_HANDLE resSearchNext = searchLineCardType(cbNextCard, cbNextCount,
-                                                             referCard, 2, maxLineCount,
-                                                             tagSearchNextCardResult,
-                                                             cbPrimaryColor, cbCurrentColor);
+            RECORD_HANDLE resSearchNext = searchLineCardType(cbNextCard, cbNextCount, referCard, 2, maxLineCount, tagSearchNextCardResult, cbPrimaryColor, cbCurrentColor);
             if (resSearchNext) { return true; }
             return false;
         }
@@ -597,14 +549,7 @@ bool poker::ThreeAgainstOne::compareThrowCard(const unsigned cbFirstCard[], cons
     return false;
 }
 
-unsigned poker::ThreeAgainstOne::searchSameCard(const unsigned *cbHandCardData,
-                                               unsigned cbHandCardCount,
-                                               unsigned cbReferCard,
-                                               unsigned cbSameCardCount,
-                                               tagSearchCardResult &pSearchCardResult,
-                                               unsigned cbPrimaryColor,
-                                               unsigned cbCurrentColor)
-{
+unsigned poker::ThreeAgainstOne::searchSameCard(const unsigned *cbHandCardData, unsigned cbHandCardCount, unsigned cbReferCard, unsigned cbSameCardCount, tagSearchCardResult &pSearchCardResult, unsigned cbPrimaryColor, unsigned cbCurrentColor) {
     //设置结果
     pSearchCardResult = {};
     unsigned cbResultCount = 0;
@@ -625,12 +570,12 @@ unsigned poker::ThreeAgainstOne::searchSameCard(const unsigned *cbHandCardData,
     unsigned indexBlock = cbSameCardCount - 1;
     for (int i = analyseResult.cbBlockCount[indexBlock] - 1; i >= 0; i--) {
         unsigned tempCard = analyseResult.cbCardData[indexBlock][cbSameCardCount * i];
-        if (GetCardColor(tempCard) == cbCurrentColor
-            && GetCardLogicValue(tempCard, cbPrimaryColor) > cbReferLogicValue) {
+        if (GetCardColor(tempCard) == cbCurrentColor &&
+            GetCardLogicValue(tempCard, cbPrimaryColor) > cbReferLogicValue) {
             //复制扑克
             for (unsigned j = 0; j < cbSameCardCount; ++j) {
-                pSearchCardResult.cbResultCard[cbResultCount][j] =
-                    analyseResult.cbCardData[indexBlock][cbSameCardCount * i + j];
+                pSearchCardResult.cbResultCard[cbResultCount][j] = analyseResult.cbCardData[indexBlock][
+                        cbSameCardCount * i + j];
             }
             pSearchCardResult.cbCardCount[cbResultCount] = cbSameCardCount;
             cbResultCount++;
@@ -640,14 +585,7 @@ unsigned poker::ThreeAgainstOne::searchSameCard(const unsigned *cbHandCardData,
     return cbResultCount;
 }
 
-unsigned poker::ThreeAgainstOne::searchLineCardType(const unsigned *cbHandCardData,
-                                                   unsigned cbHandCardCount,
-                                                   unsigned cbReferCard,
-                                                   unsigned cbBlockCount,
-                                                   unsigned cbLineCount,
-                                                   tagSearchCardResult &pSearchCardResult, unsigned cbPrimaryColor,
-                                                   unsigned cbCurrentColor)
-{
+unsigned poker::ThreeAgainstOne::searchLineCardType(const unsigned *cbHandCardData, unsigned cbHandCardCount, unsigned cbReferCard, unsigned cbBlockCount, unsigned cbLineCount, tagSearchCardResult &pSearchCardResult, unsigned cbPrimaryColor, unsigned cbCurrentColor) {
     //常量
     const unsigned maxLogicIndex = 20;
     const unsigned minBeginIndex = 3;
@@ -710,18 +648,17 @@ unsigned poker::ThreeAgainstOne::searchLineCardType(const unsigned *cbHandCardDa
                 unsigned cbTmpCount = 0;
                 if (cbCurrentColor != ERROR_COLOR) {
                     unsigned cbColorIndex = cbCurrentColor >> 4;
-                    for (unsigned cbColorCount = 0; cbColorCount < Distributing.cbDistributing[cbIndex][cbColorIndex];
-                         cbColorCount++) {
+                    for (unsigned cbColorCount = 0;
+                         cbColorCount < Distributing.cbDistributing[cbIndex][cbColorIndex]; cbColorCount++) {
                         pSearchCardResult.cbResultCard[cbResultCount][cbCount++] = MakeCardData(cbIndex, cbColorIndex);
                         if (++cbTmpCount == cbBlockCount) { break; }
                     }
                 } else {
                     for (unsigned cbColorIndex = 0; cbColorIndex < 4; cbColorIndex++) {
                         for (unsigned cbColorCount = 0;
-                             cbColorCount < Distributing.cbDistributing[cbIndex][3 - cbColorIndex];
-                             cbColorCount++) {
-                            pSearchCardResult.cbResultCard[cbResultCount][cbCount++] =
-                                MakeCardData(cbIndex, 3 - cbColorIndex);
+                             cbColorCount < Distributing.cbDistributing[cbIndex][3 - cbColorIndex]; cbColorCount++) {
+                            pSearchCardResult.cbResultCard[cbResultCount][cbCount++] = MakeCardData(cbIndex,
+                                                                                                    3 - cbColorIndex);
                             if (++cbTmpCount == cbBlockCount) { break; }
                         }
                         if (cbTmpCount == cbBlockCount) { break; }
@@ -744,10 +681,7 @@ unsigned poker::ThreeAgainstOne::searchLineCardType(const unsigned *cbHandCardDa
     return cbResultCount;
 }
 
-bool poker::ThreeAgainstOne::analyseDistributing(const unsigned *cbCardData,
-                                                unsigned cbCardCount,
-                                                tagDistributing &Distributing)
-{
+bool poker::ThreeAgainstOne::analyseDistributing(const unsigned *cbCardData, unsigned cbCardCount, tagDistributing &Distributing) {
     Distributing = {};
     unsigned cbIndexCount = 5;
     //设置变量
@@ -764,17 +698,12 @@ bool poker::ThreeAgainstOne::analyseDistributing(const unsigned *cbCardData,
     return true;
 }
 
-unsigned poker::ThreeAgainstOne::MakeCardData(unsigned cbValueIndex, unsigned cbColorIndex)
-{
+unsigned poker::ThreeAgainstOne::MakeCardData(unsigned cbValueIndex, unsigned cbColorIndex) {
     return (cbColorIndex << 4) | (cbValueIndex + 1);
 }
 
 //还未修改
-bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsigned cbHandCardCount,
-                                          const unsigned *cbTurnCardData, unsigned cbTurnCardCount,
-                                          tagSearchCardResult &pSearchCardResult,
-                                          unsigned cbPrimaryColor, unsigned cbCurrentColor)
-{
+bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsigned cbHandCardCount, const unsigned *cbTurnCardData, unsigned cbTurnCardCount, tagSearchCardResult &pSearchCardResult, unsigned cbPrimaryColor, unsigned cbCurrentColor) {
     //设置结果
     pSearchCardResult = {};
     //变量定义
@@ -806,8 +735,8 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
 
             //如果最小牌不是单牌，则提取
             unsigned cbSameCount = 0;
-            if (cbCardCount > 1
-                && GetCardValue(cbCardData[cbCardCount - 1]) == GetCardValue(cbCardData[cbCardCount - 2])) {
+            if (cbCardCount > 1 &&
+                GetCardValue(cbCardData[cbCardCount - 1]) == GetCardValue(cbCardData[cbCardCount - 2])) {
                 cbSameCount = 1;
                 pSearchCardResult.cbResultCard[cbResultCount][0] = cbCardData[cbCardCount - 1];
                 unsigned cbCardValue = GetCardValue(cbCardData[cbCardCount - 1]);
@@ -824,8 +753,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             //单牌
             unsigned cbTmpCount = 0;
             if (cbSameCount != 1) {
-                cbTmpCount =
-                    searchSameCard(cbCardData, cbCardCount, 0, 1, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
+                cbTmpCount = searchSameCard(cbCardData, cbCardCount, 0, 1, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
                 if (cbTmpCount > 0) {
                     pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                     for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -837,8 +765,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
 
             //对牌
             if (cbSameCount != 2) {
-                cbTmpCount =
-                    searchSameCard(cbCardData, cbCardCount, 0, 2, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
+                cbTmpCount = searchSameCard(cbCardData, cbCardCount, 0, 2, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
                 if (cbTmpCount > 0) {
                     pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                     for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -850,8 +777,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
 
             //三条
             if (cbSameCount != 3) {
-                cbTmpCount =
-                    searchSameCard(cbCardData, cbCardCount, 0, 3, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
+                cbTmpCount = searchSameCard(cbCardData, cbCardCount, 0, 3, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
                 if (cbTmpCount > 0) {
                     pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                     for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -862,15 +788,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             }
 
             //单连
-            cbTmpCount =
-                searchLineCardType(cbCardData,
-                                   cbCardCount,
-                                   0,
-                                   1,
-                                   0,
-                                   tmpSearchCardResult,
-                                   cbPrimaryColor,
-                                   cbCurrentColor);
+            cbTmpCount = searchLineCardType(cbCardData, cbCardCount, 0, 1, 0, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
             if (cbTmpCount > 0) {
                 pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                 for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -880,15 +798,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             }
 
             //连对
-            cbTmpCount =
-                searchLineCardType(cbCardData,
-                                   cbCardCount,
-                                   0,
-                                   2,
-                                   0,
-                                   tmpSearchCardResult,
-                                   cbPrimaryColor,
-                                   cbCurrentColor);
+            cbTmpCount = searchLineCardType(cbCardData, cbCardCount, 0, 2, 0, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
             if (cbTmpCount > 0) {
                 pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                 for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -898,15 +808,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             }
 
             //三连
-            cbTmpCount =
-                searchLineCardType(cbCardData,
-                                   cbCardCount,
-                                   0,
-                                   3,
-                                   0,
-                                   tmpSearchCardResult,
-                                   cbPrimaryColor,
-                                   cbCurrentColor);
+            cbTmpCount = searchLineCardType(cbCardData, cbCardCount, 0, 3, 0, tmpSearchCardResult, cbPrimaryColor, cbCurrentColor);
             if (cbTmpCount > 0) {
                 pSearchCardResult.cbCardCount[cbResultCount] = tmpSearchCardResult.cbCardCount[0];
                 for (unsigned i = 0; i < tmpSearchCardResult.cbCardCount[0]; i++) {
@@ -928,12 +830,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             if (cbTurnOutType == CT_DOUBLE) { cbSameCount = 2; }
             else if (cbTurnOutType == CT_THREE) { cbSameCount = 3; }
             //搜索相同牌
-            cbResultCount = searchSameCard(cbCardData,
-                                           cbCardCount,
-                                           cbReferCard,
-                                           cbSameCount,
-                                           pSearchCardResult,
-                                           cbPrimaryColor, cbCurrentColor);
+            cbResultCount = searchSameCard(cbCardData, cbCardCount, cbReferCard, cbSameCount, pSearchCardResult, cbPrimaryColor, cbCurrentColor);
 
             break;
         }
@@ -947,12 +844,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
             else if (cbTurnOutType == CT_THREE_LINE) { cbBlockCount = 3; }
             unsigned cbLineCount = cbTurnCardCount / cbBlockCount;
             //搜索边牌
-            cbResultCount = searchLineCardType(cbCardData,
-                                               cbCardCount,
-                                               cbTurnCardData[0],
-                                               cbBlockCount,
-                                               cbLineCount,
-                                               pSearchCardResult, cbPrimaryColor, cbCurrentColor);
+            cbResultCount = searchLineCardType(cbCardData, cbCardCount, cbTurnCardData[0], cbBlockCount, cbLineCount, pSearchCardResult, cbPrimaryColor, cbCurrentColor);
             break;
         }
         default:
@@ -965,8 +857,7 @@ bool poker::ThreeAgainstOne::searchOutCard(const unsigned *cbHandCardData, unsig
 }
 
 
-unsigned poker::ThreeAgainstOne::findSameCards(unsigned wChairID, const unsigned byCardData[], unsigned byCardCount)
-{
+unsigned poker::ThreeAgainstOne::findSameCards(unsigned wChairID, const unsigned byCardData[], unsigned byCardCount) {
     // 方法一
     // 可以直接用 AnalyseCardData 分析
     //
@@ -999,8 +890,7 @@ poker::CompanyTest::CompanyTest() = default;
 
 poker::CompanyTest::~CompanyTest() = default;
 
-std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsigned source_length, bool just_test)
-{
+std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsigned source_length, bool just_test) {
 
     std::cout << "source arr" << std::endl;
     for (auto i = 0; i < source_length; i++) {
@@ -1043,15 +933,10 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsi
 
 }
 
-bool
-poker::CompanyTest::RemoveExist(std::vector<unsigned> &source_arr,
-                               unsigned source_length,
-                               std::vector<unsigned> delete_arr,
-                               unsigned delete_length)
-{
+bool poker::CompanyTest::RemoveExist(std::vector<unsigned> &source_arr, unsigned source_length, std::vector<unsigned> delete_arr, unsigned delete_length) {
 
-    for (auto i : delete_arr) {
-        for (unsigned &j : source_arr) {
+    for (auto i: delete_arr) {
+        for (unsigned &j: source_arr) {
             if (i == j) {
                 j = 0;
                 break;
@@ -1063,11 +948,7 @@ poker::CompanyTest::RemoveExist(std::vector<unsigned> &source_arr,
     return true;
 }
 
-bool poker::CompanyTest::RemoveExist(unsigned source_arr[],
-                                    unsigned source_length,
-                                    unsigned delete_arr[],
-                                    unsigned delete_length)
-{
+bool poker::CompanyTest::RemoveExist(unsigned source_arr[], unsigned source_length, unsigned delete_arr[], unsigned delete_length) {
     for (unsigned i = 0; i < delete_length; i++) {
         for (unsigned j = 0; j < source_length; j++) {
             if (source_arr[j] == delete_arr[i]) {
@@ -1080,8 +961,7 @@ bool poker::CompanyTest::RemoveExist(unsigned source_arr[],
     return true;
 }
 
-std::vector<unsigned> poker::CompanyTest::RemoveZero(std::vector<unsigned> source_arr, unsigned source_length)
-{
+std::vector<unsigned> poker::CompanyTest::RemoveZero(std::vector<unsigned> source_arr, unsigned source_length) {
     std::sort(source_arr.rbegin(), source_arr.rend());
     unsigned end_index = 0;
     for (unsigned i = 0; i < source_length; i++) {
@@ -1102,8 +982,7 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(std::vector<unsigned> sourc
 
 }
 
-std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsigned source_length)
-{
+std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsigned source_length) {
     std::sort(source_arr, source_arr + source_length, [=](unsigned a, unsigned b) { return a > b; });
     unsigned end_index = 0;
     for (unsigned i = 0; i < source_length; i++) {
@@ -1123,8 +1002,7 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsi
 
 }
 
-void poker::CompanyTest::InsertToMap(unsigned *a, unsigned n, std::map<unsigned, unsigned> &out_map)
-{
+void poker::CompanyTest::InsertToMap(unsigned *a, unsigned n, std::map<unsigned, unsigned> &out_map) {
     std::map<unsigned, unsigned> temp_map;
     std::pair<std::map<unsigned, unsigned>::iterator, bool> ret;
     for (unsigned i = 0; i < n; i++) {
@@ -1136,19 +1014,16 @@ void poker::CompanyTest::InsertToMap(unsigned *a, unsigned n, std::map<unsigned,
     out_map = temp_map;
 }
 
-void poker::CompanyTest::SprintMap(std::map<unsigned, unsigned> &count_map)
-{
+void poker::CompanyTest::SprintMap(std::map<unsigned, unsigned> &count_map) {
     auto map_it = count_map.cbegin();
     while (map_it != count_map.cend()) {
-        std::cout << "value " << map_it->first << " appear "
-                  << map_it->second << " times\n";
+        std::cout << "value " << map_it->first << " appear " << map_it->second << " times\n";
         ++map_it;
     }
 }
 
 
-bool poker::CompanyTest::IsSameColorCard(const std::vector<unsigned> &cbCardData, unsigned cbCardCount)
-{
+bool poker::CompanyTest::IsSameColorCard(const std::vector<unsigned> &cbCardData, unsigned cbCardCount) {
 
 //  ASSERT(cbCardCount > 0);
     if (cbCardCount <= 0) { return false; }
@@ -1169,24 +1044,20 @@ bool poker::CompanyTest::IsSameColorCard(const std::vector<unsigned> &cbCardData
     return bRet;
 }
 
-bool poker::CompanyTest::Test()
-{
+bool poker::CompanyTest::Test() {
 
-    unsigned test0826[108] = {
-        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,    //方块 A - K
-        0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
-        0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
-        0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
-        0x4e, 0x4f,
-        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,    //方块 A - K
-        0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
-        0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
-        0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
-        0x4e, 0x4f
-    };
+    unsigned test0826[108] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,    //方块 A - K
+                              0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
+                              0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
+                              0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
+                              0x4e, 0x4f, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,    //方块 A - K
+                              0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
+                              0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
+                              0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
+                              0x4e, 0x4f};
 
     std::sort(test0826, test0826 + 108, [=](unsigned a, unsigned b) {
-      return (a > b && GetCardLogicValue(a) == GetCardLogicValue(b)) || (GetCardLogicValue(a) > GetCardLogicValue(b));
+        return (a > b && GetCardLogicValue(a) == GetCardLogicValue(b)) || (GetCardLogicValue(a) > GetCardLogicValue(b));
     });
 
     std::vector<unsigned> res0826(test0826, test0826 + 108);
@@ -1194,8 +1065,7 @@ bool poker::CompanyTest::Test()
 
 //  return true;
 
-    unsigned a[53] = {1, 1, 2, 3, 4, 4, 5, 6, 6, 8,
-                      0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
+    unsigned a[53] = {1, 1, 2, 3, 4, 4, 5, 6, 6, 8, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,    //梅花 A - K
                       0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D,    //红桃 A - K
                       0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
                       0x4E, 0x4F, 0x4F,};
@@ -1248,25 +1118,25 @@ bool poker::CompanyTest::Test()
 
     auto res = RemoveZero(test1_1, 10);
     std::cout << "\n RemoveZero Test1 Arr->\n";
-    for (auto i:res) {
+    for (auto i: res) {
         std::cout << i << " ";
     }
 
     auto res2 = RemoveZero(vec_test1_1, 10);
     std::cout << "\n RemoveZero Test2 Vec->\n";
-    for (auto i:res2) {
+    for (auto i: res2) {
         std::cout << i << " ";
     }
 
     auto res3 = RemoveExist(test1_2, 10, test2_1, 3);
     std::cout << "\n RemoveExist Test3 Arr->\n";
-    for (auto i:test1_2) {
+    for (auto i: test1_2) {
         std::cout << i << " ";
     }
 
     auto res4 = RemoveExist(vec_test1_2, 10, vec_test2_1, 3);
     std::cout << "\n RemoveExist Test4 Vec->\n";
-    for (auto i:vec_test1_2) {
+    for (auto i: vec_test1_2) {
         std::cout << i << " ";
     }
 
@@ -1275,8 +1145,7 @@ bool poker::CompanyTest::Test()
     return true;
 }
 
-bool poker::CompanyTest::Test1123()
-{
+bool poker::CompanyTest::Test1123() {
 
     std::vector<unsigned> a = {1, 2, 3, 4, 5, 6, 7, 0x4e, 0x4f, 0x4e, 0x39};
     unsigned a1124[] = {1, 2, 3, 4, 5, 6, 7, 0x4e, 0x4f, 0x4e, 0x39};
@@ -1288,19 +1157,15 @@ bool poker::CompanyTest::Test1123()
 
 }
 
-bool poker::CompanyTest::testPrimary()
-{
-    unsigned tempCard[] = {
-        0x01, 0x09, 0x03, 0x04, 0x05, 0x06, 0x08, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
-        0x03, 0x04, 0x05, 0x06
-    }, count = 17;
+bool poker::CompanyTest::testPrimary() {
+    unsigned tempCard[] = {0x01, 0x09, 0x03, 0x04, 0x05, 0x06, 0x08, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x03, 0x04, 0x05, 0x06}, count = 17;
 
     auto isPrimary = [&](unsigned value) {
-      return (GetCardColor(value) == 0x40 || GetCardColor(value) == 0x00 ||
-          GetCardValue(value) == 0x02 || GetCardValue(value) == 0x07);
+        return (GetCardColor(value) == 0x40 || GetCardColor(value) == 0x00 || GetCardValue(value) == 0x02 ||
+                GetCardValue(value) == 0x07);
     };
     auto allPrimary = std::all_of(tempCard, tempCard + count, [&](unsigned value) {
-      return isPrimary(value);
+        return isPrimary(value);
     });
 
     /// 关于 all_of 直接入参数组 进行判定 也不会出错
@@ -1314,7 +1179,7 @@ bool poker::CompanyTest::testPrimary()
     unsigned res1112[] = {3, 3, 3, 1, 1};
     unsigned rescopy[5] = {0};
     memcpy(rescopy, res1112, 2 * sizeof(unsigned));
-    for (auto i:rescopy) {
+    for (auto i: rescopy) {
         std::cout << "  " << i;
     }
     std::cout << std::endl << std::endl;
@@ -1333,8 +1198,7 @@ bool poker::CompanyTest::testPrimary()
 
 }
 
-void poker::CompanyTest::testFirstBack(bool &first, bool &back, unsigned noJokerCard[])
-{
+void poker::CompanyTest::testFirstBack(bool &first, bool &back, unsigned noJokerCard[]) {
     first = true;
     back = true;
     unsigned cbBackA[5] = {10, 11, 12, 13, 1};
@@ -1342,7 +1206,7 @@ void poker::CompanyTest::testFirstBack(bool &first, bool &back, unsigned noJoker
     unsigned temp[5] = {0};
     memcpy(temp, noJokerCard, sizeof(temp));
 
-    for (auto value : temp) {
+    for (auto value: temp) {
         if (!value) { continue; }
         auto countBackValue = std::count(cbBackA, cbBackA + 5, GetCardValue(value));
         auto countFirstValue = std::count(cbFirstA, cbFirstA + 5, GetCardValue(value));
@@ -1351,18 +1215,15 @@ void poker::CompanyTest::testFirstBack(bool &first, bool &back, unsigned noJoker
     }
 }
 
-unsigned poker::CompanyTest::mapChange()
-{
+unsigned poker::CompanyTest::mapChange() {
 
-    unsigned bTempCardData[] = {
-        0x21, 0x35, 0x03, 0x12, 0
-    };
+    unsigned bTempCardData[] = {0x21, 0x35, 0x03, 0x12, 0};
 
     unsigned cbBackA[5] = {10, 11, 12, 13, 1};
     unsigned cbFirstA[5] = {1, 2, 3, 4, 5};
     unsigned cbColor = GetCardColor(bTempCardData[0]) >> 4;
     bool bBackA = true, bFirstA = true;
-    for (auto value : bTempCardData) {
+    for (auto value: bTempCardData) {
         if (!value) { continue; }
         auto countBackValue = std::count(cbBackA, cbBackA + 5, GetCardValue(value));
         auto countFirstValue = std::count(cbFirstA, cbFirstA + 5, GetCardValue(value));
@@ -1370,9 +1231,10 @@ unsigned poker::CompanyTest::mapChange()
         if (!countFirstValue) { bFirstA = false; }
     }
     if (bBackA) {
-        for (auto &back : cbBackA) {
-            auto haveValue = std::any_of(bTempCardData, bTempCardData + 5,
-                                         [&](unsigned value) { return GetCardValue(value) == back; });
+        for (auto &back: cbBackA) {
+            auto haveValue = std::any_of(bTempCardData, bTempCardData + 5, [&](unsigned value) {
+                return GetCardValue(value) == back;
+            });
             if (!haveValue) {
                 back = (cbColor << 4) + back;
             }
@@ -1382,9 +1244,10 @@ unsigned poker::CompanyTest::mapChange()
         return 2;
     }
     if (bFirstA) {
-        for (auto &first : cbFirstA) {
-            auto haveValue = std::any_of(bTempCardData, bTempCardData + 5,
-                                         [&](unsigned value) { return GetCardValue(value) == first; });
+        for (auto &first: cbFirstA) {
+            auto haveValue = std::any_of(bTempCardData, bTempCardData + 5, [&](unsigned value) {
+                return GetCardValue(value) == first;
+            });
             if (!haveValue) {
                 first = (cbColor) + first;
             }
@@ -1396,15 +1259,12 @@ unsigned poker::CompanyTest::mapChange()
     return 0;
 }
 
-unsigned poker::CompanyTest::CountJoker(unsigned cbCardData[], unsigned cbCardCount)
-{
+unsigned poker::CompanyTest::CountJoker(unsigned cbCardData[], unsigned cbCardCount) {
     return std::count_if(cbCardData,
-                         cbCardData + cbCardCount,
-                         [&](unsigned value) { return value == 0x4e || value == 0x4f; });
+                         cbCardData + cbCardCount, [&](unsigned value) { return value == 0x4e || value == 0x4f; });
 }
 
-bool poker::CompanyTest::IsLinkCard(const unsigned cbCardData[], unsigned cbCardCount)
-{
+bool poker::CompanyTest::IsLinkCard(const unsigned cbCardData[], unsigned cbCardCount) {
 
     if (cbCardCount <= 0) { return false; }
 
@@ -1416,12 +1276,12 @@ bool poker::CompanyTest::IsLinkCard(const unsigned cbCardData[], unsigned cbCard
 
     unsigned noJokerCardData[COUNT_MAX] = {0};
     memcpy(noJokerCardData, &cbCardBuffer[0], cbCardCount * sizeof(unsigned));
-    for (unsigned &value : noJokerCardData) {
+    for (unsigned &value: noJokerCardData) {
         if (value == 0x4e || value == 0x4f) { value = 0; }
     }
     SortCardList(noJokerCardData, COUNT_MAX, enDescend);
 
-    for (unsigned &value : noJokerCardData) {
+    for (unsigned &value: noJokerCardData) {
         /// 遇王或空值直接退出
         if (!value) { break; }
         /// noJokerCardData 转化为纯 value
@@ -1439,8 +1299,7 @@ bool poker::CompanyTest::IsLinkCard(const unsigned cbCardData[], unsigned cbCard
     return cbFirstCard - noJokerCardData[cbCardCount - countJoker - 1] < cbCardCount;
 }
 
-bool poker::CompanyTest::IsLinkCard(const std::vector<unsigned> &cbCardData)
-{
+bool poker::CompanyTest::IsLinkCard(const std::vector<unsigned> &cbCardData) {
     if (cbCardData.empty()) { return false; }
     unsigned cbCardCount = cbCardData.size();
 
@@ -1452,12 +1311,12 @@ bool poker::CompanyTest::IsLinkCard(const std::vector<unsigned> &cbCardData)
 
     unsigned noJokerCardData[COUNT_MAX] = {0};
     memcpy(noJokerCardData, &cbCardBuffer[0], cbCardData.size() * sizeof(cbCardData[0]));
-    for (unsigned &value : noJokerCardData) {
+    for (unsigned &value: noJokerCardData) {
         if (value == 0x4e || value == 0x4f) { value = 0; }
     }
     SortCardList(noJokerCardData, COUNT_MAX, enDescend);
 
-    for (unsigned &value : noJokerCardData) {
+    for (unsigned &value: noJokerCardData) {
         /// 遇王或空值直接退出
         if (!value) { break; }
         /// noJokerCardData 转化为纯 value
