@@ -6,10 +6,10 @@
 #include <iostream>
 
 // 3.
-// ±àÐ´»ùÀàB£¬²¢ÅÉÉúÀàC¡£·Ö±ð¶¨ÒåÁ½¸öÀàµÄ¶ÔÏó£¬Õë¶ÔÓÐÐéº¯ÊýºÍÎÞÐéº¯ÊýÁ½ÖÖÇé¿ö£¬ÔÚÔËÐÐÊ±ÅÐ±ð²¢´òÓ¡¶ÔÏóËùÊôµÄÀàµÄÃû³Æ£º
-//     £¨1£© »ùÀàµÄÖ¸ÕëÖ¸Ïò»ùÀà¶ÔÏó£»
-//     £¨2£© ÅÉÉúÀàµÄÖ¸ÕëÖ¸ÏòÅÉÉúÀà¶ÔÏó£»
-//     £¨3£©»ùÀàµÄÖ¸ÕëÖ¸ÏòÅÉÉúÀà¶ÔÏó¡£
+// ç¼–å†™åŸºç±»Bï¼Œå¹¶æ´¾ç”Ÿç±»Cã€‚åˆ†åˆ«å®šä¹‰ä¸¤ä¸ªç±»çš„å¯¹è±¡ï¼Œé’ˆå¯¹æœ‰è™šå‡½æ•°å’Œæ— è™šå‡½æ•°ä¸¤ç§æƒ…å†µï¼Œåœ¨è¿è¡Œæ—¶åˆ¤åˆ«å¹¶æ‰“å°å¯¹è±¡æ‰€å±žçš„ç±»çš„åç§°ï¼š
+//     ï¼ˆ1ï¼‰ åŸºç±»çš„æŒ‡é’ˆæŒ‡å‘åŸºç±»å¯¹è±¡ï¼›
+//     ï¼ˆ2ï¼‰ æ´¾ç”Ÿç±»çš„æŒ‡é’ˆæŒ‡å‘æ´¾ç”Ÿç±»å¯¹è±¡ï¼›
+//     ï¼ˆ3ï¼‰åŸºç±»çš„æŒ‡é’ˆæŒ‡å‘æ´¾ç”Ÿç±»å¯¹è±¡ã€‚
 
 struct BasicB;
 using basic_sptr = std::shared_ptr<BasicB>;
@@ -47,4 +47,8 @@ son_sptr SonC::instance() {
         c_sptr = std::make_shared<SonC>();
     }
     return c_sptr;
+}
+
+int main(){
+    return 0;
 }

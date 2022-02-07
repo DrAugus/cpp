@@ -148,3 +148,6 @@ int auto_ptr::testAutoPtr()
     return 0;
 }
 
+int main(){
+    return 0;
+}

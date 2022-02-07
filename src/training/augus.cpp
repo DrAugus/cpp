@@ -7,7 +7,7 @@
 
 using namespace augus;
 
-//Õâ²»¾ÍÊÇreplaceÂğ
+//è¿™ä¸å°±æ˜¯replaceå—
 void augus::AugusUtils::TrimStr(std::string &s, char str) {
     std::string::size_type index = 0;
     if (!s.empty()) {
@@ -20,7 +20,7 @@ void augus::AugusUtils::TrimStr(std::string &s, char str) {
 
 
 /**
- * Æ´½Óint
+ * æ‹¼æ¥int
  */
 std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, int i_value) {
     char tag[] = "\"";
@@ -41,7 +41,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, int i_va
 }
 
 /**
- * Æ´½Ófloat£¬±£Áô3Î»
+ * æ‹¼æ¥floatï¼Œä¿ç•™3ä½
  */
 std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, float f_value) {
     char tag[] = "\"";
@@ -62,7 +62,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, float f_
 }
 
 /**
- * Æ´½Óstring
+ * æ‹¼æ¥string
  */
 std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, const std::string &str_value) {
     char tag[] = "\"";
@@ -82,7 +82,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, const st
 }
 
 /**
- * Æ´½Óobject
+ * æ‹¼æ¥object
  */
 std::string augus::JsonCombine::GetKeyValueObject(const std::string &str_key, const std::string &str_obj) {
     char tag[] = "\"";
@@ -100,7 +100,7 @@ std::string augus::JsonCombine::GetKeyValueObject(const std::string &str_key, co
 }
 
 /**
- * Æ´½Óarray
+ * æ‹¼æ¥array
  */
 std::string augus::JsonCombine::GetKeyValueArray(const std::string &str_key, const std::string &str_arr) {
     char tag[] = "\"";
@@ -137,16 +137,16 @@ TEST(JsonCombine, use) {
 }
 
 
-//²åÈëÅÅĞò£¨Ëã·¨ÖĞÊÇÖ±½Ó½»»»½Úµã£¬Ê±¼ä¸´ÔÓ¶ÈO£¨n^2£©,¿Õ¼ä¸´ÔÓ¶ÈO£¨1£©£©
+//æ’å…¥æ’åºï¼ˆç®—æ³•ä¸­æ˜¯ç›´æ¥äº¤æ¢èŠ‚ç‚¹ï¼Œæ—¶é—´å¤æ‚åº¦Oï¼ˆn^2ï¼‰,ç©ºé—´å¤æ‚åº¦Oï¼ˆ1ï¼‰ï¼‰
 ListNode *ListSort::insertionSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
     if (head == nullptr || head->next == nullptr)return head;
     ListNode *p = head->next, *pstart = new ListNode(0), *pend = head;
-    pstart->next = head; //ÎªÁË²Ù×÷·½±ã£¬Ìí¼ÓÒ»¸öÍ·½áµã
+    pstart->next = head; //ä¸ºäº†æ“ä½œæ–¹ä¾¿ï¼Œæ·»åŠ ä¸€ä¸ªå¤´ç»“ç‚¹
     while (p != nullptr) {
         ListNode *tmp = pstart->next, *pre = pstart;
-        while (tmp != p && p->val >= tmp->val) //ÕÒµ½²åÈëÎ»ÖÃ
+        while (tmp != p && p->val >= tmp->val) //æ‰¾åˆ°æ’å…¥ä½ç½®
         {
             tmp = tmp->next;
             pre = pre->next;
@@ -164,19 +164,19 @@ ListNode *ListSort::insertionSortList(ListNode *head) {
     return head;
 }
 
-//Ñ¡ÔñÅÅĞò£¨Ëã·¨ÖĞÖ»ÊÇ½»»»½ÚµãµÄvalÖµ£¬Ê±¼ä¸´ÔÓ¶ÈO£¨n^2£©,¿Õ¼ä¸´ÔÓ¶ÈO£¨1£©£©
+//é€‰æ‹©æ’åºï¼ˆç®—æ³•ä¸­åªæ˜¯äº¤æ¢èŠ‚ç‚¹çš„valå€¼ï¼Œæ—¶é—´å¤æ‚åº¦Oï¼ˆn^2ï¼‰,ç©ºé—´å¤æ‚åº¦Oï¼ˆ1ï¼‰ï¼‰
 ListNode *ListSort::selectSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
-    //Ñ¡ÔñÅÅĞò
+    //é€‰æ‹©æ’åº
     if (head == nullptr || head->next == nullptr)return head;
     ListNode *pstart = new ListNode(0);
-    pstart->next = head; //ÎªÁË²Ù×÷·½±ã£¬Ìí¼ÓÒ»¸öÍ·½áµã
-    ListNode *sortedTail = pstart;//Ö¸ÏòÒÑÅÅºÃĞòµÄ²¿·ÖµÄÎ²²¿
+    pstart->next = head; //ä¸ºäº†æ“ä½œæ–¹ä¾¿ï¼Œæ·»åŠ ä¸€ä¸ªå¤´ç»“ç‚¹
+    ListNode *sortedTail = pstart;//æŒ‡å‘å·²æ’å¥½åºçš„éƒ¨åˆ†çš„å°¾éƒ¨
 
     while (sortedTail->next != nullptr) {
         ListNode *minNode = sortedTail->next, *p = sortedTail->next->next;
-        //Ñ°ÕÒÎ´ÅÅĞò²¿·ÖµÄ×îĞ¡½Úµã
+        //å¯»æ‰¾æœªæ’åºéƒ¨åˆ†çš„æœ€å°èŠ‚ç‚¹
         while (p != nullptr) {
             if (p->val < minNode->val)
                 minNode = p;
@@ -192,16 +192,16 @@ ListNode *ListSort::selectSortList(ListNode *head) {
 }
 
 
-//¹é²¢ÅÅĞò£¨Ëã·¨½»»»Á´±í½Úµã£¬Ê±¼ä¸´ÔÓ¶ÈO£¨nlogn£©,²»¿¼ÂÇµİ¹éÕ»¿Õ¼äµÄ»°¿Õ¼ä¸´ÔÓ¶ÈÊÇO£¨1£©£©
+//å½’å¹¶æ’åºï¼ˆç®—æ³•äº¤æ¢é“¾è¡¨èŠ‚ç‚¹ï¼Œæ—¶é—´å¤æ‚åº¦Oï¼ˆnlognï¼‰,ä¸è€ƒè™‘é€’å½’æ ˆç©ºé—´çš„è¯ç©ºé—´å¤æ‚åº¦æ˜¯Oï¼ˆ1ï¼‰ï¼‰
 //
-//Ê×ÏÈÓÃ¿ìÂıÖ¸ÕëµÄ·½·¨ÕÒµ½Á´±íÖĞ¼ä½Úµã£¬È»ºóµİ¹éµÄ¶ÔÁ½¸ö×ÓÁ´±íÅÅĞò£¬°ÑÁ½¸öÅÅºÃĞòµÄ×ÓÁ´±íºÏ²¢³ÉÒ»ÌõÓĞĞòµÄÁ´±í¡£¹é²¢ÅÅĞòÓ¦¸ÃËãÊÇÁ´±íÅÅĞò×î¼ÑµÄÑ¡ÔñÁË£¬±£Ö¤ÁË×îºÃºÍ×î»µÊ±¼ä¸´ÔÓ¶È¶¼ÊÇnlogn£¬¶øÇÒËüÔÚÊı×éÅÅĞòÖĞ¹ãÊÜÚ¸²¡µÄ¿Õ¼ä¸´ÔÓ¶ÈÔÚÁ´±íÅÅĞòÖĞÒ²´ÓO(n)½µµ½ÁËO(1)
+//é¦–å…ˆç”¨å¿«æ…¢æŒ‡é’ˆçš„æ–¹æ³•æ‰¾åˆ°é“¾è¡¨ä¸­é—´èŠ‚ç‚¹ï¼Œç„¶åé€’å½’çš„å¯¹ä¸¤ä¸ªå­é“¾è¡¨æ’åºï¼ŒæŠŠä¸¤ä¸ªæ’å¥½åºçš„å­é“¾è¡¨åˆå¹¶æˆä¸€æ¡æœ‰åºçš„é“¾è¡¨ã€‚å½’å¹¶æ’åºåº”è¯¥ç®—æ˜¯é“¾è¡¨æ’åºæœ€ä½³çš„é€‰æ‹©äº†ï¼Œä¿è¯äº†æœ€å¥½å’Œæœ€åæ—¶é—´å¤æ‚åº¦éƒ½æ˜¯nlognï¼Œè€Œä¸”å®ƒåœ¨æ•°ç»„æ’åºä¸­å¹¿å—è¯Ÿç—…çš„ç©ºé—´å¤æ‚åº¦åœ¨é“¾è¡¨æ’åºä¸­ä¹Ÿä»O(n)é™åˆ°äº†O(1)
 ListNode *ListSort::mergeSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
-    //Á´±í¹é²¢ÅÅĞò
+    //é“¾è¡¨å½’å¹¶æ’åº
     if (head == NULL || head->next == NULL)return head;
     else {
-        //¿ìÂıÖ¸ÕëÕÒµ½ÖĞ¼ä½Úµã
+        //å¿«æ…¢æŒ‡é’ˆæ‰¾åˆ°ä¸­é—´èŠ‚ç‚¹
         ListNode *fast = head, *slow = head;
         while (fast->next != NULL && fast->next->next != NULL) {
             fast = fast->next->next;
@@ -210,8 +210,8 @@ ListNode *ListSort::mergeSortList(ListNode *head) {
         fast = slow;
         slow = slow->next;
         fast->next = NULL;
-//                fast = sortList(head);//Ç°°ë¶ÎÅÅĞò
-//                slow = sortList(slow);//ºó°ë¶ÎÅÅĞò
+//                fast = sortList(head);//å‰åŠæ®µæ’åº
+//                slow = sortList(slow);//ååŠæ®µæ’åº
         return merge(fast, slow);
     }
 
@@ -247,17 +247,17 @@ ListNode *ListSort::merge(ListNode *head1, ListNode *head2) {
 }
 
 
-//Ã°ÅİÅÅĞò£¨Ëã·¨½»»»Á´±í½ÚµãvalÖµ£¬Ê±¼ä¸´ÔÓ¶ÈO£¨n^2£©,¿Õ¼ä¸´ÔÓ¶ÈO£¨1£©£©
+//å†’æ³¡æ’åºï¼ˆç®—æ³•äº¤æ¢é“¾è¡¨èŠ‚ç‚¹valå€¼ï¼Œæ—¶é—´å¤æ‚åº¦Oï¼ˆn^2ï¼‰,ç©ºé—´å¤æ‚åº¦Oï¼ˆ1ï¼‰ï¼‰
 ListNode *ListSort::bubbleSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
-    //Á´±í¿ìËÙÅÅĞò
+    //é“¾è¡¨å¿«é€Ÿæ’åº
     if (head == NULL || head->next == NULL)return head;
     ListNode *p = NULL;
     bool isChange = true;
     while (p != head->next && isChange) {
         ListNode *q = head;
-        isChange = false;//±êÖ¾µ±Ç°ÕâÒ»ÂÖÖĞÓÖÃ»ÓĞ·¢ÉúÔªËØ½»»»£¬Èç¹ûÃ»ÓĞÔò±íÊ¾Êı×éÒÑ¾­ÓĞĞò
+        isChange = false;//æ ‡å¿—å½“å‰è¿™ä¸€è½®ä¸­åˆæ²¡æœ‰å‘ç”Ÿå…ƒç´ äº¤æ¢ï¼Œå¦‚æœæ²¡æœ‰åˆ™è¡¨ç¤ºæ•°ç»„å·²ç»æœ‰åº
         for (; q->next && q->next != p; q = q->next) {
             if (q->val > q->next->val) {
                 std::swap(q->val, q->next->val);
@@ -269,9 +269,9 @@ ListNode *ListSort::bubbleSortList(ListNode *head) {
     return head;
 }
 
-//¶ÔÓÚÏ£¶ûÅÅĞò£¬ÒòÎªÅÅĞò¹ı³ÌÖĞ¾­³£Éæ¼°µ½arr[i+gap]²Ù×÷£¬ÆäÖĞgapÎªÏ£¶ûÅÅĞòµÄµ±Ç°²½³¤£¬ÕâÖÖ²Ù×÷²»ÊÊºÏÁ´±í¡£
+//å¯¹äºå¸Œå°”æ’åºï¼Œå› ä¸ºæ’åºè¿‡ç¨‹ä¸­ç»å¸¸æ¶‰åŠåˆ°arr[i+gap]æ“ä½œï¼Œå…¶ä¸­gapä¸ºå¸Œå°”æ’åºçš„å½“å‰æ­¥é•¿ï¼Œè¿™ç§æ“ä½œä¸é€‚åˆé“¾è¡¨ã€‚
 //
-//¶ÔÓÚ¶ÑÅÅĞò£¬Ò»°ãÊÇÓÃÊı×éÀ´ÊµÏÖ¶ş²æ¶Ñ£¬µ±È»¿ÉÒÔÓÃ¶ş²æÊ÷À´ÊµÏÖ£¬µ«ÊÇÕâÃ´×öÌ«Âé·³£¬»¹µÃ»¨·Ñ¶îÍâµÄ¿Õ¼ä¹¹½¨¶ş²æÊ÷
+//å¯¹äºå †æ’åºï¼Œä¸€èˆ¬æ˜¯ç”¨æ•°ç»„æ¥å®ç°äºŒå‰å †ï¼Œå½“ç„¶å¯ä»¥ç”¨äºŒå‰æ ‘æ¥å®ç°ï¼Œä½†æ˜¯è¿™ä¹ˆåšå¤ªéº»çƒ¦ï¼Œè¿˜å¾—èŠ±è´¹é¢å¤–çš„ç©ºé—´æ„å»ºäºŒå‰æ ‘
 
 
 ListSortPtr ListSort::instance() {
@@ -297,46 +297,46 @@ TEST(Math, gcd) {
     EXPECT_EQ(p->gcd(49, 28), 7);
 }
 
-//³£¼ûµÄËæ»ú·Ö²¼Ä£°åÀà
-//¾ùÔÈ·Ö²¼£º
-// uniform_int_distribution ÕûÊı¾ùÔÈ·Ö
-// uniform_real_distribution ¸¡µãÊı¾ùÔÈ·Ö²¼
-//×¢Òâ£¬uniform_int_distributionµÄËæ»úÊıµÄ·¶Î§²»ÊÇ°ë¿ª·¶Î§[ )£¬¶øÊÇ[ ]£¬¶ÔÓÚuniform_real_distributionÈ´ÊÇ°ë¿ª·¶Î§[ )¡£
-//²®Å¬ÀûÀàĞÍ·Ö²¼£º£¨½öÓĞyes/noÁ½ÖÖ½á¹û£¬¸ÅÂÊÒ»¸öp£¬Ò»¸ö1-p£©
-// bernoulli_distribution ²®Å¬Àû·Ö²¼
-// binomial_distribution ¶şÏî·Ö²¼
-// geometry_distribution ¼¸ºÎ·Ö²¼
-// negative_biomial_distribution ¸º¶şÏî·Ö²¼
+//å¸¸è§çš„éšæœºåˆ†å¸ƒæ¨¡æ¿ç±»
+//å‡åŒ€åˆ†å¸ƒï¼š
+// uniform_int_distribution æ•´æ•°å‡åŒ€åˆ†
+// uniform_real_distribution æµ®ç‚¹æ•°å‡åŒ€åˆ†å¸ƒ
+//æ³¨æ„ï¼Œuniform_int_distributionçš„éšæœºæ•°çš„èŒƒå›´ä¸æ˜¯åŠå¼€èŒƒå›´[ )ï¼Œè€Œæ˜¯[ ]ï¼Œå¯¹äºuniform_real_distributionå´æ˜¯åŠå¼€èŒƒå›´[ )ã€‚
+//ä¼¯åŠªåˆ©ç±»å‹åˆ†å¸ƒï¼šï¼ˆä»…æœ‰yes/noä¸¤ç§ç»“æœï¼Œæ¦‚ç‡ä¸€ä¸ªpï¼Œä¸€ä¸ª1-pï¼‰
+// bernoulli_distribution ä¼¯åŠªåˆ©åˆ†å¸ƒ
+// binomial_distribution äºŒé¡¹åˆ†å¸ƒ
+// geometry_distribution å‡ ä½•åˆ†å¸ƒ
+// negative_biomial_distribution è´ŸäºŒé¡¹åˆ†å¸ƒ
 //Rate-based distributions:
-// poisson_distribution ²´ËÉ·Ö²¼
-// exponential_distributionÖ¸Êı·Ö²¼
-// gamma_distribution Ù¤Âí·Ö²¼
-// weibull_distribution Íş²¼¶û·Ö²¼
-// extreme_value_distribution ¼«Öµ·Ö²¼
-//ÕıÌ¬·Ö²¼Ïà¹Ø£º
-// normal_distribution ÕıÌ¬·Ö²¼
-// chi_squared_distribution¿¨·½·Ö²¼
-// cauchy_distribution ¿ÂÎ÷·Ö²¼
-// fisher_f_distribution ·ÑĞª¶ûF·Ö²¼
-// student_t_distribution t·Ö²¼
-//·Ö¶Î·Ö²¼Ïà¹Ø£º
-// discrete_distributionÀëÉ¢·Ö²¼
-// piecewise_constant_distribution·Ö¶Î³£Êı·Ö²¼
-// piecewise_linear_distribution·Ö¶ÎÏßĞÔ·Ö²¼
+// poisson_distribution æ³Šæ¾åˆ†å¸ƒ
+// exponential_distributionæŒ‡æ•°åˆ†å¸ƒ
+// gamma_distribution ä¼½é©¬åˆ†å¸ƒ
+// weibull_distribution å¨å¸ƒå°”åˆ†å¸ƒ
+// extreme_value_distribution æå€¼åˆ†å¸ƒ
+//æ­£æ€åˆ†å¸ƒç›¸å…³ï¼š
+// normal_distribution æ­£æ€åˆ†å¸ƒ
+// chi_squared_distributionå¡æ–¹åˆ†å¸ƒ
+// cauchy_distribution æŸ¯è¥¿åˆ†å¸ƒ
+// fisher_f_distribution è´¹æ­‡å°”Fåˆ†å¸ƒ
+// student_t_distribution tåˆ†å¸ƒ
+//åˆ†æ®µåˆ†å¸ƒç›¸å…³ï¼š
+// discrete_distributionç¦»æ•£åˆ†å¸ƒ
+// piecewise_constant_distributionåˆ†æ®µå¸¸æ•°åˆ†å¸ƒ
+// piecewise_linear_distributionåˆ†æ®µçº¿æ€§åˆ†å¸ƒ
 void Math::getRand() {
-    //Éú³Érandom_device¶ÔÏósd×öÖÖ×Ó
+    //ç”Ÿæˆrandom_deviceå¯¹è±¡sdåšç§å­
     std::random_device sd;
-    //Ê¹ÓÃÖÖ×Ó³õÊ¼»¯linear_congruential_engine¶ÔÏó£¬
-    // ÎªµÄÊÇÊ¹ÓÃËüÀ´×öÎÒÃÇÏÂÃæËæ»ú·Ö²¼µÄÖÖ×ÓÒÔÊä³ö¶à¸öËæ»ú·Ö²¼.
-    // ×¢ÒâÕâÀïÒªÊ¹ÓÃ()²Ù×÷·û£¬ÒòÎªminst_rand()½ÓÊÜµÄÊÇÒ»¸öÖµ£¨ÄãÓÃsrandÒ²ÊÇ¸ø³öÕâÑùµÄÒ»¸öÖµ£©
+    //ä½¿ç”¨ç§å­åˆå§‹åŒ–linear_congruential_engineå¯¹è±¡ï¼Œ
+    // ä¸ºçš„æ˜¯ä½¿ç”¨å®ƒæ¥åšæˆ‘ä»¬ä¸‹é¢éšæœºåˆ†å¸ƒçš„ç§å­ä»¥è¾“å‡ºå¤šä¸ªéšæœºåˆ†å¸ƒ.
+    // æ³¨æ„è¿™é‡Œè¦ä½¿ç”¨()æ“ä½œç¬¦ï¼Œå› ä¸ºminst_rand()æ¥å—çš„æ˜¯ä¸€ä¸ªå€¼ï¼ˆä½ ç”¨srandä¹Ÿæ˜¯ç»™å‡ºè¿™æ ·çš„ä¸€ä¸ªå€¼ï¼‰
     std::minstd_rand linearRan(sd());
-    //Éú³É01ĞòÁĞ
+    //ç”Ÿæˆ01åºåˆ—
     std::uniform_int_distribution<int> dis1(0, 1);
     std::cout << "\nuniform_int_distribution:";
     for (int i = 0; i < 100; i++) {
-        //Ê¹ÓÃlinear engine×öÖÖ×Ó£¬
-        // ×¢ÒâÕâÀï´«ÈëµÄ²»ÊÇÒ»¸öÖµ¶øÊÇÒ»¸öÒıÇæ:
-        // ¡¾Ëæ»ú·Ö²¼º¯ÊıĞèÒª´«ÈëÒ»¸öËæ»úÊıÒıÇæ×÷Îª²ÎÊı£¬ÆäÊµrandom_deviceÒ²ÊÇÒ»¸öÒıÇæ£¬ÕâÀï°Ñsd´«ÈëÒ²²»»á³ö´í¡¿
+        //ä½¿ç”¨linear engineåšç§å­ï¼Œ
+        // æ³¨æ„è¿™é‡Œä¼ å…¥çš„ä¸æ˜¯ä¸€ä¸ªå€¼è€Œæ˜¯ä¸€ä¸ªå¼•æ“:
+        // ã€éšæœºåˆ†å¸ƒå‡½æ•°éœ€è¦ä¼ å…¥ä¸€ä¸ªéšæœºæ•°å¼•æ“ä½œä¸ºå‚æ•°ï¼Œå…¶å®random_deviceä¹Ÿæ˜¯ä¸€ä¸ªå¼•æ“ï¼Œè¿™é‡ŒæŠŠsdä¼ å…¥ä¹Ÿä¸ä¼šå‡ºé”™ã€‘
         std::cout << dis1(linearRan) << " ";
     }
     std::cout << "\n";

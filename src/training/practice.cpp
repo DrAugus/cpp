@@ -90,10 +90,10 @@ void convolution(const double *input1, const double *input2, double *output, int
 
 int FrogClimb(int m, int n, int h) {
     int day = 0;
-    while (h - n > 0) { // ×òÌì»¹Ã»ÅÀ³öÈ¥
-        h -= m;//°×ÌìÅÀÁËm
+    while (h - n > 0) { // æ˜¨å¤©è¿˜æ²¡çˆ¬å‡ºå»
+        h -= m;//ç™½å¤©çˆ¬äº†m
         ++day;
-        h += n;//Ò¹ÀïµôÁËn
+        h += n;//å¤œé‡Œæ‰äº†n
     }
     return day;
 }
@@ -145,7 +145,7 @@ int getAverage() {
 }
 
 
-// lambda ÖØÔØ ½öÔÚc++17¼°ÒÔÉÏÖ§³Ö [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
+// lambda é‡è½½ ä»…åœ¨c++17åŠä»¥ä¸Šæ”¯æŒ [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
 constexpr auto translate = [](auto idx) {
     if constexpr (std::is_same_v<decltype(idx), int>) {
         constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};
@@ -164,10 +164,10 @@ constexpr auto translate = [](auto idx) {
 };
 
 void WideCharacter() {
-    std::string china = "ÖĞ¹ú";
-    augus::PrintTest("ÖĞ¹ú", china);
+    std::string china = "ä¸­å›½";
+    augus::PrintTest("ä¸­å›½", china);
 
-    std::wstring w_china = L"ÖĞ¹ú";
+    std::wstring w_china = L"ä¸­å›½";
     std::wcout << w_china << std::endl;
 
     std::wstring w_str = L"shit";
@@ -227,7 +227,7 @@ TEST(practice,practice) {
     }
 
 
-    //ÒÔ10·ÖÎªÒ»¸ö·ÖÊı¶ÎÍ³¼Æ³É¼¨
+    //ä»¥10åˆ†ä¸ºä¸€ä¸ªåˆ†æ•°æ®µç»Ÿè®¡æˆç»©
 //    std::vector<unsigned> scores(11, 0);
 //    unsigned grade;
 //    while (std::cin >> grade) {

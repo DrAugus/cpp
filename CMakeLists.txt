@@ -27,8 +27,9 @@ if (USE_OPENMP)
 endif ()
 
 #当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
-add_subdirectory(src/INTERVIEW)
-add_subdirectory(src/TRAINING)
+add_subdirectory(src/interview)
+add_subdirectory(src/practice)
+add_subdirectory(src/training)
 
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
@@ -51,7 +52,6 @@ set(cmake_build_type DEBUG)
 
 
 #生成可执行文件
-add_executable(augus_cpp main.cc)
 #add_executable(augus_cpp ${DIR_SRC})  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
 
 #生成库文件
