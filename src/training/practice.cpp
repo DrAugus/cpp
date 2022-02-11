@@ -189,7 +189,7 @@ void WideCharacter() {
 }
 
 
-TEST(practice,practice) {
+int main() {
 
     std::string kyaneos = "Kyaneos-Kyaneos-Kyaneos-Kyaneos--";
     augus::PrintTest("Kyaneos", kyaneos);

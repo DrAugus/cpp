@@ -19,121 +19,112 @@
 
 namespace auto_ptr {
 
-class Solution;
+    class Solution;
 
-class Child;
+    class Child;
 
-class Parent;
+    class Parent;
 
-class Solution
-{
-    Solution() = default;
-    ~Solution() = default;
-public:
-    void merge1(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n)
-    {
-        std::vector<int> array(m + n);
-        int k = 0;
-        int i = 0;
-        int j = 0;
-        while (i != m && j != n) {
-            if (nums1[i] > nums2[j]) {
-                array[k] = nums2[j];
-                k++;
-                j++;
-            } else {
-                array[k] = nums1[i];
-                k++;
-                i++;
+    class Solution {
+        Solution() = default;
+        ~Solution() = default;
+    public:
+        void merge1(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n) {
+            std::vector<int> array(m + n);
+            int k = 0;
+            int i = 0;
+            int j = 0;
+            while (i != m && j != n) {
+                if (nums1[i] > nums2[j]) {
+                    array[k] = nums2[j];
+                    k++;
+                    j++;
+                } else {
+                    array[k] = nums1[i];
+                    k++;
+                    i++;
+                }
             }
+            while (i < m) {
+                array[k] = nums1[i];
+                i++;
+                k++;
+            }
+            while (j < n) {
+                array[k] = nums2[j];
+                j++;
+                k++;
+            }
+            nums1.assign(array.begin(), array.end());
         }
-        while (i < m) {
-            array[k] = nums1[i];
-            i++;
-            k++;
-        }
-        while (j < n) {
-            array[k] = nums2[j];
-            j++;
-            k++;
-        }
-        nums1.assign(array.begin(), array.end());
-    }
-public:
-    void merge2(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n)
-    {
-        int i = m - 1;
-        int j = n - 1;
-        int k = m + n - 1;
-        while (i >= 0 && j >= 0) {
-            if (nums1[i] > nums2[j]) {
+    public:
+        void merge2(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n) {
+            int i = m - 1;
+            int j = n - 1;
+            int k = m + n - 1;
+            while (i >= 0 && j >= 0) {
+                if (nums1[i] > nums2[j]) {
+                    nums1[k] = nums1[i];
+                    k--;
+                    i--;
+                } else {
+                    nums1[k] = nums2[j];
+                    k--;
+                    j--;
+                }
+            }
+            while (i >= 0) {
                 nums1[k] = nums1[i];
                 k--;
                 i--;
-            } else {
+            }
+            while (j >= 0) {
                 nums1[k] = nums2[j];
                 k--;
                 j--;
             }
         }
-        while (i >= 0) {
-            nums1[k] = nums1[i];
-            k--;
-            i--;
+    };
+
+    class Parent {
+    private:
+        //std::shared_ptr<Child> ChildPtr;
+        std::weak_ptr<Child> ChildPtr;
+    public:
+        void setChild(std::shared_ptr<Child> child) {
+            this->ChildPtr = child;
         }
-        while (j >= 0) {
-            nums1[k] = nums2[j];
-            k--;
-            j--;
+        void doSomething() {
+            //new shared_ptr
+            if (this->ChildPtr.lock()) {
+
+            }
         }
-    }
-};
+        ~Parent() = default;
+    };
 
-class Parent
-{
-private:
-    //std::shared_ptr<Child> ChildPtr;
-    std::weak_ptr<Child> ChildPtr;
-public:
-    void setChild(std::shared_ptr<Child> child)
-    {
-        this->ChildPtr = child;
-    }
-    void doSomething()
-    {
-        //new shared_ptr
-        if (this->ChildPtr.lock()) {
+    class Child {
+    private:
+        std::shared_ptr<Parent> ParentPtr;
 
+    public:
+        void setParent(std::shared_ptr<Parent> parent) {
+            this->ParentPtr = parent;
         }
-    }
-    ~Parent() = default;
-};
 
-class Child
-{
-private:
-    std::shared_ptr<Parent> ParentPtr;
+        void doSomething() {
+            if (this->ParentPtr.use_count()) {
 
-public:
-    void setParent(std::shared_ptr<Parent> parent)
-    {
-        this->ParentPtr = parent;
-    }
-
-    void doSomething()
-    {
-        if (this->ParentPtr.use_count()) {
-
+            }
         }
-    }
 
-    ~Child() = default;
-};
+        ~Child() = default;
+    };
 
-int test_shared_ptr();
-int test_unique_ptr();
-int test_weak_ptr();
-int testAutoPtr();
+    int test_shared_ptr();
+    int test_unique_ptr();
+    int test_weak_ptr();
+    int testAutoPtr();
 
 }//namespace auto_ptr
 

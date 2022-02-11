@@ -49,6 +49,6 @@ son_sptr SonC::instance() {
     return c_sptr;
 }
 
-int main(){
+int main() {
     return 0;
 }

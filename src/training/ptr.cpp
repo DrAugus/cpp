@@ -5,8 +5,7 @@
 #include "ptr.hh"
 #include "gtest/gtest.h"
 
-int auto_ptr::test_shared_ptr()
-{
+int auto_ptr::test_shared_ptr() {
     std::cout << "PART shared_ptr --------\n";
     int a = 10;
     std::shared_ptr<int> sptr1 = std::make_shared<int>(a);
@@ -35,20 +34,17 @@ int auto_ptr::test_shared_ptr()
     return 0;
 }
 
-int auto_ptr::test_unique_ptr()
-{
+int auto_ptr::test_unique_ptr() {
     std::cout << "PART unique_ptr --------\n";
     std::unique_ptr<int> uptr1(new int);//unique_ptr无make_shared
     //std::unique_ptr<int> uptra2(uptr1);//unique_ptr无拷贝构造
     std::unique_ptr<int> uptr3(std::move(uptr1));
     //和 shared_ptr 指针不同，为 unique_ptr 自定义释放规则，只能采用函数对象的方式。例如：
-    struct uniqueDel
-        {
-        void operator()(const int *p)
-        {
+    struct uniqueDel {
+        void operator()(const int *p) {
             delete p;
         }
-        };
+    };
     std::unique_ptr<int, uniqueDel> uptr4(new int, uniqueDel());
     std::unique_ptr<int, uniqueDel> uptr5(new int);
     std::cout << "uptr4.get " << uptr4.get() << std::endl;
@@ -66,8 +62,7 @@ int auto_ptr::test_unique_ptr()
     return 0;
 }
 
-int auto_ptr::test_weak_ptr()
-{
+int auto_ptr::test_weak_ptr() {
     std::cout << "PART weak_ptr --------\n";
     //weak_ptr 类型指针不会导致堆内存空间的引用计数增加或减少。
     std::weak_ptr<int> wptr1;
@@ -91,8 +86,7 @@ int auto_ptr::test_weak_ptr()
     return 0;
 }
 
-int auto_ptr::testAutoPtr()
-{
+int auto_ptr::testAutoPtr() {
     std::cout << "OP MOVE --------\n";
     {
         std::shared_ptr<int> sptr_move1(std::make_shared<int>(10));
@@ -148,6 +142,6 @@ int auto_ptr::testAutoPtr()
     return 0;
 }
 
-int main(){
+int main() {
     return 0;
 }

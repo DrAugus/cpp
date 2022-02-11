@@ -103,6 +103,8 @@ namespace augus {
     public:
         AugusUtils() = default;
         ~AugusUtils() = default;
+        AugusUtils(const AugusUtils &) = delete;
+        void operator=(const AugusUtils &) = delete;
     };
 
     class JsonCombine {

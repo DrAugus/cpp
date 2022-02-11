@@ -18,7 +18,7 @@
 #include "augus/augus.h"
 
 namespace io_test {
-void string2binary();
+    void string2binary();
 }//namespace io_test
 
 #endif //AUGUS_CPP_IO_HH
