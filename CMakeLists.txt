@@ -4,8 +4,7 @@ cmake_minimum_required(VERSION 3.9)
 project(augus_cpp
         LANGUAGES CXX
         VERSION 1.0.0
-        DESCRIPTION "All my test in C++."
-        )
+        DESCRIPTION "All my test in C++.")
 #打印相关消息消息
 message(status "Project Directory: ${PROJECT_SOURCE_DIR}")
 
@@ -30,18 +29,18 @@ endif ()
 add_subdirectory(src/interview)
 add_subdirectory(src/practice)
 add_subdirectory(src/training)
+add_subdirectory(src/uv)
 
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
-find_package(Doxygen OPTIONAL_COMPONENTS dot dia)
 
 #指定编译类型 DEBUG/RELEASE
-set(cmake_build_type DEBUG)
+#set(cmake_build_type DEBUG)
 
 # 指定编译器
 #set(cmake_c_flags_debug "-g -Wall)
 
-#添加编译选项，一些具体的编译选项大家可以自己查一下
+#添加编译选项
 #add_compile_options(-std=gnu++11)
 
 #设置option，可以根据option从而选择代码中的宏定义部分
@@ -69,17 +68,8 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-#工程配置相关，需要根据实际情况进行调整
-#include_directories(${CMAKE_SOURCE_DIR}/include) #添加引用的头文件目录，这里是相对目录的形式
-#link_directories(${CMAKE_SOURCE_DIR}/library) #添加引用的库文件目录，这里是相对目录的形式
+#要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 
-##gtest-----------------
-## libs path
-#link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
-## set libs variable
-#set(LIBS
-#        gtest) # libgtest.a
-#target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
