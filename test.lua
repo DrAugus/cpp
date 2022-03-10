@@ -59,10 +59,9 @@ local function company_code()
         avail_date = {
             -- 指定时间段为时间戳，指定时间周期为"23:59:59"
             -- 开始s结束e （如果永远不过期，那么这项就不写）
-            -- 3/2 - 3/8 15:12
             avail_time = {{
-                s = 1646205156,
-                e = 1646723572
+                s = "1645430372",
+                e = "1647849572"
             }}
         }
     }
@@ -86,9 +85,10 @@ local function company_code()
         local ctime = os.time()
         -- 指定时间段 's' 'e' means start/end timestamp
         if policy.avail_date.avail_time ~= nil and policy.avail_date.date_type == nil and policy.avail_date.num == nil then
-            if ctime < policy.avail_date.avail_time[1].s or ctime > policy.avail_date.avail_time[1].e then
+            if ctime < tonumber(policy.avail_date.avail_time[1].s) or ctime > tonumber(policy.avail_date.avail_time[1].e) then
                 return false
             end
+            return true
         end
     
         -- 指定时间周期
