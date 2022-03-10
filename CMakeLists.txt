@@ -6,7 +6,8 @@ project(augus_cpp
         VERSION 1.0.0
         DESCRIPTION "All my test in C++.")
 #打印相关消息消息
-message(status "Project Directory: ${PROJECT_SOURCE_DIR}")
+message(status " Project Directory: ${PROJECT_SOURCE_DIR}")
+message(status " cmake so hard")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -35,7 +36,7 @@ cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
 
 #指定编译类型 DEBUG/RELEASE
-#set(cmake_build_type DEBUG)
+set(cmake_build_type DEBUG)
 
 # 指定编译器
 #set(cmake_c_flags_debug "-g -Wall)
@@ -44,10 +45,10 @@ cmake_policy(SET CMP0057 NEW)
 #add_compile_options(-std=gnu++11)
 
 #设置option，可以根据option从而选择代码中的宏定义部分
-#option(_LINUX "build the project on linux " ON)
-#if(_LINUX)
-#    add_definitions("-D_LINUX")
-#endif()
+option(_LINUX "build the project on linux " ON)
+if(_LINUX)
+    add_definitions("-D_LINUX")
+endif()
 
 
 #生成可执行文件
@@ -69,8 +70,6 @@ include_directories(
 )
 
 #要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
-
-
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

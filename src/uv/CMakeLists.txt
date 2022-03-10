@@ -8,11 +8,12 @@ foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})
 
-    link_directories(lib)
+    set(lib ${LIB_SRC})
+    link_directories(${LIB_SRC})
     link_libraries(uv)
 
     add_executable(${testname} ${testsourcefile})
-
+    #    add_library(${testname} STATIC ${LIB_SRC})
     target_link_libraries(${testname} uv)
 
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
