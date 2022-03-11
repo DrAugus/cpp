@@ -27,10 +27,11 @@ if (USE_OPENMP)
 endif ()
 
 #当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
-add_subdirectory(src/interview)
-add_subdirectory(src/practice)
-add_subdirectory(src/training)
-add_subdirectory(src/uv)
+file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*)
+foreach (add_source ${SRC})
+    message(${add_source})
+    add_subdirectory(${add_source})
+endforeach ()
 
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
