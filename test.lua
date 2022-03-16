@@ -52,7 +52,7 @@ local function company_code()
                 e = "18:02:34"
             }},
             date_type = 2, -- 1 every day 2 week 3 month  
-            num = {1, 3, 6, 0} -- specific week/month num 周为 0-6 Sun-Sat 日为1-31 其他不填 
+            num = {1, 3, 6, 0} -- specific week/month num 周为 0-6 Sun-Sat 日为1-31 其他不填
         }
     }
     local test_policy4 = {
@@ -72,35 +72,39 @@ local function company_code()
         if policy == nil then
             return false
         end
-    
+
         -- no time limit
         if policy.avail_date == nil then
             return true
         end
-    
+
         if policy.avail_date.avail_time == nil and policy.avail_date.date_type == nil and policy.avail_date.num == nil then
             return true
         end
-    
+
         local ctime = os.time()
         -- 指定时间段 's' 'e' means start/end timestamp
         if policy.avail_date.avail_time ~= nil and policy.avail_date.date_type == nil and policy.avail_date.num == nil then
-            if ctime < tonumber(policy.avail_date.avail_time[1].s) or ctime > tonumber(policy.avail_date.avail_time[1].e) then
+            if ctime < tonumber(policy.avail_date.avail_time[1].s) or ctime >
+                tonumber(policy.avail_date.avail_time[1].e) then
                 return false
             end
             return true
         end
-    
+
         -- 指定时间周期
         local get_day = os.date("%d") -- e.g. 01-31
         local get_week = os.date("%w") -- e.g. 0-6 = Sun-Sat
-    
+
         if policy.avail_date.date_type == 1 then
             -- every day
             -- no more extra handle
         elseif policy.avail_date.date_type == 2 then
             -- week
             local is_current = false
+            if policy.avail_date.num == nil then
+                return true
+            end
             for key, value in pairs(policy.avail_date.num) do
                 if value == tonumber(get_week) then
                     is_current = true
@@ -112,6 +116,9 @@ local function company_code()
         elseif policy.avail_date.date_type == 3 then
             -- day
             local is_current = false
+            if policy.avail_date.num == nil then
+                return false
+            end
             for key, value in pairs(policy.avail_date.num) do
                 if value == tonumber(get_day) then
                     is_current = true
@@ -121,7 +128,7 @@ local function company_code()
                 return false
             end
         end
-    
+
         if policy.avail_date.avail_time ~= nil then
             local format_date = os.date("*t")
             -- 年月日都定为1970/1/2 因为标准是从 1970-01-01 08:00:00 起始 防止8点前出错
@@ -144,7 +151,7 @@ local function company_code()
                     sec = string.sub(str_time, 7, 8)
                 })
             end
-    
+
             -- 三段 时间
             local hit = false
             for i = 1, 3 do
@@ -162,7 +169,7 @@ local function company_code()
                 return false
             end
         end
-    
+
         return true
     end
 
