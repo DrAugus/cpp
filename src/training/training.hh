@@ -107,6 +107,8 @@ public:
     std::vector<int> findDuplicates(std::vector<int> &nums);
     /// 448
     std::vector<int> findDisappearedNumbers(std::vector<int> &nums);
+    // 653
+    bool findTarget(TreeNode *root, int k);
     //1833
     int maxIceCream(std::vector<int> &costs, int coins);
     //1846
@@ -140,6 +142,8 @@ private:
     }
     //前缀和
     std::vector<std::vector<int>> prefixSum(std::vector<std::vector<int>>);
+    //653
+    std::set<int> ss653;
 };//class LCSolution
 
 }//namespace leetcode

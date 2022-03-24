@@ -735,6 +735,15 @@ std::vector<int> LCSolution::findDisappearedNumbers(std::vector<int> &nums)
     return des;
 }
 
+bool LCSolution::findTarget(TreeNode *root, int k) {
+    if (!root) return false;
+    if (ss653.count(k - root->value)) {
+        return true;
+    }
+    ss653.insert(root->value);
+    return findTarget(root->left, k) || findTarget(root->right, k);
+}
+
 int LCSolution::maxIceCream(std::vector<int> &costs, int coins)
 {
     if (costs.empty()) { return 0; }
