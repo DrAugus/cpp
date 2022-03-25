@@ -463,6 +463,17 @@ TEST(LCSolution, titleToNumber)
     }
 }
 
+int LCSolution::trailingZeroes(int n) {
+    //有多少个5就有多少个0
+    int res = 0;
+    int divider = 5;
+    while (n / divider > 0) {
+        res += n / divider;
+        divider *= 5;
+    }
+    return res;
+}
+
 std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k)
 {
     std::vector<int> res;

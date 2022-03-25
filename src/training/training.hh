@@ -91,6 +91,8 @@ public:
     std::string convertToTitle(int columnNumber);
     //171 给定一个Excel表格中的列名称，返回其相应的列序号。
     int titleToNumber(std::string columnTitle);
+    //172 阶乘后的0
+    int trailingZeroes(int n);
     //191 二进制1的个数
     int hammingWeight(uint32_t n) { return std::bitset<32>(n).count(); }
     ///239. Sliding Window Maximum
