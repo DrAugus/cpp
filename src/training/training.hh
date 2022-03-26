@@ -107,6 +107,8 @@ public:
     std::vector<int> findDuplicates(std::vector<int> &nums);
     /// 448
     std::vector<int> findDisappearedNumbers(std::vector<int> &nums);
+    //682 棒球比赛
+    int calPoints(std::vector<std::string>& ops);
     //1833
     int maxIceCream(std::vector<int> &costs, int coins);
     //1846
