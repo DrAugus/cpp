@@ -117,6 +117,8 @@ public:
     int minPairSum(std::vector<int>& nums);
     //1893 检查是否区域内所有整数都被覆盖
     bool isCovered(std::vector<std::vector<int>>& ranges, int left, int right);
+    //2028 找出缺失的观测数据
+    std::vector<int> missingRolls(std::vector<int>& rolls, int mean, int n);
 private:
     //计算二进制中1的个数
     int count1(int n)

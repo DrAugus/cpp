@@ -862,6 +862,25 @@ bool LCSolution::isCovered(std::vector<std::vector<int>>& ranges, int left, int 
     //			内存消耗:8.7 MB,击败了27.40% 的C++用户
 }
 
+std::vector<int> LCSolution::missingRolls(std::vector<int> &rolls, int mean, int n) {
+    int temp = mean * (rolls.size() + n);
+    int total_rolls = 0;
+    for (auto v: rolls) {
+        total_rolls += v;
+    }
+    int sum = temp - total_rolls;
+    int v = sum / n;
+    if (v > 6 || sum < n) {
+        return {};
+    }
+    std::vector<int> res(n, v);
+    int remain = sum;
+    for(auto i : res){
+
+    }
+
+}
+
 std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>> a){
     std::vector<std::vector<int>> b;
     int n = a.size();//n行
