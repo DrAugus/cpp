@@ -7,13 +7,23 @@ file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})
+
+    # libs path
+    link_directories(${CMAKE_SOURCE_DIR}/lib)
+    # set libs variable
+    set(LIBS
+            gmockd
+            gtestd) # libgtest.a
+
     add_executable(${testname} ${testsourcefile})
+
+    target_link_libraries(${testname} ${LIBS})
 
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
     if (OpenMP_CXX_FOUND)
         target_link_libraries(${testname} OpenMP::OpenMP_CXX)
     endif ()
-    install(TARGETS ${testname} DESTINATION "bin/backtracking")
+    install(TARGETS ${testname} DESTINATION "bin/training")
 
 endforeach (testsourcefile ${APP_SOURCES})
 

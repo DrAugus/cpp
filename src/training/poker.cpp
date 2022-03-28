@@ -4,7 +4,7 @@
 //
 
 #include "poker.hh"
-#include "gtest/gtest.h"
+
 
 
 unsigned poker::CommonPart::GetCardValue(unsigned cbCardData) {

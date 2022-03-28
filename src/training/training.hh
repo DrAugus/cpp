@@ -5,28 +5,10 @@
 #ifndef AUGUSTEST_TRAINING_HH
 #define AUGUSTEST_TRAINING_HH
 
-//#include "augus/lib_func.hh"
-#include "for_training.hh"
+#include "augus/augus.h"
 
 using binary_tree::TreeNode;
 using augus::PrintTest;
-
-#include <vector> // for std::vector
-#include <iostream> // for std::cout
-#include <stack> // for std::stack
-#include <thread> // for std::thread
-#include <valarray> // for std::valarray std::max_element std::min_element std::sort
-#include <unordered_set> // for std::unordered_set
-#include <unordered_map> // for std::unordered_map
-#include <set> // for std::set
-#include <list> // for std::list
-#include <functional> // for std::function for std::greater_equal
-#include <map> // for std::map
-#include <cmath> // for std::min
-#include <numeric> // std::partial_sum
-#include <regex>
-#include <array>
-#include <climits> // for INT_MAX
 
 namespace leetcode {
 

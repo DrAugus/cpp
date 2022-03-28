@@ -6,7 +6,7 @@
 
 
 
-#include "gtest/gtest.h"
+
 #include "augus/augus.h"
 
 int hhh(int &a) {

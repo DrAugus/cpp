@@ -3,7 +3,7 @@
 //
 
 #include "thread_practice.hh"
-#include "gtest/gtest.h"
+
 
 void thread_practice::is_main_thread()
 {

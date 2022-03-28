@@ -3,7 +3,6 @@
 //
 
 #include "io.hh"
-#include "gtest/gtest.h"
 
 std::string binaryToHex(const std::string &binaryStr) {
     std::string ret;

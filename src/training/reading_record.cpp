@@ -3,7 +3,7 @@
 //
 
 #include "reading_record.hh"
-#include "gtest/gtest.h"
+
 
 int cpp_primer::basic_type::test()
 {
