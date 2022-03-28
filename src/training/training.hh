@@ -148,6 +148,8 @@ private:
     }
     //前缀和
     std::vector<std::vector<int>> prefixSum(std::vector<std::vector<int>>);
+    //653 value
+    std::set<int> ss653;
 };//class LCSolution
 
 }//namespace leetcode
