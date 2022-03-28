@@ -7,8 +7,7 @@
 using namespace leetcode;
 using namespace codewars;
 
-std::vector<int> TrainingTreeNode::preorderTraversal(TreeNode *root)
-{
+std::vector<int> TrainingTreeNode::preorderTraversal(TreeNode *root) {
     if (root == nullptr) { return {}; }
     std::stack<TreeNode *> sTree;
     std::vector<int> res;
@@ -27,8 +26,7 @@ std::vector<int> TrainingTreeNode::preorderTraversal(TreeNode *root)
     return res;
 }
 
-std::vector<int> TrainingTreeNode::inorderTraversal(TreeNode *root)
-{
+std::vector<int> TrainingTreeNode::inorderTraversal(TreeNode *root) {
     if (root == nullptr) { return {}; }
     std::stack<TreeNode *> sTree;
     std::vector<int> res;
@@ -47,8 +45,7 @@ std::vector<int> TrainingTreeNode::inorderTraversal(TreeNode *root)
     return res;
 }
 
-TreeNode *TrainingTreeNode::insertNode(TreeNode *root, int val)
-{
+TreeNode *TrainingTreeNode::insertNode(TreeNode *root, int val) {
     if (root == nullptr) {
         return new TreeNode(val);
     }
@@ -86,20 +83,17 @@ TreeNode *TrainingTreeNode::insertNode(TreeNode *root, int val)
     return root;
 }
 
-int TrainingTreeNode::getBalance(TreeNode *root)
-{
+int TrainingTreeNode::getBalance(TreeNode *root) {
     if (root == nullptr) { return 0; }
     return getHeight(root->left) - getHeight(root->right);
 }
 
-int TrainingTreeNode::getHeight(TreeNode *root)
-{
+int TrainingTreeNode::getHeight(TreeNode *root) {
     if (root == nullptr) { return 0; }
     return root->height;
 }
 
-TreeNode *TrainingTreeNode::ll_rotate(TreeNode *y)
-{
+TreeNode *TrainingTreeNode::ll_rotate(TreeNode *y) {
     TreeNode *x = y->left;
     y->left = x->right;
     x->right = y;
@@ -110,8 +104,7 @@ TreeNode *TrainingTreeNode::ll_rotate(TreeNode *y)
     return x;
 }
 
-TreeNode *TrainingTreeNode::rr_rotate(TreeNode *y)
-{
+TreeNode *TrainingTreeNode::rr_rotate(TreeNode *y) {
     TreeNode *x = y->right;
     y->right = x->left;
     x->left = y;
@@ -123,12 +116,11 @@ TreeNode *TrainingTreeNode::rr_rotate(TreeNode *y)
 }
 
 
-int TrainingTreeNode::buildAVL()
-{
+int TrainingTreeNode::buildAVL() {
     int root = 2;
     int configData[] = {1, 0, 3, 4, 5, 6, 9, 8, 7};
     auto *treeAVL = new TreeNode(root);
-    for (int insertVal : configData) {
+    for (int insertVal: configData) {
         insertNode(treeAVL, insertVal);
     }
 
@@ -142,14 +134,13 @@ int TrainingTreeNode::buildAVL()
 
 LCSolution_sptr LCSolution::instance() {
     static LCSolution_sptr sptr = nullptr;
-    if(sptr== nullptr){
+    if (sptr == nullptr) {
         sptr = std::make_shared<LCSolution>();
     }
     return sptr;
 }
 
-std::vector<int> LCSolution::twoSum(std::vector<int> &nums, int target)
-{
+std::vector<int> LCSolution::twoSum(std::vector<int> &nums, int target) {
     std::unordered_map<int, int> map;
     for (int i = 0; i < nums.size(); i++) {
         auto iter = map.find(target - nums[i]);
@@ -161,8 +152,7 @@ std::vector<int> LCSolution::twoSum(std::vector<int> &nums, int target)
     return {};
 }
 
-ListNode *LCSolution::addTwoNumbers(ListNode *l1, ListNode *l2)
-{
+ListNode *LCSolution::addTwoNumbers(ListNode *l1, ListNode *l2) {
     auto *res = new ListNode(0);
     ListNode *p1 = l1, *p2 = l2, *p3 = res;
     auto carry = 0;
@@ -186,31 +176,28 @@ ListNode *LCSolution::addTwoNumbers(ListNode *l1, ListNode *l2)
 
 }
 
-int LCSolution::lengthOfLongestSubstring(std::string s)
-{
+int LCSolution::lengthOfLongestSubstring(std::string s) {
     std::stack<int> temp;
     return 0;
 }
 
-double LCSolution::findMedianSortedArrays(std::vector<int> &nums1, std::vector<int> &nums2)
-{
-    if (nums1.empty() && nums2.empty()) { return 0; }
-    unsigned length1 = nums1.size(), length2 = nums2.size();
-    std::vector<int> mergeArr = ::op_list::op_array::mergeTest(nums1, length1, nums2, length2);
-
-    double res = 0;
-    unsigned sub = (length1 + length2) / 2;
-    if ((length1 + length2) % 2) {
-        res = (double) (mergeArr[sub]);
-    } else {
-        res = ((double) (mergeArr[sub - 1] + mergeArr[sub])) / (double) 2;
-    }
-    std::cout << res << std::endl;
-    return res;
+double LCSolution::findMedianSortedArrays(std::vector<int> &nums1, std::vector<int> &nums2) {
+//    if (nums1.empty() && nums2.empty()) { return 0; }
+//    unsigned length1 = nums1.size(), length2 = nums2.size();
+//    std::vector<int> mergeArr = op_list::op_array::mergeTest(nums1, length1, nums2, length2);
+//
+//    double res = 0;
+//    unsigned sub = (length1 + length2) / 2;
+//    if ((length1 + length2) % 2) {
+//        res = (double) (mergeArr[sub]);
+//    } else {
+//        res = ((double) (mergeArr[sub - 1] + mergeArr[sub])) / (double) 2;
+//    }
+//    std::cout << res << std::endl;
+//    return res;
 }
 
-int LCSolution::reverse(int x)
-{
+int LCSolution::reverse(int x) {
     long n = 0;
     while (x) {
         n = n * 10 + x % 10;
@@ -221,8 +208,7 @@ int LCSolution::reverse(int x)
     //			内存消耗:5.9 MB,击败了11.60% 的C++用户
 }
 
-TEST(LCSolution, reverse)
-{
+TEST(LCSolution, reverse) {
     auto p = new LCSolution;
     int x = 321;
     int res = p->reverse(x);
@@ -232,8 +218,7 @@ TEST(LCSolution, reverse)
     EXPECT_EQ(res, -231);
 }
 
-std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target)
-{
+std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target) {
     std::vector<int> res(2, -1);
     if (nums.empty()) { return res; }
     int len = nums.size();
@@ -260,13 +245,9 @@ std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target)
     }
     res[1] = right - 1;
     return res;
-    //			解答成功:
-    //			执行耗时:8 ms,击败了81.80% 的C++用户
-    //			内存消耗:13.2 MB,击败了85.95% 的C++用户
 }
 
-TEST(LCSolution, searchRange)
-{
+TEST(LCSolution, searchRange) {
     std::vector<int> v = {5, 7, 7, 8, 8, 10};
     int t = 6;
     auto p = new LCSolution;
@@ -278,8 +259,7 @@ TEST(LCSolution, searchRange)
     EXPECT_EQ(p->searchRange(v, t), res);
 }
 
-int LCSolution::jump(std::vector<int> &nums)
-{
+int LCSolution::jump(std::vector<int> &nums) {
 
     if (nums[0] == 0) {
         return 0;
@@ -312,24 +292,23 @@ int LCSolution::jump(std::vector<int> &nums)
 }
 
 int LCSolution::maxSubArray(std::vector<int> &nums) {
-  int res = 0, max = nums[0];
-  for (auto v:nums) {
-    res = std::max(v + res, v);
-    max = std::max(max, res);
-  }
-  return max;
+    int res = 0, max = nums[0];
+    for (auto v: nums) {
+        res = std::max(v + res, v);
+        max = std::max(max, res);
+    }
+    return max;
 }
 
 TEST(LCSolution, maxSubArray) {
-  auto p = new LCSolution;
-  std::vector<int> v =
-      {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-  int res = 6;
-  EXPECT_EQ(p->maxSubArray(v), res);
+    auto p = new LCSolution;
+    std::vector<int> v =
+            {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    int res = 6;
+    EXPECT_EQ(p->maxSubArray(v), res);
 }
 
-int LCSolution::lengthOfLastWord(std::string s)
-{
+int LCSolution::lengthOfLastWord(std::string s) {
 
     int sub_begin = -1, sub_end = s.length() - 1;
     if (s.empty() || s == " ") { return 0; }
@@ -350,8 +329,7 @@ int LCSolution::lengthOfLastWord(std::string s)
     return sub_end - sub_begin;
 }
 
-int LCSolution::minDepth(TreeNode *root)
-{
+int LCSolution::minDepth(TreeNode *root) {
     if (root == nullptr) { return 0; }
 
     int lDepth = minDepth(root->left);
@@ -366,8 +344,7 @@ int LCSolution::minDepth(TreeNode *root)
     }
 }
 
-int LCSolution::maxProfit(int k, std::vector<int> &prices)
-{
+int LCSolution::maxProfit(int k, std::vector<int> &prices) {
     if (prices.empty() || prices.size() == 1) { return 0; }
 
     std::vector<int> resGoal(k - 1);
@@ -392,8 +369,7 @@ int LCSolution::maxProfit(int k, std::vector<int> &prices)
     return res;
 }
 
-int LCSolution::maximumGap(std::vector<int> &nums)
-{
+int LCSolution::maximumGap(std::vector<int> &nums) {
     sort(nums.begin(), nums.end());
     int max_differ = 0;
     for (int i = 1; i < nums.size(); i++) {
@@ -404,8 +380,7 @@ int LCSolution::maximumGap(std::vector<int> &nums)
     return max_differ;
 }
 
-std::string LCSolution::convertToTitle(int columnNumber)
-{
+std::string LCSolution::convertToTitle(int columnNumber) {
     std::string ans;
     while (columnNumber > 0) {
         ans += --columnNumber % 26 + 'A';
@@ -413,13 +388,9 @@ std::string LCSolution::convertToTitle(int columnNumber)
     }
     std::reverse(ans.begin(), ans.end());
     return ans;
-    //			解答成功:
-    //			执行耗时:0 ms,击败了100.00% 的C++用户
-    //			内存消耗:5.9 MB,击败了9.69% 的C++用户
 }
 
-TEST(LCSolution, convertToTitle)
-{
+TEST(LCSolution, convertToTitle) {
     std::array<int, 4> test{1, 28, 701, 2147483647};
     std::vector<std::string> ans{"A", "AB", "ZY", "FXSHRXW"};
     auto p = new LCSolution;
@@ -428,8 +399,7 @@ TEST(LCSolution, convertToTitle)
     }
 }
 
-int LCSolution::titleToNumber(std::string columnTitle)
-{
+int LCSolution::titleToNumber(std::string columnTitle) {
 //    int res = 0;
 //    int mul = 1;
 //    for (int i = columnTitle.size() - 1; i >= 0; --i) {
@@ -452,8 +422,7 @@ int LCSolution::titleToNumber(std::string columnTitle)
 //			内存消耗:5.8 MB,击败了55.66% 的C++用户
 }
 
-TEST(LCSolution, titleToNumber)
-{
+TEST(LCSolution, titleToNumber) {
     std::array<int, 4> test{1, 28, 701, 2147483647};
     std::vector<std::string> ans{"A", "AB", "ZY", "FXSHRXW"};
     auto p = new LCSolution;
@@ -473,8 +442,7 @@ int LCSolution::trailingZeroes(int n) {
     return res;
 }
 
-std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k)
-{
+std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k) {
     std::vector<int> res;
     if (k >= nums.size()) {
         res.push_back(*max_element(nums.begin(), nums.end()));
@@ -497,8 +465,7 @@ std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k)
     return res;
 }
 
-std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k, bool isOthers)
-{
+std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k, bool isOthers) {
     std::vector<int> res;
     std::deque<int> q;
     for (int i = 0; i < nums.size(); ++i) {
@@ -517,8 +484,7 @@ std::vector<int> LCSolution::maxSlidingWindow(std::vector<int> &nums, int k, boo
     return res;
 }
 
-std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, bool brute_force)
-{
+std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, bool brute_force) {
     switch (turnedOn) {
         case 0:
             return {"0:00"};
@@ -601,12 +567,11 @@ std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, bool brute_fo
     //	内存消耗:6.6 MB,击败了11.17% 的C++用户
 }
 
-std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_force)
-{
+std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_force) {
     std::vector<std::string> res;
     for (int i = 0; i < 12; ++i) {
         for (int j = 0; j < 60; ++j) {
-            if (count1(i) + count1(j) == turnedOn) {
+            if (count1ofBinary(i) + count1ofBinary(j) == turnedOn) {
                 res.emplace_back(std::to_string(i) + (j < 10 ? ":0" : ":") + std::to_string(j));
             }
         }
@@ -616,15 +581,14 @@ std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_for
     //			内存消耗:6.2 MB,击败了85.67% 的C++用户
 }
 
-TEST(LCSolution, readBinaryWatch)
-{
+TEST(LCSolution, readBinaryWatch) {
     auto p = new LCSolution;
     std::vector<std::string> t = {"0:01", "0:02", "0:04", "0:08", "0:16", "0:32", "1:00", "2:00", "4:00", "8:00"};
     std::vector<std::string> res = p->readBinaryWatch(1, true);
     EXPECT_EQ(res, t);
 }
 
-int LCSolution::numberOfArithmeticSlices(std::vector<int>& nums){
+int LCSolution::numberOfArithmeticSlices(std::vector<int> &nums) {
     if (nums.empty()) { return 0; }
     if (nums.size() < 3) { return 0; }
     int count = 0;
@@ -640,20 +604,18 @@ int LCSolution::numberOfArithmeticSlices(std::vector<int>& nums){
     return count;
 }
 
-TEST(LCSolution, numberOfArithmeticSlices)
-{
-    std::vector<int> t = {1,2,3,4,5};
+TEST(LCSolution, numberOfArithmeticSlices) {
+    std::vector<int> t = {1, 2, 3, 4, 5};
     int res = LCSolution::instance()->numberOfArithmeticSlices(t);
     EXPECT_EQ(res, 6);
 }
 
 
-int LCSolution::findMaximumXOR(std::vector<int> &nums)
-{
+int LCSolution::findMaximumXOR(std::vector<int> &nums) {
     if (nums.empty()) { return 0; }
     auto biggest = max_element(begin(nums), end(nums));
     int res = 0;
-    for (auto compare:nums) {
+    for (auto compare: nums) {
         int max = compare ^ *biggest;
         if (max > res) {
             res = max;
@@ -663,8 +625,7 @@ int LCSolution::findMaximumXOR(std::vector<int> &nums)
     return res;
 }
 
-int LCSolution::maxPoints(std::vector<std::vector<int>> &points)
-{
+int LCSolution::maxPoints(std::vector<std::vector<int>> &points) {
 
     if (points.size() <= 2) {
         return points.size();
@@ -702,8 +663,7 @@ int LCSolution::maxPoints(std::vector<std::vector<int>> &points)
     return res;
 }
 
-std::vector<int> LCSolution::findDuplicates(std::vector<int> &nums)
-{
+std::vector<int> LCSolution::findDuplicates(std::vector<int> &nums) {
     sort(nums.begin(), nums.end());
     std::vector<int> des;
     for (int i = 1; i < nums.size(); i++) {
@@ -733,8 +693,7 @@ std::vector<int> LCSolution::findDuplicates(std::vector<int> &nums)
 
 }
 
-std::vector<int> LCSolution::findDisappearedNumbers(std::vector<int> &nums)
-{
+std::vector<int> LCSolution::findDisappearedNumbers(std::vector<int> &nums) {
     sort(nums.begin(), nums.end());
     std::vector<int> des;
     for (int i = 1; i < nums.size(); i++) {
@@ -784,12 +743,11 @@ int LCSolution::calPoints(std::vector<std::string> &ops) {
     return res;
 }
 
-int LCSolution::maxIceCream(std::vector<int> &costs, int coins)
-{
+int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
     if (costs.empty()) { return 0; }
     std::sort(costs.begin(), costs.end());
     int use = 0, res = 0;
-    for (auto co : costs) {
+    for (auto co: costs) {
         if (co > coins) {
             //最小的都买不起
             return res;
@@ -807,8 +765,7 @@ int LCSolution::maxIceCream(std::vector<int> &costs, int coins)
 //			内存消耗:74.7 MB,击败了9.88% 的C++用户
 }
 
-TEST(LCSolution, maxIceCream)
-{
+TEST(LCSolution, maxIceCream) {
     auto p = new LCSolution;
     std::vector<int> t{1, 3, 2, 4, 1};
     EXPECT_EQ(p->maxIceCream(t, 7), 4);
@@ -820,8 +777,7 @@ TEST(LCSolution, maxIceCream)
     EXPECT_EQ(p->maxIceCream(t, 56), 9);
 }
 
-int LCSolution::maximumElementAfterDecrementingAndRearranging(std::vector<int> &arr)
-{
+int LCSolution::maximumElementAfterDecrementingAndRearranging(std::vector<int> &arr) {
     if (arr.empty()) { return 0; }
     std::sort(arr.begin(), arr.end());
     if (arr[0] != 1) { arr[0] = 1; }
@@ -832,12 +788,9 @@ int LCSolution::maximumElementAfterDecrementingAndRearranging(std::vector<int> &
         if (val < -1) { arr[i] -= (a - 1); }
     }
     return arr[arr.size() - 1];
-    //			解答成功:
-    //			执行耗时:132 ms,击败了9.93% 的C++用户
-    //			内存消耗:50 MB,击败了59.04% 的C++用户
 }
 
-int LCSolution::minPairSum(std::vector<int>& nums){
+int LCSolution::minPairSum(std::vector<int> &nums) {
     std::sort(nums.begin(), nums.end());
     int res = 0;
     int len = nums.size();
@@ -845,12 +798,9 @@ int LCSolution::minPairSum(std::vector<int>& nums){
         res = std::max(res, nums[i] + nums[len - 1 - i]);
     }
     return res;
-    //			解答成功:
-    //			执行耗时:220 ms,击败了97.90% 的C++用户
-    //			内存消耗:94.1 MB,击败了26.69% 的C++用户
 }
 
-TEST(LCSolution,minPairSum){
+TEST(LCSolution, minPairSum) {
     std::vector<int> v = {3, 5, 4, 2, 4, 6};
     int res = 8;
     EXPECT_EQ(LCSolution::instance()->minPairSum(v), res);
@@ -864,10 +814,10 @@ TEST(LCSolution,minPairSum){
     EXPECT_EQ(LCSolution::instance()->minPairSum(v), res);
 }
 
-bool LCSolution::isCovered(std::vector<std::vector<int>>& ranges, int left, int right){
+bool LCSolution::isCovered(std::vector<std::vector<int>> &ranges, int left, int right) {
     for (int i = left; i <= right; ++i) {
         bool flag = false;
-        for (auto &item:ranges) {
+        for (auto &item: ranges) {
             if (item[0] <= i && item[1] >= i) {
                 flag = true;
                 break;
@@ -876,31 +826,79 @@ bool LCSolution::isCovered(std::vector<std::vector<int>>& ranges, int left, int 
         if (!flag) { return false; }
     }
     return true;
-    //			解答成功:
-    //			执行耗时:4 ms,击败了88.43% 的C++用户
-    //			内存消耗:8.7 MB,击败了27.40% 的C++用户
 }
 
 std::vector<int> LCSolution::missingRolls(std::vector<int> &rolls, int mean, int n) {
-    int temp = mean * (rolls.size() + n);
-    int total_rolls = 0;
-    for (auto v: rolls) {
-        total_rolls += v;
-    }
-    int sum = temp - total_rolls;
-    int v = sum / n;
-    if (v > 6 || sum < n) {
+    int sum = mean * (rolls.size() + n) - std::accumulate(rolls.begin(), rolls.end(), 0);
+    if (sum > 6 * n || sum < n) {
         return {};
     }
+    int v = sum / n;
     std::vector<int> res(n, v);
-    int remain = sum;
-    for(auto i : res){
-
+    if (v == 6) return res;
+    sum -= v * n;
+    for (int i = 0; sum; ++i) {
+        int add = std::min(sum, 6 - v);
+        res[i] += add;
+        sum -= add;
     }
-
+    return res;
 }
 
-std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>> a){
+TEST(LCSolution, missingRolls) {
+    std::vector<int> eq;
+
+    std::vector<int> v = {1, 5, 6};
+    int mean = 3;
+    int n = 4;
+    std::vector<int> res = {};
+    res = LCSolution::instance()->missingRolls(v, mean, n);
+    eq = {3, 2, 2, 2};
+    EXPECT_EQ(eq, res);
+    augus::PrintTest(res);
+
+    v = {3, 5, 3};
+    mean = 5;
+    n = 3;
+    res = LCSolution::instance()->missingRolls(v, mean, n);
+    eq = {};
+    EXPECT_EQ(eq, res);
+    augus::PrintTest(res);
+}
+
+//计算二进制中1的个数
+int LCSolution::count1ofBinary(int n) {
+    int key = n % 4;
+    const int error = -1;
+    //4种算法都可行
+    switch (key) {
+        case 1: {
+            int res = 0;
+            while (n) {
+                n &= (n - 1);
+                res++;
+            }
+            return res;
+        }
+        case 2:
+            return std::bitset<32>(n).count();
+        case 3:
+            return __builtin_popcount(n);
+        case 4: {
+            n = (n & 0x55555555) + ((n >> 1) & 0x55555555);
+            n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+            n = (n & 0x0f0f0f0f) + ((n >> 4) & 0x0f0f0f0f);
+            n = (n & 0x00ff00ff) + ((n >> 8) & 0x00ff00ff);
+            n = (n & 0x0000ffff) + ((n >> 16) & 0x0000ffff);
+            return n;
+        }
+        default:
+            return error;
+    }
+    return error;
+}
+
+std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>> a) {
     std::vector<std::vector<int>> b;
     int n = a.size();//n行
     int m = a[0].size();//m列
@@ -918,92 +916,98 @@ std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>
     return b;
 }
 
-/// 6 kyu
-///If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
-///Finish the solution so that it returns the sum of all the multiples of 3 or 5 below the number passed in.
-///Note: If the number is a multiple of both 3 and 5, only count it once.
-int codewars::Multiples3Or5(int number)
-{
-    /// < number
-    /// 商
-    int a1 = number / 3,
-        a2 = number / 5,
-        a3 = number / 15;
-    /// 余数
-    int b1 = number % 3,
-        b2 = number % 5,
-        b3 = number % 15;
-    /// 3、5、15的倍数的数目
-    int c1 = 0,
-        c2 = 0,
-        c3 = 0;
-    /// < number
-    if (!b1) { a1 -= 1; }
-    if (!b2) { a2 -= 1; }
-    if (!b3) { a3 -= 1; }
 
-    for (int i = 1; i <= a1; i++) {
-        c1 += i;
-    }
-    for (int i = 1; i <= a2; i++) {
-        c2 += i;
-    }
-    for (int i = 1; i <= a3; i++) {
-        c3 += i;
-    }
-    return c1 * 3 + c2 * 5 - c3 * 15;
-}
+int codewars::CWSolution::Multiples3Or5(int number) {
+    const int err = -1;
+    const int kind_sol = 2;
+    switch (number % kind_sol) {
+        case 1: {
+            /// < number
+            /// 商
+            int a1 = number / 3,
+                    a2 = number / 5,
+                    a3 = number / 15;
+            /// 余数
+            int b1 = number % 3,
+                    b2 = number % 5,
+                    b3 = number % 15;
+            /// 3、5、15的倍数的数目
+            int c1 = 0,
+                    c2 = 0,
+                    c3 = 0;
+            /// < number
+            if (!b1) { a1 -= 1; }
+            if (!b2) { a2 -= 1; }
+            if (!b3) { a3 -= 1; }
 
-int codewars::Multiples3Or5(int number, bool others)
-{
-    int sum = 0;
-    for (int n = 3; n < number; n++) {
-        if ((n % 3 == 0) || (n % 5 == 0)) {
-            sum += n;
-        }
-    }
-    return sum;
-}
-
-/// 6 kyu Valid Braces
-bool codewars::validBraces(const std::string &braces)
-{
-    /// Others Written
-    /// learning stack
-    std::stack<char> s;
-    std::string bracketLeft = "{[(";
-    std::string bracketRight = "}])";
-
-    for (char chr : braces) {
-        int indexLeft = -1, indexRight = -1;
-        indexLeft = bracketLeft.find(chr);
-        indexRight = bracketRight.find(chr);
-        // 是左括号
-        if (indexLeft >= 0) {
-            s.push(chr);    // 入栈
-            // 是右括号
-        } else if (indexRight >= 0) {
-            // 匹配成功
-            if (!s.empty() && s.top() == bracketLeft[indexRight]) {
-                s.pop();    // 出栈
-            } else {
-                return false;
+            for (int i = 1; i <= a1; i++) {
+                c1 += i;
             }
+            for (int i = 1; i <= a2; i++) {
+                c2 += i;
+            }
+            for (int i = 1; i <= a3; i++) {
+                c3 += i;
+            }
+            return c1 * 3 + c2 * 5 - c3 * 15;
         }
+        case 2: {
+            int sum = 0;
+            for (int n = 3; n < number; n++) {
+                if ((n % 3 == 0) || (n % 5 == 0)) {
+                    sum += n;
+                }
+            }
+            return sum;
+        }
+        default:
+            return err;
+    }
+    return err;
+}
+
+bool codewars::CWSolution::validBraces(std::string braces) {
+    std::random_device rd;
+    int number = rd();
+    const int kind_sol = 2;
+    switch (number % kind_sol) {
+        case 1: {
+            /// Others Written
+            /// learning stack
+            std::stack<char> s;
+            std::string bracketLeft = "{[(";
+            std::string bracketRight = "}])";
+            for (char chr: braces) {
+                int indexLeft = -1, indexRight = -1;
+                indexLeft = bracketLeft.find(chr);
+                indexRight = bracketRight.find(chr);
+                // 是左括号
+                if (indexLeft >= 0) {
+                    s.push(chr);    // 入栈
+                    // 是右括号
+                } else if (indexRight >= 0) {
+                    // 匹配成功
+                    if (!s.empty() && s.top() == bracketLeft[indexRight]) {
+                        s.pop();    // 出栈
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return s.empty();
+        }
+        case 2: {
+            std::regex r(R"(\(\)|\[\]|\{\})");
+            while (regex_search(braces, r)) { braces = regex_replace(braces, r, ""); }
+            return braces.length() == 0;
+        }
+        default:
+            return false;
     }
 
-    return s.empty();
 }
 
-bool codewars::validBraces(std::string s)
-{
-    std::regex r(R"(\(\)|\[\]|\{\})");
-    while (regex_search(s, r)) { s = regex_replace(s, r, ""); }
-    return s.length() == 0;
-}
-
-int codewars::SnailSort::GetDirection(bool Direction[4])
-{
+int codewars::SnailSort::GetDirection(bool Direction[4]) {
     for (int i = 0; i < 4; i++) {
         if (Direction[i]) {
             return i;
@@ -1012,13 +1016,11 @@ int codewars::SnailSort::GetDirection(bool Direction[4])
     return 0;
 }
 
-bool codewars::SnailSort::IsArrived(int CurrentPosX, int CurrentPosY, int FinalPosX, int FinalPosY)
-{
+bool codewars::SnailSort::IsArrived(int CurrentPosX, int CurrentPosY, int FinalPosX, int FinalPosY) {
     return CurrentPosX == FinalPosX && CurrentPosY == FinalPosY;
 }
 
-std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> &snail_map, bool isOthers)
-{
+std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> &snail_map, bool isOthers) {
     if (snail_map.size() <= 1) {
         return snail_map[0];
     }
@@ -1115,8 +1117,7 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
     return Res;
 }
 
-std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> &snail_map)
-{
+std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> &snail_map) {
 
     ///// GOT CycleTimes
     //// 5x5
@@ -1149,7 +1150,7 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
     const int rank = snail_map.size();
 
     int begin = 0,
-        end = rank;
+            end = rank;
 
     int CycleTimes = ((rank * 2) - 1) / 4;
     if (((rank * 2) - 1) % 4) {
@@ -1181,8 +1182,7 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
     return res;
 }
 
-int codewars::Casino::ColorCount(std::vector<int> v)
-{
+int codewars::Casino::ColorCount(std::vector<int> v) {
     int Count = 0;
     for (int i = 0; i < 3; i++) {
         if (v[i] > 0) {
@@ -1192,8 +1192,7 @@ int codewars::Casino::ColorCount(std::vector<int> v)
     return Count++;
 }
 
-int codewars::Casino::solution(std::vector<int> v)
-{
+int codewars::Casino::solution(std::vector<int> v) {
     int DayCount = 0;
     bool HaveColor[3] = {v[0] > 0, v[1] > 0, v[2] > 0};
 
@@ -1218,8 +1217,7 @@ int codewars::Casino::solution(std::vector<int> v)
     return DayCount;
 }
 
-TEST(codewars_t1, Casino)
-{
+TEST(codewars_t1, Casino) {
     auto p = new codewars::Casino;
     EXPECT_EQ(p->solution({1, 1, 1}), 1);//because after you pick on day one, there will be only one chip left
     EXPECT_EQ(p->solution({1, 2, 1}), 2);// you can pick twice; you pick two chips on day one then on day two
@@ -1227,8 +1225,7 @@ TEST(codewars_t1, Casino)
 }
 
 
-int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxValue, std::vector<int> &AllNum)
-{
+int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxValue, std::vector<int> &AllNum) {
     int Count = 0;
 
     int EndPos = k;
@@ -1279,8 +1276,7 @@ int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxVal
     return Count;
 }
 
-int Palindrome::values(int v)
-{
+int Palindrome::values(int v) {
     if (v < pow(1, 2) + pow(2, 2)) {
         return 0;
     }
@@ -1307,7 +1303,7 @@ int Palindrome::values(int v)
     return Count;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     testing::InitGoogleTest(&argc, argv);
     int ret = RUN_ALL_TESTS();
 
