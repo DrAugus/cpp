@@ -66,6 +66,9 @@ namespace leetcode {
         //7
         int reverse(int x);
 
+        // 13 罗马数字转整数
+        int romanToInt(std::string s);
+
         //34
         std::vector<int> searchRange(std::vector<int> &nums, int target);
 
