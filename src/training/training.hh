@@ -111,6 +111,8 @@ public:
     std::vector<int> findDisappearedNumbers(std::vector<int> &nums);
     // 653
     bool findTarget(TreeNode *root, int k);
+    //682 棒球比赛
+    int calPoints(std::vector<std::string>& ops);
     //1833
     int maxIceCream(std::vector<int> &costs, int coins);
     //1846
@@ -119,6 +121,8 @@ public:
     int minPairSum(std::vector<int>& nums);
     //1893 检查是否区域内所有整数都被覆盖
     bool isCovered(std::vector<std::vector<int>>& ranges, int left, int right);
+    //2028 找出缺失的观测数据
+    std::vector<int> missingRolls(std::vector<int>& rolls, int mean, int n);
 private:
     //计算二进制中1的个数
     int count1(int n)
@@ -144,8 +148,6 @@ private:
     }
     //前缀和
     std::vector<std::vector<int>> prefixSum(std::vector<std::vector<int>>);
-    //653
-    std::set<int> ss653;
 };//class LCSolution
 
 }//namespace leetcode

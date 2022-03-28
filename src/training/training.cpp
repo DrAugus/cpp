@@ -755,6 +755,36 @@ bool LCSolution::findTarget(TreeNode *root, int k) {
     return findTarget(root->left, k) || findTarget(root->right, k);
 }
 
+int LCSolution::calPoints(std::vector<std::string> &ops) {
+    std::stack<std::string> s;
+    int res = 0;
+    for (const auto &info: ops) {
+        s.push(info);
+        if (s.top() == "C") {
+            s.pop();
+            res -= std::stoi(s.top());
+            s.pop();
+            continue;
+        }
+        if (s.top() == "D") {
+            s.pop();
+            s.push(std::to_string(std::stoi(s.top()) * 2));
+        }
+        if (s.top() == "+") {
+            s.pop();
+            std::string second = s.top();
+            s.pop();
+            std::string first = s.top();
+            s.pop();
+            s.push(first);
+            s.push(second);
+            s.push(std::to_string(std::stoi(first) + std::stoi(second)));
+        }
+        res += std::stoi(s.top());
+    }
+    return res;
+}
+
 int LCSolution::maxIceCream(std::vector<int> &costs, int coins)
 {
     if (costs.empty()) { return 0; }
@@ -850,6 +880,25 @@ bool LCSolution::isCovered(std::vector<std::vector<int>>& ranges, int left, int 
     //			解答成功:
     //			执行耗时:4 ms,击败了88.43% 的C++用户
     //			内存消耗:8.7 MB,击败了27.40% 的C++用户
+}
+
+std::vector<int> LCSolution::missingRolls(std::vector<int> &rolls, int mean, int n) {
+    int temp = mean * (rolls.size() + n);
+    int total_rolls = 0;
+    for (auto v: rolls) {
+        total_rolls += v;
+    }
+    int sum = temp - total_rolls;
+    int v = sum / n;
+    if (v > 6 || sum < n) {
+        return {};
+    }
+    std::vector<int> res(n, v);
+    int remain = sum;
+    for(auto i : res){
+
+    }
+
 }
 
 std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>> a){
