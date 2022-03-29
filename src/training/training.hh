@@ -133,6 +133,9 @@ namespace leetcode {
         //682 棒球比赛
         int calPoints(std::vector<std::string> &ops);
 
+        // 693 交替位二进制数
+        bool hasAlternatingBits(int n);
+
         //1833
         int maxIceCream(std::vector<int> &costs, int coins);
 

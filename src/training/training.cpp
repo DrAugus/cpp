@@ -766,6 +766,12 @@ int LCSolution::calPoints(std::vector<std::string> &ops) {
     return res;
 }
 
+// 移位异或后就全为1了，然后做的就是判断 A&A+1是否为零，为零为交替位，反之非交替位
+bool LCSolution::hasAlternatingBits(int n) {
+    int a = n >> 1 ^ n;
+    return !(a & a + 1);
+}
+
 int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
     if (costs.empty()) { return 0; }
     std::sort(costs.begin(), costs.end());
