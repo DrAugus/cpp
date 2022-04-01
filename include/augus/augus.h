@@ -111,36 +111,65 @@ namespace augus {
     //函数随意 按public首字母大写 private首词小写
     //所有类型命名 —— 类, 结构体, 类型定义 (typedef), 枚举, 类型模板参数
     //  均使用相同约定, 即以大写字母开始, 每个单词首字母均大写, 不包含下划线.
+    class AugusUtils;
+
+    using augus_utils_sptr = std::shared_ptr<AugusUtils>;
+
     class AugusUtils {
     public:
         void TrimStr(std::string &s, char str);
+
+        static std::string HandleDateTail(std::string &str);
+
+
     private:
         int test_name_;
     public:
         AugusUtils() = default;
+
         ~AugusUtils() = default;
+
         AugusUtils(const AugusUtils &) = delete;
+
         void operator=(const AugusUtils &) = delete;
+
+        //instance
+    public:
+        static augus_utils_sptr instance();
+        //inline
+    public:
+        bool FindTargetString(const std::string &str, const std::string &tag) {
+            return str.find(tag) != std::string::npos;
+        }
     };
 
     class JsonCombine {
     public:
         // 拼接int
         std::string GetKeyValue(const std::string &sKey, int iValue);
+
         // 拼接float，保留3位
         std::string GetKeyValue(const std::string &sKey, float fValue);
+
         // 拼接string
         std::string GetKeyValue(const std::string &sKey, const std::string &sValue);
+
         // 拼接object
         std::string GetKeyValueObject(const std::string &sKey, const std::string &sObject);
+
         // 拼接array
         std::string GetKeyValueArray(const std::string &sKey, const std::string &sArray);
+
     public:
         void use();
+
     public:
         JsonCombine() = default;
+
         ~JsonCombine() = default;
+
         JsonCombine(const JsonCombine &) = delete;
+
         void operator=(const JsonCombine &) = delete;
     };
 
@@ -160,14 +189,18 @@ namespace augus {
     public:
         //插入排序（算法中是直接交换节点，时间复杂度O（n^2）,空间复杂度O（1））
         ListNode *insertionSortList(ListNode *head);
+
         //选择排序（算法中只是交换节点的val值，时间复杂度O（n^2）,空间复杂度O（1））
         ListNode *selectSortList(ListNode *head);
+
         //归并排序（算法交换链表节点，时间复杂度O（nlogn）,不考虑递归栈空间的话空间复杂度是O（1））
         //
         //首先用快慢指针的方法找到链表中间节点，然后递归的对两个子链表排序，把两个排好序的子链表合并成一条有序的链表。归并排序应该算是链表排序最佳的选择了，保证了最好和最坏时间复杂度都是nlogn，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了O(1)
         ListNode *mergeSortList(ListNode *head);
+
         // merge two sorted list to one
         ListNode *merge(ListNode *head1, ListNode *head2);
+
         //冒泡排序（算法交换链表节点val值，时间复杂度O（n^2）,空间复杂度O（1））
         ListNode *bubbleSortList(ListNode *head);
         //对于希尔排序，因为排序过程中经常涉及到arr[i+gap]操作，其中gap为希尔排序的当前步长，这种操作不适合链表。
@@ -177,9 +210,13 @@ namespace augus {
 
     public:
         static ListSortPtr instance();
+
         ListSort() = default;
+
         ~ListSort() = default;
+
         ListSort(const ListSort &) = delete;
+
         void operator=(const ListNode &) = delete;
 
     };
@@ -242,11 +279,16 @@ namespace augus {
     class Math : public std::enable_shared_from_this<Math> {
     public:
         Math() = default;
+
         virtual ~Math() = default;
+
         Math(const Math &) = delete;
+
         Math &operator=(const Math &) = delete;
+
     public:
         static MathPtr instance();
+
     public:
         //最大公约数
         int gcd(int a, int b) {
@@ -321,12 +363,14 @@ namespace basic_cpp {
     class ComplexDefine {
     public:
         ComplexDefine();
+
         ~ComplexDefine();
     };
 
     class OPChar {
     public:
         OPChar();
+
         int opWchar();
     };
 
@@ -344,6 +388,7 @@ namespace basic_cpp {
     class OPSwap {
     public:
         OPSwap(int *a, int *b);
+
         int test();
     };
 
@@ -398,12 +443,16 @@ namespace op_list {
         public:
             //寻找数组的中心索引
             int pivotIndex(std::vector<int> &nums);
+
             //搜索插入位置
             int searchInsert(std::vector<int> &nums, int target);
+
             //旋转矩阵
             void rotate(std::vector<std::vector<int>> &matrix);
+
             //零矩阵
             void setZeroes(std::vector<std::vector<int>> &matrix);
+
             //最长公共前缀
             std::string longestCommonPrefix(std::vector<std::string> &strs);
 
@@ -412,9 +461,13 @@ namespace op_list {
         };//class LC
 
         std::vector<int> mergeTest(std::vector<int> &nums1, unsigned m, std::vector<int> &nums2, unsigned n);
+
         int findMaxInArray();
+
         int commonVectorOP();
+
         int switchArr2Vec();
+
 //[1,2,2,3,1,4,2]
         int findShortestSubArray(std::vector<int> &nums);
 
@@ -427,18 +480,27 @@ namespace binary_tree {
         int height;
         TreeNode *left;
         TreeNode *right;
+
         TreeNode() : value(0), height(0), left(nullptr), right(nullptr) {}
+
         explicit TreeNode(int val) : value(val), height(1), left(nullptr), right(nullptr) {}
+
         TreeNode(int val, int h, TreeNode *left, TreeNode *right) : value(val), height(h), left(left), right(right) {}
     };//struct TreeNode
 
     struct BinaryTree {
         void preOrderRecur(TreeNode *head);
+
         void inOrderRecur(TreeNode *head);
+
         void posOrderRecur(TreeNode *head);
+
         void preOrderUnRecur(TreeNode *head);
+
         void inOrderUnRecur(TreeNode *head);
+
         void posOrderUnRecur(TreeNode *head);
+
         int test();
 
     };//struct BinaryTree
@@ -455,21 +517,31 @@ namespace primary_algorithms {
         //删除排序数组中的重复项
         int removeDuplicates(std::vector<int> &nums, double point);// double point means 双指针
         int removeDuplicates(std::vector<int> &nums);
+
         int removeDuplicates(std::vector<int> &nums, bool use_stl);
+
         //买卖股票的最佳时机 II
         int maxProfit(std::vector<int> &prices);
+
         //旋转数组
         void rotate(std::vector<int> &nums, int k);
+
         void rotate(std::vector<int> &nums, int k, double other_array);//临时数组
         void rotate(std::vector<int> &nums, int k, bool use_stl);
+
         //存在重复元素
         bool containsDuplicate(std::vector<int> &nums);
+
         bool containsDuplicate(std::vector<int> &nums, bool use_stl);
+
         //只出现一次的数字
         int singleNumber(std::vector<int> &nums);
+
         int singleNumber(std::vector<int> &nums, bool use_set);
+
         //两个数组的交集 II
         std::vector<int> intersect(std::vector<int> &nums1, std::vector<int> &nums2);
+
         std::vector<int> intersect(std::vector<int> &nums1, std::vector<int> &nums2, bool use_stl);
     };
 
@@ -488,8 +560,6 @@ namespace modern_cpp {
     void testIsSame();
 
 }
-
-
 
 
 #endif //AUGUS_H

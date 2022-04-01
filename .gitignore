@@ -1,7 +1,9 @@
 /cmake-build-debug/
 /cmake-build-debug-visual-studio/
+/cmake-build-debug-mingw/
 /cmake-build-release/
 /cmake-build-release-visual-studio/
+/cmake-build-release-mingw/
 /.idea/
 /.vs/
 /out/

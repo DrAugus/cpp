@@ -9,7 +9,9 @@ project(augus_cpp
 message(status " Project Directory: ${PROJECT_SOURCE_DIR}")
 message(status " cmake so hard")
 
-set(CMAKE_CXX_STANDARD 17)
+message(status ${PROJECT_NAME})
+
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (MSVC)
@@ -53,22 +55,30 @@ endif()
 
 
 #生成可执行文件
-#add_executable(augus_cpp ${DIR_SRC})  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
+add_executable(${PROJECT_NAME} augus.cpp)  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+if (OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
+endif ()
+install(TARGETS ${PROJECT_NAME} DESTINATION "bin/training")
 
 #生成库文件
-#add_library(augus_cpp SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
-#add_library(augus_cpp STATIC ${DIR_SRC})
-#target_link_library(augus_cpp lib1,lib2,lib3)
+#add_library(${PROJECT_NAME} SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
+#add_library(${PROJECT_NAME} STATIC ${DIR_SRC})
+#target_link_library(${PROJECT_NAME} lib1,lib2,lib3)
 
 #指定编译包含的源文件 搜索所有的 cpp 文件
 #aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src DIR_SRC) # 搜索当前目录下的所有.cpp文件
-#add_library(augus_cpp ${DIR_SRC})
+#add_library(${PROJECT_NAME} ${DIR_SRC})
 
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+message(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 #要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 

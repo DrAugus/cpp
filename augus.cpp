@@ -4,11 +4,18 @@
 
 #include "augus/augus.h"
 
-
 using namespace augus;
 
+augus_utils_sptr AugusUtils::instance() {
+    static augus_utils_sptr p = nullptr;
+    if (p == nullptr) {
+        p = std::make_shared<AugusUtils>();
+    }
+    return p;
+}
+
 //这不就是replace吗
-void augus::AugusUtils::TrimStr(std::string &s, char str) {
+void AugusUtils::TrimStr(std::string &s, char str) {
     std::string::size_type index = 0;
     if (!s.empty()) {
         while ((index = s.find(str, index)) != std::string::npos) {
@@ -18,11 +25,36 @@ void augus::AugusUtils::TrimStr(std::string &s, char str) {
     std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 }
 
+std::string AugusUtils::HandleDateTail(std::string &str) {
+    // handle like 1980-01-01 23:59:59.5999+0007
+    // WARNING: 不可交换代码前后位置
+    std::string tail_str;
+    size_t index_dot = str.find('.');
+    size_t index_zone = str.find('+');
+    bool have_dot = index_dot != std::string::npos;
+    bool have_zone = index_zone != std::string::npos;
+    size_t len_dot = 0;
+    size_t len_zone = 0;
+
+    if (have_zone) len_zone = str.size() - index_zone - 1;
+    if (have_dot) len_dot = have_zone ? str.size() - index_dot - 1 - len_zone - 1 : str.size() - index_dot - 1;
+
+    std::string mask_zone(len_zone, '0');
+    std::string mask_dot(len_dot, '0');
+
+    if (have_dot) tail_str += "." + mask_dot;
+    if (have_zone) tail_str += "+" + mask_zone;
+
+    if (have_zone) str = str.substr(0, index_zone);
+    if (have_dot) str = str.substr(0, index_dot);
+
+    return tail_str;
+};
 
 /**
  * 拼接int
  */
-std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, int i_value) {
+std::string JsonCombine::GetKeyValue(const std::string &str_key, int i_value) {
     char tag[] = "\"";
     char colon[] = ":";
     char value[50] = {0};
@@ -43,7 +75,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, int i_va
 /**
  * 拼接float，保留3位
  */
-std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, float f_value) {
+std::string JsonCombine::GetKeyValue(const std::string &str_key, float f_value) {
     char tag[] = "\"";
     char colon[] = ":";
     char value[50] = {0};
@@ -64,7 +96,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, float f_
 /**
  * 拼接string
  */
-std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, const std::string &str_value) {
+std::string JsonCombine::GetKeyValue(const std::string &str_key, const std::string &str_value) {
     char tag[] = "\"";
     char colon[] = ":";
     std::string str_res;
@@ -84,7 +116,7 @@ std::string augus::JsonCombine::GetKeyValue(const std::string &str_key, const st
 /**
  * 拼接object
  */
-std::string augus::JsonCombine::GetKeyValueObject(const std::string &str_key, const std::string &str_obj) {
+std::string JsonCombine::GetKeyValueObject(const std::string &str_key, const std::string &str_obj) {
     char tag[] = "\"";
     char colon[] = ":";
     std::string str_res;
@@ -102,7 +134,7 @@ std::string augus::JsonCombine::GetKeyValueObject(const std::string &str_key, co
 /**
  * 拼接array
  */
-std::string augus::JsonCombine::GetKeyValueArray(const std::string &str_key, const std::string &str_arr) {
+std::string JsonCombine::GetKeyValueArray(const std::string &str_key, const std::string &str_arr) {
     char tag[] = "\"";
     char colon[] = ":";
     std::string str_res;
@@ -119,7 +151,7 @@ std::string augus::JsonCombine::GetKeyValueArray(const std::string &str_key, con
     return str_res;
 }
 
-void augus::JsonCombine::use() {
+void JsonCombine::use() {
     int value1 = 1;
     float value2 = 1.0f;
     std::string str_json_res("{");
@@ -132,7 +164,7 @@ void augus::JsonCombine::use() {
 }
 
 TEST(JsonCombine, use) {
-    auto JC = new augus::JsonCombine;
+    auto JC = new JsonCombine;
     JC->use();
 }
 
@@ -736,39 +768,39 @@ int op_list::op_array::commonVectorOP() {
     }
 
 
-    augus::PrintTest(vec_test1);
+    PrintTest(vec_test1);
     /// case 1 copy
     const std::vector<int> &vec_test2 = vec_test1;
     std::cout << "case 1 copy -> vec_test2 copy from vec_test1";
-    augus::PrintTest(vec_test2);
+    PrintTest(vec_test2);
     /// case 2 copy
     std::vector<int> vec_test3(vec_test1);
     std::cout << "case 2 copy -> vec_test3 copy from vec_test1";
-    augus::PrintTest(vec_test3);
+    PrintTest(vec_test3);
     /// std::swap vec
     std::vector<int> vec_test4 = {0, 1, 2, 5, 6, 9, 8, 2, 0, 7};
     /// clear vec_test4
     std::cout << "vec_test4 clear before->";
-    augus::PrintTest(vec_test4);
+    PrintTest(vec_test4);
     std::vector<int>().swap(vec_test4);
     std::cout << "vec_test4 cleared";
-    augus::PrintTest(vec_test4);
+    PrintTest(vec_test4);
     std::vector<int> vec_test5 = {0, 1, 2, 5, 6,};
     std::cout << "vec_test5 source->";
-    augus::PrintTest(vec_test5);
+    PrintTest(vec_test5);
     vec_test5.swap(vec_test1);
     std::cout << "std::swap vec_test5 vec_test1-> Now vec_test5";
-    augus::PrintTest(vec_test5);
+    PrintTest(vec_test5);
     /// assign
     std::vector<int> vec_test6 = {0, 1, 2, 5, 6, 8, 56};
     std::cout << "vec_test6 source";
-    augus::PrintTest(vec_test6);
+    PrintTest(vec_test6);
     std::cout << "vec_test6 assign vec_test1";
     vec_test6.assign(vec_test1.begin(), vec_test1.end());
-    augus::PrintTest(vec_test6);
+    PrintTest(vec_test6);
     std::cout << "vec_test6 set 3 0s";
     vec_test6.assign(3, 0);
-    augus::PrintTest(vec_test6);
+    PrintTest(vec_test6);
     /// concat std::vector
     int arr_test0817[][13] = {
             {0,  1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
@@ -780,7 +812,7 @@ int op_list::op_array::commonVectorOP() {
         vec_res0817.insert(vec_res0817.end(), i, i + 13);
     }
     std::cout << "vec_res0817";
-    augus::PrintTest(vec_res0817);
+    PrintTest(vec_res0817);
 
     return 0;
 }
@@ -878,7 +910,7 @@ int op_list::commonOP() {
         std::cout << i << " ";
     }
     std::vector<int> test09091221(valueInitial, valueInitial + 13);
-    augus::PrintTest(test09091221);
+    PrintTest(test09091221);
     std::cout << "\nWHICH ONE\n";
     std::vector<int> test09091222(&valueInitial[0], &valueInitial[0] + 13);
     test09091222.capacity();
@@ -888,7 +920,7 @@ int op_list::commonOP() {
     if (!test09091222.empty()) {
         memcpy(cbCardData, &test09091222[0], 50 - count_del);
     }
-    augus::PrintTest(test09091222);
+    PrintTest(test09091222);
 
     return 0;
 }
@@ -1614,12 +1646,12 @@ void modern_cpp::testIsSame() {
     auto a = 1;
     auto b = 1.1;
     decltype(a + b) z;
-    if (std::is_same_v<decltype(a), int>)
-        std::cout << " a is int" << std::endl;
-    if (std::is_same_v<decltype(b), float>)
-        std::cout << " b is float" << std::endl;
-    if (std::is_same_v<decltype(z), decltype(b)>)
-        std::cout << " z type equals b type" << std::endl;
+//    if (std::is_same_v<decltype(a), int>)
+//        std::cout << " a is int" << std::endl;
+//    if (std::is_same_v<decltype(b), float>)
+//        std::cout << " b is float" << std::endl;
+//    if (std::is_same_v<decltype(z), decltype(b)>)
+//        std::cout << " z type equals b type" << std::endl;
 
 }
 

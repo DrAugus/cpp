@@ -8,13 +8,14 @@ foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})
 
-    set(lib ${LIB_SRC})
-    link_directories(${LIB_SRC})
-    link_libraries(uv)
+    # libs path
+    link_directories(${CMAKE_SOURCE_DIR}/lib)
+    # set libs variable
+    set(LIBS uv_a)
 
     add_executable(${testname} ${testsourcefile})
-    #    add_library(${testname} STATIC ${LIB_SRC})
-    target_link_libraries(${testname} uv)
+    set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE C)
+    target_link_libraries(${testname} ${LIBS})
 
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
     if (OpenMP_CXX_FOUND)
