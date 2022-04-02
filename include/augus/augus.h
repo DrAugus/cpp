@@ -27,6 +27,8 @@
 #include <functional> // for std::function for std::greater_equal
 #include <cmath> // for std::min
 #include <tuple>
+#include <iomanip>//using std::put_time
+#include <atomic>
 
 #include "gtest/gtest.h"
 #include "gmock/gmock-matchers.h"

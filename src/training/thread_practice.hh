@@ -6,10 +6,7 @@
 #define AUGUSTEST_THREAD_PRACTICE_HH
 
 
-#include <iostream>
-#include <thread>
-#include <iomanip>//using std::put_time
-#include <atomic>
+#include "augus/augus.h"
 
 namespace thread_practice {
 std::thread::id main_thread_id = std::this_thread::get_id();

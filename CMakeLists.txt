@@ -70,10 +70,24 @@ if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
 endif ()
 
-set(GOOGLE_LIBRARIES
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmockd.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtestd.a
-        )
+IF (WIN32)
+    message(STATUS "Now is windows.")
+    set(GOOGLE_LIBRARIES
+            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmockd.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtestd.a
+            )
+ELSEIF (APPLE)
+    message(STATUS "Now is Apple.")
+
+ELSEIF (UNIX)
+    message(STATUS "Now is UNIX-like OS's.")
+    set(GOOGLE_LIBRARIES
+            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmock.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtest.a
+            )
+ELSE ()
+    message(STATUS "other platform: ${CMAKE_SYSTEM_NAME}")
+ENDIF ()
 
 set(AUGUS_LIBRARIES ${AUGUS_LIBRARIES} ${GOOGLE_LIBRARIES})
 

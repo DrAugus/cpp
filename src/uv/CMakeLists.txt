@@ -9,9 +9,9 @@ foreach (testsourcefile ${APP_SOURCES})
     string(REPLACE ".cpp" "" testname ${testsourcefile})
 
     # libs path
-    link_directories(${CMAKE_SOURCE_DIR}/lib)
+#    link_directories(${CMAKE_SOURCE_DIR}/lib)
     # set libs variable
-    set(LIBS uv_a)
+#    set(LIBS uv_a)
 
     add_executable(${testname} ${testsourcefile})
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE C)
