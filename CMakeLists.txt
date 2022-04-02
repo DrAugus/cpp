@@ -14,6 +14,26 @@ message("CMake Source Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+IF (WIN32)
+    message("WIN32 ${PROJECT_SOURCE_DIR}")
+ELSEIF (APPLE)
+    message("APPLE ${PROJECT_SOURCE_DIR}")
+ELSEIF (UNIX)
+    message("UNIX ${PROJECT_SOURCE_DIR}")
+    #设置可执行文件的输出目录
+    #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+    #分别设置了Debug版本和Release版本可执行文件的输出目录
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/../bin)
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/../bin)
+    #设置库文件的输出目录
+    #SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+    #分别设置了Debug版本和Release版本库文件的输出目录
+    #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/../lib)
+    #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/../lib)
+ELSE ()
+    message("OTHERS ${PROJECT_SOURCE_DIR}")
+ENDIF ()
+
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
@@ -78,7 +98,6 @@ IF (WIN32)
             )
 ELSEIF (APPLE)
     message(STATUS "Now is Apple.")
-
 ELSEIF (UNIX)
     message(STATUS "Now is UNIX-like OS's.")
     set(GOOGLE_LIBRARIES
