@@ -118,6 +118,9 @@ namespace leetcode {
         //413等差数列划分
         int numberOfArithmeticSlices(std::vector<int> &nums);
 
+        // 420 强密码检验器
+        int strongPasswordChecker(std::string password);
+
         ///421. 数组中两个数的最大异或值
         int findMaximumXOR(std::vector<int> &nums);
 
