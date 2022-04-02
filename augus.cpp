@@ -3,6 +3,7 @@
 //
 
 #include "augus/augus.h"
+#include "io.hh"
 
 using namespace augus;
 
@@ -395,12 +396,12 @@ basic_cpp::OPChar::OPChar() {
     const char str4[] = "abc";
     const char *str5 = "abc";
     const char *str6 = "abc";
-    char *str7 = "abc";
-    char *str8 = "abc";
+//    char *str7 = "abc"; //warning in c++11
+//    char *str8 = "abc";
     std::cout << (str1 == str2) << std::endl;
     std::cout << (str3 == str4) << std::endl;
     std::cout << (str5 == str6) << std::endl;
-    std::cout << (str7 == str8) << std::endl;
+//    std::cout << (str7 == str8) << std::endl;
 }
 
 int basic_cpp::OPChar::opWchar() {
@@ -1656,10 +1657,124 @@ void modern_cpp::testIsSame() {
 }
 
 
+int main(int argc, char *argv[]) {
+
+    std::string name = "sm23.56";
+
+    std::string time = "1920-102-2.314+213";
+    std::string date = "1920/20/20+213";
+
+    auto fn = [&](const std::string &str) {
+        return str.find('-') != std::string::npos || str.find('/') != std::string::npos;
+    };
+
+    augus::AugusUtils pAugusUtils;
+
+    augus::AugusUtils::HandleDateTail(name);
+    augus::PrintTest((time));
+    augus::PrintTest((date));
+
+    if (name.find("") != std::string::npos) {
+        std::cout << "have sm\n";
+        int type = std::stoi(name.substr(name.size() - 1));
+        std::cout << "type" << type << "\n";
+    }
+
+
+//    io_test::string2binary();
+
+
+    std::string kyaneos = "Kyaneos-Kyaneos-Kyaneos-Kyaneos--";
+    augus::PrintTest("Kyaneos", kyaneos);
+
+    std::string mask_word = "ss3";
+    std::string mask_str(8, mask_word[0]);
+    augus::PrintTest("mask_word[0]", mask_word[0]);
+    augus::PrintTest("mask_str", mask_str);
+
+    std::vector<int> vec{0, 5, 2, 9, 7, 6, 1, 3, 4, 8};
+
+    size_t count_com = 0;
+    std::sort(vec.begin(), vec.end(), [&count_com](int a, int b) {
+        ++count_com;
+        return a < b;
+    });
+    augus::PrintTest("number of comparisons:", count_com);
+    augus::PrintTest("vec", vec);
+
+//    getAverage();
+
+    std::string s090 = "she sheaf";
+    augus::PrintTest("s090", s090);
+    s090 = s090.substr(s090.find(' '), s090.size());
+    augus::PrintTest("s090 truncate", s090);
+
+//    augus::PrintTest("FrogClimb", FrogClimb(2, 1, 10));
+
+//    static std::default_random_engine randE(time(nullptr));
+//    static std::uniform_int_distribution<uint64_t> randValue(0, 50);
+//    static const auto getValue = [&]() { return randValue(randE); };
+//
+//    for (std::size_t i = 0; i != 3; ++i) {
+//        std::cout << getValue() << std::endl;
+//    }
+
+
+    //以10分为一个分数段统计成绩
+//    std::vector<unsigned> scores(11, 0);
+//    unsigned grade;
+//    while (std::cin >> grade) {
+//        if (grade <= 100) {
+//            ++scores[grade / 10];
+//        }
+//    }
+
+    std::string s1 = "Hello World";
+    augus::PrintTest("s1 is \"Hello World\"", s1);
+    const std::string &s2 = s1;
+    augus::PrintTest("s2 is initialized by s1", s2);
+    std::string s3(s1);
+    augus::PrintTest("s3 is initialized by s1", s3);
+
+    std::cout << "Compared by '==':" << std::endl;
+    std::cout << "s1 and \"Hello World\": " << (s1 == "Hello World") << std::endl;
+    std::cout << "s1 and s2: " << (s1 == s2) << std::endl;
+    std::cout << "s1 and s3: " << (s1 == s3) << std::endl;
+
+//    augus::PrintTest("CutBar", Solution::CutBar(8, 2));
+//
+//    std::cout << std::endl;
+//    declare();
+//    std::cout << std::endl;
+//    print();
+//    std::cout << std::endl;
+
+
+//    int t = 5;
+//    augus::PrintTest("f(t)", f(t));
+//    f(t) = 20;
+//    augus::PrintTest("f(t)", f(t));
+//    t = f(t);
+//    augus::PrintTest("f(t)", f(t));
+
+    std::cout << std::endl;
+//    jjj();
+    std::cout << std::endl;
 
 
 
+//    char a[] = "hello world";
+//    char *p2 = a;
+//    augus::PrintTest("sizeof(a)", sizeof(a));
+//    augus::PrintTest("sizeof(p2)", sizeof(p2));
 
+
+
+    testing::InitGoogleTest(&argc, argv);
+    int ret = RUN_ALL_TESTS();
+
+    return ret;
+}
 
 
 

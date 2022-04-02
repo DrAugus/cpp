@@ -6,13 +6,27 @@ project(augus_cpp
         VERSION 1.0.0
         DESCRIPTION "All my test in C++.")
 #打印相关消息消息
-message(status " Project Directory: ${PROJECT_SOURCE_DIR}")
-message(status " cmake so hard")
+message("Project Directory: ${PROJECT_SOURCE_DIR}")
+message("msg: cmake so hard")
+message("Project Name: ${PROJECT_NAME}")
+message("CMake Source Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-message(status ${PROJECT_NAME})
-
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+#当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
+file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*)
+foreach (add_source ${SRC})
+    message("add_source: ${add_source}")
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${add_source})
+    add_subdirectory(${add_source})
+endforeach ()
 
 if (MSVC)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
@@ -28,13 +42,6 @@ if (USE_OPENMP)
     endif ()
 endif ()
 
-#当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
-file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*)
-foreach (add_source ${SRC})
-    message(${add_source})
-    add_subdirectory(${add_source})
-endforeach ()
-
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
 
@@ -49,19 +56,30 @@ set(cmake_build_type DEBUG)
 
 #设置option，可以根据option从而选择代码中的宏定义部分
 option(_LINUX "build the project on linux " ON)
-if(_LINUX)
+if (_LINUX)
     add_definitions("-D_LINUX")
-endif()
+endif ()
 
+
+#要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 
 #生成可执行文件
 add_executable(${PROJECT_NAME} augus.cpp)  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 if (OpenMP_CXX_FOUND)
     target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
 endif ()
-install(TARGETS ${PROJECT_NAME} DESTINATION "bin/training")
+
+set(GOOGLE_LIBRARIES
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmockd.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtestd.a
+        )
+
+set(AUGUS_LIBRARIES ${AUGUS_LIBRARIES} ${GOOGLE_LIBRARIES})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries(${PROJECT_NAME} ${AUGUS_LIBRARIES})
 
 #生成库文件
 #add_library(${PROJECT_NAME} SHARED ${DIR_SRC}) #这里生成库文件有两种形式，一种是STATIC 静态库，一种是SHARED 共享库，如果需要跨硬件运行，一般是生成共享库
@@ -72,15 +90,6 @@ install(TARGETS ${PROJECT_NAME} DESTINATION "bin/training")
 #aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src DIR_SRC) # 搜索当前目录下的所有.cpp文件
 #add_library(${PROJECT_NAME} ${DIR_SRC})
 
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-message(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-#要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -67,12 +67,6 @@ int main() {
         return str.find('-') != std::string::npos || str.find('/') != std::string::npos;
     };
 
-    augus::AugusUtils pAugusUtils ;
-
-    augus::AugusUtils::HandleDateTail(name);
-    augus::PrintTest((time));
-    augus::PrintTest((date));
-
     if (name.find("") != std::string::npos) {
         std::cout << "have sm\n";
         int type = std::stoi(name.substr(name.size() - 1));

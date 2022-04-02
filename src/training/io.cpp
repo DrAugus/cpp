@@ -51,7 +51,3 @@ void io_test::string2binary() {
 
 }
 
-int main() {
-    io_test::string2binary();
-}
-
