@@ -5,22 +5,21 @@
 #ifndef AUGUSTEST_INTERVIEW_HH
 #define AUGUSTEST_INTERVIEW_HH
 
-#include <vector> // for std::vector
-#include <iostream> // for std::cout
-#include <algorithm> // for std::any_of
-#include <ctime> // for clock_t
+#include <algorithm>  // for std::any_of
+#include <ctime>      // for clock_t
+#include <iostream>   // for std::cout
 #include <map>
-#include <mutex> // for std::mutex
-
+#include <mutex>   // for std::mutex
+#include <vector>  // for std::vector
 
 namespace joyient {
 
 //这个题已经忘记是什么了
 // 应该是矩阵搜索算法
 
-} //namespace joyient
+}  // namespace joyient
 
-//www.hankedata.com
+// www.hankedata.com
 namespace hanke {
 //第一题 leetcode 19
 //给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
@@ -34,8 +33,7 @@ namespace hanke {
 
 namespace case1 {
 // Definition for singly-linked list.
-struct ListNode
-{
+struct ListNode {
     int val;
 
     ListNode *next;
@@ -43,14 +41,12 @@ struct ListNode
     explicit ListNode(int x) : val(x), next(NULL) {}
 };
 
-class Solution1
-{
-private:
+class Solution1 {
+ private:
     std::map<int, ListNode *> mp;
 
-public:
-    ListNode *removeNthFromEnd(ListNode *head, int n)
-    {
+ public:
+    ListNode *removeNthFromEnd(ListNode *head, int n) {
         ListNode *p = head;
         int i = 0;
         while (p) {
@@ -58,22 +54,20 @@ public:
             p = p->next;
         }
         n = i - n;
-        if (n == 0) { return head->next; }
+        if (n == 0) {
+            return head->next;
+        }
         mp[n - 1]->next = mp[n]->next;
         return head;
     }
 };
-}//namespace  case1
-
-
-
+}  // namespace  case1
 
 //第二题 计算输入int数值为二进制时1的个数
 // https://blog.csdn.net/qq_39755395/article/details/78177804
 
 //第三题 题目：设计一个类，我们只能生成该类的一个实例。
 //分析：只能生成一个实例的类是实现了Singleton 模式的类型。
-
 
 /*
 72. 题目：设计一个类，我们只能生成该类的一个实例。
@@ -85,16 +79,15 @@ public:
 
 namespace case3 {
 namespace no_multi_thread {
-class Singleton
-{
-private:
+class Singleton {
+ private:
     static Singleton *instance;
     Singleton() = default;
     Singleton(const Singleton &) = default;
-public:
-    static Singleton *GetInstance()
-    {
-        if (instance == nullptr) {//如果之前没有构造过，那么就构造一个新的实例。
+
+ public:
+    static Singleton *GetInstance() {
+        if (instance == nullptr) {  //如果之前没有构造过，那么就构造一个新的实例。
             //如果构造过，那么就把之前构造的那个实例返回。
             instance = new Singleton();
         }
@@ -103,9 +96,7 @@ public:
 };
 
 Singleton *Singleton::instance = nullptr;
-}//namespace no_multi_thread
-
-
+}  // namespace no_multi_thread
 
 //看了别人的多线程
 //如果要加入多线程的考虑。
@@ -114,16 +105,14 @@ Singleton *Singleton::instance = nullptr;
 namespace multi_thread {
 std::mutex mu;
 
-class Singleton
-{
-private:
+class Singleton {
+ private:
     static Singleton *instance;
-    Singleton()= default;
-    Singleton(const Singleton &)= default;
+    Singleton() = default;
+    Singleton(const Singleton &) = default;
 
-public:
-    static Singleton *GetInstance()
-    {
+ public:
+    static Singleton *GetInstance() {
         if (instance == nullptr) {
             mu.lock();
             if (instance == nullptr) {
@@ -136,10 +125,10 @@ public:
 };
 
 Singleton *Singleton::instance = nullptr;
-}//namespace multi_thread
+}  // namespace multi_thread
 
-}//namespace case3
+}  // namespace case3
 
-}//namespace hanke
+}  // namespace hanke
 
-#endif //AUGUSTEST_INTERVIEW_HH
+#endif  // AUGUSTEST_INTERVIEW_HH

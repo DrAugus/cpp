@@ -3,7 +3,6 @@
 //
 
 #include "augus/augus.h"
-#include "io.hh"
 
 using namespace augus;
 
@@ -37,17 +36,23 @@ std::string AugusUtils::HandleDateTail(std::string &str) {
     size_t len_dot = 0;
     size_t len_zone = 0;
 
-    if (have_zone) len_zone = str.size() - index_zone - 1;
-    if (have_dot) len_dot = have_zone ? str.size() - index_dot - 1 - len_zone - 1 : str.size() - index_dot - 1;
+    if (have_zone)
+        len_zone = str.size() - index_zone - 1;
+    if (have_dot)
+        len_dot = have_zone ? str.size() - index_dot - 1 - len_zone - 1 : str.size() - index_dot - 1;
 
     std::string mask_zone(len_zone, '0');
     std::string mask_dot(len_dot, '0');
 
-    if (have_dot) tail_str += "." + mask_dot;
-    if (have_zone) tail_str += "+" + mask_zone;
+    if (have_dot)
+        tail_str += "." + mask_dot;
+    if (have_zone)
+        tail_str += "+" + mask_zone;
 
-    if (have_zone) str = str.substr(0, index_zone);
-    if (have_dot) str = str.substr(0, index_dot);
+    if (have_zone)
+        str = str.substr(0, index_zone);
+    if (have_dot)
+        str = str.substr(0, index_dot);
 
     return tail_str;
 };
@@ -169,22 +174,23 @@ TEST(JsonCombine, use) {
     JC->use();
 }
 
-
 //插入排序（算法中是直接交换节点，时间复杂度O（n^2）,空间复杂度O（1））
 ListNode *ListSort::insertionSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
-    if (head == nullptr || head->next == nullptr)return head;
+    if (head == nullptr || head->next == nullptr)
+        return head;
     ListNode *p = head->next, *pstart = new ListNode(0), *pend = head;
-    pstart->next = head; //为了操作方便，添加一个头结点
+    pstart->next = head;  //为了操作方便，添加一个头结点
     while (p != nullptr) {
         ListNode *tmp = pstart->next, *pre = pstart;
-        while (tmp != p && p->val >= tmp->val) //找到插入位置
-        {
+        //找到插入位置
+        while (tmp != p && p->val >= tmp->val) {
             tmp = tmp->next;
             pre = pre->next;
         }
-        if (tmp == p)pend = p;
+        if (tmp == p)
+            pend = p;
         else {
             pend->next = p->next;
             p->next = tmp;
@@ -202,10 +208,11 @@ ListNode *ListSort::selectSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
     //选择排序
-    if (head == nullptr || head->next == nullptr)return head;
+    if (head == nullptr || head->next == nullptr)
+        return head;
     ListNode *pstart = new ListNode(0);
-    pstart->next = head; //为了操作方便，添加一个头结点
-    ListNode *sortedTail = pstart;//指向已排好序的部分的尾部
+    pstart->next = head;            //为了操作方便，添加一个头结点
+    ListNode *sortedTail = pstart;  //指向已排好序的部分的尾部
 
     while (sortedTail->next != nullptr) {
         ListNode *minNode = sortedTail->next, *p = sortedTail->next->next;
@@ -224,7 +231,6 @@ ListNode *ListSort::selectSortList(ListNode *head) {
     return head;
 }
 
-
 //归并排序（算法交换链表节点，时间复杂度O（nlogn）,不考虑递归栈空间的话空间复杂度是O（1））
 //
 //首先用快慢指针的方法找到链表中间节点，然后递归的对两个子链表排序，把两个排好序的子链表合并成一条有序的链表。归并排序应该算是链表排序最佳的选择了，保证了最好和最坏时间复杂度都是nlogn，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了O(1)
@@ -232,7 +238,8 @@ ListNode *ListSort::mergeSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
     //链表归并排序
-    if (head == NULL || head->next == NULL)return head;
+    if (head == NULL || head->next == NULL)
+        return head;
     else {
         //快慢指针找到中间节点
         ListNode *fast = head, *slow = head;
@@ -243,17 +250,18 @@ ListNode *ListSort::mergeSortList(ListNode *head) {
         fast = slow;
         slow = slow->next;
         fast->next = NULL;
-//                fast = sortList(head);//前半段排序
-//                slow = sortList(slow);//后半段排序
+        //                fast = sortList(head);//前半段排序
+        //                slow = sortList(slow);//后半段排序
         return merge(fast, slow);
     }
-
 }
 
 // merge two sorted list to one
 ListNode *ListSort::merge(ListNode *head1, ListNode *head2) {
-    if (head1 == NULL)return head2;
-    if (head2 == NULL)return head1;
+    if (head1 == NULL)
+        return head2;
+    if (head2 == NULL)
+        return head1;
     ListNode *res, *p;
     if (head1->val < head2->val) {
         res = head1;
@@ -274,23 +282,25 @@ ListNode *ListSort::merge(ListNode *head1, ListNode *head2) {
         }
         p = p->next;
     }
-    if (head1 != NULL)p->next = head1;
-    else if (head2 != NULL)p->next = head2;
+    if (head1 != NULL)
+        p->next = head1;
+    else if (head2 != NULL)
+        p->next = head2;
     return res;
 }
-
 
 //冒泡排序（算法交换链表节点val值，时间复杂度O（n^2）,空间复杂度O（1））
 ListNode *ListSort::bubbleSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
     //链表快速排序
-    if (head == NULL || head->next == NULL)return head;
+    if (head == NULL || head->next == NULL)
+        return head;
     ListNode *p = NULL;
     bool isChange = true;
     while (p != head->next && isChange) {
         ListNode *q = head;
-        isChange = false;//标志当前这一轮中又没有发生元素交换，如果没有则表示数组已经有序
+        isChange = false;  //标志当前这一轮中又没有发生元素交换，如果没有则表示数组已经有序
         for (; q->next && q->next != p; q = q->next) {
             if (q->val > q->next->val) {
                 std::swap(q->val, q->next->val);
@@ -306,7 +316,6 @@ ListNode *ListSort::bubbleSortList(ListNode *head) {
 //
 //对于堆排序，一般是用数组来实现二叉堆，当然可以用二叉树来实现，但是这么做太麻烦，还得花费额外的空间构建二叉树
 
-
 ListSortPtr ListSort::instance() {
     static ListSortPtr ptr = nullptr;
     if (ptr == nullptr) {
@@ -315,7 +324,6 @@ ListSortPtr ListSort::instance() {
     return ptr;
 }
 
-
 MathPtr Math::instance() {
     static MathPtr ptr = nullptr;
     if (ptr == nullptr) {
@@ -323,7 +331,6 @@ MathPtr Math::instance() {
     }
     return ptr;
 }
-
 
 TEST(Math, gcd) {
     auto p = Math::instance();
@@ -334,13 +341,14 @@ TEST(Math, gcd) {
 //均匀分布：
 // uniform_int_distribution 整数均匀分
 // uniform_real_distribution 浮点数均匀分布
-//注意，uniform_int_distribution的随机数的范围不是半开范围[ )，而是[ ]，对于uniform_real_distribution却是半开范围[ )。
+//注意，uniform_int_distribution的随机数的范围不是半开范围[ )，而是
+// []，对于uniform_real_distribution却是半开范围[ )。
 //伯努利类型分布：（仅有yes/no两种结果，概率一个p，一个1-p）
 // bernoulli_distribution 伯努利分布
 // binomial_distribution 二项分布
 // geometry_distribution 几何分布
 // negative_biomial_distribution 负二项分布
-//Rate-based distributions:
+// Rate-based distributions:
 // poisson_distribution 泊松分布
 // exponential_distribution指数分布
 // gamma_distribution 伽马分布
@@ -375,15 +383,12 @@ void Math::getRand() {
     std::cout << "\n";
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 basic_cpp::ComplexDefine::ComplexDefine() {
-    void *( *(*fp1)(int))[10];
+    void *(*(*fp1)(int))[10];
     float (*(*fp2)(int, int, int))(int);
-    //int (*( *fp355)())[10]();
+    // int (*( *fp355)())[10]();
     int id[sizeof(unsigned long)];
 }
 
@@ -396,17 +401,16 @@ basic_cpp::OPChar::OPChar() {
     const char str4[] = "abc";
     const char *str5 = "abc";
     const char *str6 = "abc";
-//    char *str7 = "abc"; //warning in c++11
-//    char *str8 = "abc";
+    //    char *str7 = "abc"; //warning in c++11
+    //    char *str8 = "abc";
     std::cout << (str1 == str2) << std::endl;
     std::cout << (str3 == str4) << std::endl;
     std::cout << (str5 == str6) << std::endl;
-//    std::cout << (str7 == str8) << std::endl;
+    //    std::cout << (str7 == str8) << std::endl;
 }
 
 int basic_cpp::OPChar::opWchar() {
-    wchar_t szName1[16] = {'1', '2', '3', '4', '5', '7', '7'},
-            szName2[16] = {'1', '2', '3', '4', '5'};
+    wchar_t szName1[16] = {'1', '2', '3', '4', '5', '7', '7'}, szName2[16] = {'1', '2', '3', '4', '5'};
     auto res = wcscmp(szName2, szName1);
     std::cout << "compare res " << res << std::endl;
     return 0;
@@ -419,8 +423,7 @@ basic_cpp::OPSwap::OPSwap(int *a, int *b) {
 }
 
 int basic_cpp::OPSwap::test() {
-    int a0929[] = {0, 1, 3, 5, 8},
-            b0929[] = {2, 4, 9, 12, 31};
+    int a0929[] = {0, 1, 3, 5, 8}, b0929[] = {2, 4, 9, 12, 31};
     OPSwap(a0929, b0929);
     return 0;
 }
@@ -466,19 +469,18 @@ int sizeof_val::test() {
     return 0;
 }
 
-
 bool op_list::op_array::Duplicate::isContainsDuplicate(const std::vector<int> &v) {
     std::unordered_set<int> s(v.size() * 2);
-    for (auto x: v) {
-        if (!s.insert(x).second) {    /// insert failed -> repeat insert，conclude have duplicate
+    for (auto x : v) {
+        if (!s.insert(x).second) {  /// insert failed -> repeat insert，conclude have duplicate
             return true;
         }
     }
     return false;
 }
 
-int
-op_list::op_array::Duplicate::findDuplicateElements(int *arr, int length, std::set<int> s, std::vector<int> &output) {
+int op_list::op_array::Duplicate::findDuplicateElements(int *arr, int length, std::set<int> s,
+                                                        std::vector<int> &output) {
     if (arr == nullptr || length <= 0) {
         ///数组为空
         return -1;
@@ -494,18 +496,18 @@ op_list::op_array::Duplicate::findDuplicateElements(int *arr, int length, std::s
     int k = 0, j = 0;
     ///拿数组中第k个位置和第j+1个位置的数据相比，只能是arr[k] <= arr[j + 1]
     while (k < length - 1 && j < length - 1) {
-        ///arr[k] < arr[j + 1]的时候，只存在两种情况k == j或k < j
+        /// arr[k] < arr[j + 1]的时候，只存在两种情况k == j或k < j
         if (arr[k] < arr[j + 1]) {
             if (k == j) {
                 k++;
                 j++;
             }
-                ///k<j时，就让k+1
+            /// k<j时，就让k+1
             else {
                 k++;
             }
         }
-            ///arr[k] = arr[j + 1],就把arr[k]插入到集合中，避免出现多次的数据重复出现
+        /// arr[k] = arr[j + 1],就把arr[k]插入到集合中，避免出现多次的数据重复出现
         else {
             ///重复数字为 arr[k]
             s.insert(arr[k]);
@@ -521,34 +523,33 @@ op_list::op_array::Duplicate::findDuplicateElements(int *arr, int length, std::s
 }
 
 int op_list::op_array::Duplicate::Test() {
-    /// Record 4 First to know set and Finding duplicate value. Duplicate times just using <count> method
-    std::cout
-            << "\nRecord 4 First to know set and Finding duplicate value. Duplicate times just using <count> method\n";
+    /// Record 4 First to know set and Finding duplicate value. Duplicate times just using <count>
+    /// method
+    std::cout << "\nRecord 4 First to know set and Finding duplicate value. Duplicate times just "
+                 "using <count> method\n";
     std::set<int> set_temp;
     const int kDuplicateTemp[] = {6, 5, 12, 94, 12, 15, 15, 3, 6, 5, 5, 12, 12, 3, 1, 5, 3, 4, 3, 2, 7, 5};
     int duplicate_temp[] = {6, 5, 12, 94, 12, 15, 15, 3, 6, 5, 5, 12, 12, 3, 1, 5, 3, 4, 3, 2, 7, 5};
     std::vector<int> vec_output;
     findDuplicateElements(duplicate_temp, sizeof(duplicate_temp) / sizeof(duplicate_temp[0]), set_temp, vec_output);
     std::cout << "\niterator Traverse -> ";
-    for (int &iter: vec_output) { /// auto -> std::vector<int>::iterator
+    for (int &iter : vec_output) {  /// auto -> std::vector<int>::iterator
         std::cout << iter << " ";
     }
     std::cout << std::endl;
-    std::vector<int>
-            vec_duplicate_temp(duplicate_temp, duplicate_temp + sizeof(duplicate_temp) / sizeof(duplicate_temp[0]));
-    for (auto i: vec_output) {
+    std::vector<int> vec_duplicate_temp(duplicate_temp,
+                                        duplicate_temp + sizeof(duplicate_temp) / sizeof(duplicate_temp[0]));
+    for (auto i : vec_output) {
         std::cout << "duplicate value <" << i << "> has "
-                  << count(vec_duplicate_temp.begin(), vec_duplicate_temp.end(), i)
-                  << " repeats" << std::endl;
+                  << count(vec_duplicate_temp.begin(), vec_duplicate_temp.end(), i) << " repeats" << std::endl;
     }
 
     return 0;
 }
 
-
 // 寻找元素在Vector的位置
 int op_list::op_array::VectorCtrl::findPosVector(std::vector<int> input, int number) {
-    auto iter = find(input.begin(), input.end(), number);//返回的是一个迭代器指针
+    auto iter = find(input.begin(), input.end(), number);  //返回的是一个迭代器指针
     if (iter == input.end()) {
         return -1;
     } else {
@@ -562,11 +563,11 @@ int op_list::op_array::VectorCtrl::findVectorSub() {
     std::cout << std::endl << "Record 5 Finding subscript in std::vector" << std::endl;
     std::vector<int> vecFind = vec_test2;
     const int findVal = 5;
-    auto isFind = find(vecFind.begin(), vecFind.end(), findVal); /// auto -> std::vector<int>::iterator
+    auto isFind = find(vecFind.begin(), vecFind.end(), findVal);  /// auto -> std::vector<int>::iterator
     if (isFind != vecFind.end()) {
         std::cout << "I can find this value -> " << findVal << std::endl;
-        int res = isFind - vecFind.begin();    ///res即是target在vector数组中的下标
-        int indexBack = &*isFind - &vecFind[0];  ///other way
+        int res = isFind - vecFind.begin();      /// res即是target在vector数组中的下标
+        int indexBack = &*isFind - &vecFind[0];  /// other way
         std::cout << "  -> It's subscript is " << res << std::endl;
         std::cout << "  -> Other way find the subscript is " << indexBack << std::endl;
     } else {
@@ -593,7 +594,7 @@ std::vector<int> op_list::op_array::VectorCtrl::vectors_intersection(std::vector
     std::vector<int> v;
     sort(v1.begin(), v1.end());
     sort(v2.begin(), v2.end());
-    set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v));//求交集
+    set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v));  //求交集
     return v;
 }
 
@@ -602,10 +603,9 @@ std::vector<int> op_list::op_array::VectorCtrl::vectors_set_union(std::vector<in
     std::vector<int> v;
     sort(v1.begin(), v1.end());
     sort(v2.begin(), v2.end());
-    set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v));//求交集
+    set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v));  //求交集
     return v;
 }
-
 
 op_list::op_array::ArrayLength::ArrayLength() {
     /// Record 2 Compute Array Length
@@ -621,31 +621,42 @@ op_list::op_array::ArrayLength::ArrayLength() {
     /// 如果要取 p[i][j] 的值（i>=0 && m<=0 && j>=0 && n<=0)，编译器是这样寻址的，它的地址为：
     ///     p + i*n + j;
     /// 所以不能省略第二维，省去编译器将不知道如何正确的寻址
-    std::cout << "This array -> First dimension length is " << first_dimension_length <<
-              ", Second dimension length is " << second_dimension_length << std::endl;
-
+    std::cout << "This array -> First dimension length is " << first_dimension_length << ", Second dimension length is "
+              << second_dimension_length << std::endl;
 }
 
 int op_list::op_array::LC::pivotIndex(std::vector<int> &nums) {
-    if (nums.empty()) { return -1; }
+    if (nums.empty()) {
+        return -1;
+    }
     int sumL = 0, sumR = 0;
-    for (auto val: nums) {
+    for (auto val : nums) {
         sumR += val;
     }
     for (auto i = 0; i < nums.size(); i++) {
-        if (i - 1 >= 0) { sumL += nums[i - 1]; }
+        if (i - 1 >= 0) {
+            sumL += nums[i - 1];
+        }
         sumR -= nums[i];
-        if (sumR == sumL) { return i; }
+        if (sumR == sumL) {
+            return i;
+        }
     }
     return -1;
 }
 
 int op_list::op_array::LC::searchInsert(std::vector<int> &nums, int target) {
-    if (nums.empty()) { return 0; }
+    if (nums.empty()) {
+        return 0;
+    }
     int res = 0;
     for (auto i = 0; i < nums.size(); i++) {
-        if (target == nums[i]) { return i; }
-        if (target > nums[i]) { res = i + 1; }
+        if (target == nums[i]) {
+            return i;
+        }
+        if (target > nums[i]) {
+            res = i + 1;
+        }
     }
     return res;
 }
@@ -676,12 +687,12 @@ void op_list::op_array::LC::setZeroes(std::vector<std::vector<int>> &matrix) {
             }
         }
     }
-    for (auto a: A) {
+    for (auto a : A) {
         for (auto j = 0; j < N; j++) {
             matrix[a][j] = 0;
         }
     }
-    for (auto b: B) {
+    for (auto b : B) {
         for (auto i = 0; i < M; i++) {
             matrix[i][b] = 0;
         }
@@ -689,12 +700,14 @@ void op_list::op_array::LC::setZeroes(std::vector<std::vector<int>> &matrix) {
 }
 
 std::string op_list::op_array::LC::longestCommonPrefix(std::vector<std::string> &strs) {
-    if (strs.empty()) { return ""; }
+    if (strs.empty()) {
+        return "";
+    }
     std::string res;
     for (int i = 0; i < strs[0].size(); i++) {
         auto s = strs[0][i];
         res += s;
-        for (auto subStr: strs) {
+        for (auto subStr : strs) {
             if (subStr[i] != s) {
                 res.erase(res.size() - 1);
                 return res;
@@ -710,8 +723,8 @@ void op_list::op_array::LC::test() {
     std::string s2 = s;
 }
 
-std::vector<int>
-op_list::op_array::mergeTest(std::vector<int> &nums1, unsigned m, std::vector<int> &nums2, unsigned n) {
+std::vector<int> op_list::op_array::mergeTest(std::vector<int> &nums1, unsigned m, std::vector<int> &nums2,
+                                              unsigned n) {
     std::vector<int> res(m + n);
     unsigned p1 = m - 1, p2 = n - 1, p = m + n - 1;
     while ((p1 >= 0) && (p2 >= 0)) {
@@ -729,10 +742,10 @@ op_list::op_array::mergeTest(std::vector<int> &nums1, unsigned m, std::vector<in
 int op_list::op_array::findMaxInArray() {
     std::vector<int> v{6, 54, 31, 62, 23, 46, 89, 8};
     auto biggest = max_element(begin(v), end(v));
-    ///or std::vector<int>::iterator biggest = max_element(v.begin(), v.end);
+    /// or std::vector<int>::iterator biggest = max_element(v.begin(), v.end);
     std::cout << "Max element is " << *biggest << " at position " << distance(begin(v), biggest) << std::endl;
     ///另一方面，取最大位置也可以这样来写：
-    ///int nPos = (int)(max_element(v.begin(), v.end()) - (v.begin());
+    /// int nPos = (int)(max_element(v.begin(), v.end()) - (v.begin());
     ///效果和采用distance(...)函数效果一致
     ///说明：max_element(v.begin(), v.end()) 返回的是vector<int>::iterator,
     ///相当于指针的位置，减去初始指针的位置结果即为最大值得索引。
@@ -743,12 +756,14 @@ int op_list::op_array::findMaxInArray() {
     int TempArr[] = {2, 3, 1, 6, 7, 3};
     ///求数组最大值以及最大值的索引
     std::cout << "Max element: " << *std::max_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0])) << "\n";
-    std::cout << "Max element location: " <<
-              std::distance(TempArr, std::max_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0]))) << "\n";
+    std::cout << "Max element location: "
+              << std::distance(TempArr, std::max_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0])))
+              << "\n";
     ///求数组最小值以及最小值的索引
     std::cout << "Min element: " << *std::min_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0])) << "\n";
-    std::cout << "Min element location: " <<
-              std::distance(TempArr, std::min_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0]))) << "\n";
+    std::cout << "Min element location: "
+              << std::distance(TempArr, std::min_element(TempArr, TempArr + sizeof(TempArr) / sizeof(TempArr[0])))
+              << "\n";
     ///求数组的和
     std::valarray<int> ValTempArr(TempArr, sizeof(TempArr) / sizeof(TempArr[0]));
     std::cout << ValTempArr.sum();
@@ -768,7 +783,6 @@ int op_list::op_array::commonVectorOP() {
         ++begin;
     }
 
-
     PrintTest(vec_test1);
     /// case 1 copy
     const std::vector<int> &vec_test2 = vec_test1;
@@ -786,7 +800,9 @@ int op_list::op_array::commonVectorOP() {
     std::vector<int>().swap(vec_test4);
     std::cout << "vec_test4 cleared";
     PrintTest(vec_test4);
-    std::vector<int> vec_test5 = {0, 1, 2, 5, 6,};
+    std::vector<int> vec_test5 = {
+        0, 1, 2, 5, 6,
+    };
     std::cout << "vec_test5 source->";
     PrintTest(vec_test5);
     vec_test5.swap(vec_test1);
@@ -804,12 +820,12 @@ int op_list::op_array::commonVectorOP() {
     PrintTest(vec_test6);
     /// concat std::vector
     int arr_test0817[][13] = {
-            {0,  1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
-            {5,  1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
-            {21, 1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
+        {0, 1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
+        {5, 1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
+        {21, 1, 2, 5, 6, 9, 8, 2, 0, 7, 55, 24, 3},
     };
     std::vector<int> vec_res0817;
-    for (auto &i: arr_test0817) {
+    for (auto &i : arr_test0817) {
         vec_res0817.insert(vec_res0817.end(), i, i + 13);
     }
     std::cout << "vec_res0817";
@@ -826,26 +842,25 @@ int op_list::op_array::switchArr2Vec() {
     const int kCountPutBack = 8;
     std::vector<int> vec_hand_card(hand_card, hand_card + sizeof(hand_card) / sizeof(hand_card[0]));
     /// sort
-    sort(vec_hand_card.begin(), vec_hand_card.end()); /// Ascend
-    sort(vec_hand_card.rbegin(), vec_hand_card.rend());  /// Descend
-    reverse(vec_hand_card.rbegin(), vec_hand_card.rend());  ///change to back
+    sort(vec_hand_card.begin(), vec_hand_card.end());       /// Ascend
+    sort(vec_hand_card.rbegin(), vec_hand_card.rend());     /// Descend
+    reverse(vec_hand_card.rbegin(), vec_hand_card.rend());  /// change to back
     std::vector<int> vec_put_back_card;
     vec_put_back_card.reserve(kCountPutBack);
     for (int i = 0; i < kCountPutBack; i++) {
         vec_put_back_card.push_back(vec_hand_card[i]);
     }
 
-//  int *put_back_card = new int[8];
+    //  int *put_back_card = new int[8];
     int put_back_card[kCountPutBack];
     if (!vec_put_back_card.empty()) {
-        memcpy(put_back_card,
-               &vec_put_back_card[0],
-               vec_put_back_card.size() * sizeof(vec_put_back_card[0])); /// copy all
+        memcpy(put_back_card, &vec_put_back_card[0],
+               vec_put_back_card.size() * sizeof(vec_put_back_card[0]));  /// copy all
         memcpy(put_back_card, &vec_put_back_card[5], kCountPutBack - 5);  /// copy last 3
-        memcpy(put_back_card, &vec_put_back_card[0], 3);  /// copy first 3
+        memcpy(put_back_card, &vec_put_back_card[0], 3);                  /// copy first 3
     }
     std::cout << "smallest back card is \n";
-    for (auto i: put_back_card) {
+    for (auto i : put_back_card) {
         std::cout << i << " ";
     }
     std::cout << std::endl;
@@ -880,7 +895,7 @@ int op_list::op_array::findShortestSubArray(std::vector<int> &nums) {
         }
     }
     int Min = 50000;
-    for (int &i: MaxCount) {
+    for (int &i : MaxCount) {
         auto V = NumPos[i];
         int Dis = V[V.size() - 1] - V[0];
         Min = std::min(Min, Dis);
@@ -889,11 +904,7 @@ int op_list::op_array::findShortestSubArray(std::vector<int> &nums) {
 }
 
 int op_list::commonOP() {
-    int valueInitial[13] = {
-            0x2b, 0x2a, 0x29,
-            0x19, 0x18, 0x1a, 0x1b, 0x1c,
-            0x06, 0x05, 0x04, 0x03, 0x02
-    };
+    int valueInitial[13] = {0x2b, 0x2a, 0x29, 0x19, 0x18, 0x1a, 0x1b, 0x1c, 0x06, 0x05, 0x04, 0x03, 0x02};
     /// list 使用
     std::cout << "list exercise" << std::endl;
     std::list<int> list(valueInitial, valueInitial + 13);
@@ -907,7 +918,7 @@ int op_list::commonOP() {
     for (int i = 0; i < 13; i++) {
         *(test09093 + i) = *(valueInitial + i);
     }
-    for (int i: test09093) {
+    for (int i : test09093) {
         std::cout << i << " ";
     }
     std::vector<int> test09091221(valueInitial, valueInitial + 13);
@@ -925,7 +936,6 @@ int op_list::commonOP() {
 
     return 0;
 }
-
 
 using BINARY_TREE_BASIC_OP = binary_tree::BinaryTree;
 
@@ -1048,289 +1058,434 @@ int BINARY_TREE_BASIC_OP::test() {
     return 0;
 }
 
-//Permutation and Combination
-namespace combination {
-    void Cij(int i,
-             int j,
-             std::vector<int> &r,
-             int num,
-             std::vector<std::vector<int> > &result) {
-        //排列组合公式Cij
-        //std::cout << n << ' ' << i << ' ' << j << std::endl;
-        if (j == 1) {
-            for (int k = 0; k < i; k++) {
-                std::vector<int> temp(num);
-                r[num - 1] = k;
-                for (int i = 0; i < num; i++) {
-                    temp[i] = r[i];
-                    //std::cout << r[i] << ' ';
-                }
-                result.push_back(temp);
-                //std::cout << std::endl;
-            }
-        } else if (j == 0) {
-            //do nothing!
+using binary_tree::TrainingTreeNode;
+using binary_tree::TreeNode;
+
+std::vector<int> TrainingTreeNode::preorderTraversal(TreeNode *root) {
+    if (root == nullptr) {
+        return {};
+    }
+    std::stack<TreeNode *> sTree;
+    std::vector<int> res;
+    TreeNode *p = root;
+    while (p != nullptr || !sTree.empty()) {
+        if (p) {
+            res.push_back(p->value);
+            sTree.push(p);
+            p = p->left;
         } else {
-            for (int k = i; k >= j; k--) {
-                r[j - 2] = k - 1;
-                Cij(k - 1, j - 1, r, num, result);
-            }
+            p = sTree.top();
+            p = p->right;
+            sTree.pop();
         }
     }
+    return res;
+}
 
-    std::vector<std::string> &
-    combination(std::vector<std::string> &res, const size_t &choose, std::string &working, const size_t &pos) {
-        if (choose > working.size() - pos) { return res; }
-        for (size_t i = pos; i != working.size(); ++i) {
-            working[i] = '0';
+std::vector<int> TrainingTreeNode::inorderTraversal(TreeNode *root) {
+    if (root == nullptr) {
+        return {};
+    }
+    std::stack<TreeNode *> sTree;
+    std::vector<int> res;
+    TreeNode *p = root;
+    while (p != nullptr || !sTree.empty()) {
+        if (p) {
+            res.push_back(p->value);
+            sTree.push(p);
+            p = p->left;
+        } else {
+            p = sTree.top();
+            p = p->right;
+            sTree.pop();
         }
-        if (choose == 0 || pos == working.size()) {
-            res.push_back(working);
-            return res;
+    }
+    return res;
+}
+
+TreeNode *TrainingTreeNode::insertNode(TreeNode *root, int val) {
+    if (root == nullptr) {
+        return new TreeNode(val);
+    }
+
+    if (val > root->value) {
+        root->right = insertNode(root->right, val);
+    } else if (val < root->value) {
+        root->left = insertNode(root->left, val);
+    } else {
+        return root;
+    }
+
+    root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
+
+    int balance = getBalance(root);
+    // LL型
+    if (balance > 1 && val < root->left->value) {
+        return ll_rotate(root);
+    }
+    // RR型
+    if (balance < -1 && val > root->right->value) {
+        return rr_rotate(root);
+    }
+    // LR型
+    if (balance > 1 && val > root->left->value) {
+        root->left = rr_rotate(root->left);
+        return ll_rotate(root);
+    }
+    // RL型
+    if (balance < -1 && val < root->right->value) {
+        root->right = ll_rotate(root->right);
+        return rr_rotate(root);
+    }
+
+    return root;
+}
+
+int TrainingTreeNode::getBalance(TreeNode *root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    return getHeight(root->left) - getHeight(root->right);
+}
+
+int TrainingTreeNode::getHeight(TreeNode *root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    return root->height;
+}
+
+TreeNode *TrainingTreeNode::ll_rotate(TreeNode *y) {
+    TreeNode *x = y->left;
+    y->left = x->right;
+    x->right = y;
+
+    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+
+    return x;
+}
+
+TreeNode *TrainingTreeNode::rr_rotate(TreeNode *y) {
+    TreeNode *x = y->right;
+    y->right = x->left;
+    x->left = y;
+
+    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+
+    return x;
+}
+
+int TrainingTreeNode::buildAVL() {
+    int root = 2;
+    int configData[] = {1, 0, 3, 4, 5, 6, 9, 8, 7};
+    auto *treeAVL = new TreeNode(root);
+    for (int insertVal : configData) {
+        insertNode(treeAVL, insertVal);
+    }
+
+    std::cout << "preorderTraversal ==== >";
+    augus::PrintTest(preorderTraversal(treeAVL));
+    std::cout << "inorderTraversal ==== >";
+    augus::PrintTest(inorderTraversal(treeAVL));
+    return 0;
+}
+
+// Permutation and Combination
+namespace combination {
+void Cij(int i, int j, std::vector<int> &r, int num, std::vector<std::vector<int>> &result) {
+    //排列组合公式Cij
+    // std::cout << n << ' ' << i << ' ' << j << std::endl;
+    if (j == 1) {
+        for (int k = 0; k < i; k++) {
+            std::vector<int> temp(num);
+            r[num - 1] = k;
+            for (int i = 0; i < num; i++) {
+                temp[i] = r[i];
+                // std::cout << r[i] << ' ';
+            }
+            result.push_back(temp);
+            // std::cout << std::endl;
         }
-        working[pos] = '1';
-        combination(res, choose - 1, working, pos + 1);
-        working[pos] = '0';
-        combination(res, choose, working, pos + 1);
+    } else if (j == 0) {
+        // do nothing!
+    } else {
+        for (int k = i; k >= j; k--) {
+            r[j - 2] = k - 1;
+            Cij(k - 1, j - 1, r, num, result);
+        }
+    }
+}
+
+std::vector<std::string> &combination(std::vector<std::string> &res, const size_t &choose, std::string &working,
+                                      const size_t &pos) {
+    if (choose > working.size() - pos) {
         return res;
     }
-
-    int testCombination() {
-        //字符串打印组合
-        std::vector<std::string> res;
-        const size_t choose = 2;
-        std::string working(4, '0');
-        combination(res, choose, working, 0);
-        for (size_t i = 0; i != res.size(); ++i) {
-            std::cout << res[i] << '\t';
-            for (size_t j = 0; j != working.size(); ++j) {
-                if (res[i][j] == '1') {
-                    std::cout << j + 1 << ' ';
-                }
-            }
-            std::cout << std::endl;
-        }
-        return 0;
+    for (size_t i = pos; i != working.size(); ++i) {
+        working[i] = '0';
     }
+    if (choose == 0 || pos == working.size()) {
+        res.push_back(working);
+        return res;
+    }
+    working[pos] = '1';
+    combination(res, choose - 1, working, pos + 1);
+    working[pos] = '0';
+    combination(res, choose, working, pos + 1);
+    return res;
+}
 
-}//namespace combination
+int testCombination() {
+    //字符串打印组合
+    std::vector<std::string> res;
+    const size_t choose = 2;
+    std::string working(4, '0');
+    combination(res, choose, working, 0);
+    for (size_t i = 0; i != res.size(); ++i) {
+        std::cout << res[i] << '\t';
+        for (size_t j = 0; j != working.size(); ++j) {
+            if (res[i][j] == '1') {
+                std::cout << j + 1 << ' ';
+            }
+        }
+        std::cout << std::endl;
+    }
+    return 0;
+}
+
+}  // namespace combination
 
 namespace lambda_learning {
-    void lambda_learning() {
-        /// lambda 表达式的价值在于，就地封装短小的功能闭包，可以极其方便地表达出我们希望执行的具体操作，并让上下文结合得更加紧密。
-        /// lambda 表达式的类型在 C++11 中被称为“闭包类型（Closure Type）”。它是一个特殊的，匿名的非 union 的类类型。
-        //////lambda表达式有如下优点：
-        /// 声明式编程风格：就地匿名定义目标函数或函数对象，不需要额外写一个命名函数或者函数对象。以更直接的方式去写程序，好的可读性和可维护性。
-        /// 简洁：不需要额外再写一个函数或者函数对象，避免了代码膨胀和功能分散，让开发者更加集中精力在手边的问题，同时也获取了更高的生产率。
-        /// 在需要的时间和地点实现功能闭包，使程序更灵活。
-        //// 语法形式   [ capture ] ( params ) opt -> ret { body; };
-        /// 其中 capture 是捕获列表，params 是参数表，opt 是函数选项，ret 是返回值类型，body是函数体。
-        //// lambda 表达式还可以通过捕获列表捕获一定范围内的变量：
-        /// [] 不捕获任何变量。
-        /// [&] 捕获外部作用域中所有变量，并作为引用在函数体中使用（按引用捕获）。
-        /// [=] 捕获外部作用域中所有变量，并作为副本在函数体中使用（按值捕获）。
-        /// [=, &foo] 按值捕获外部作用域中所有变量，并按引用捕获 foo 变量。
-        /// [bar] 按值捕获 bar 变量，同时不捕获其他变量。
-        /// [this] 捕获当前类中的 this 指针，让 lambda 表达式拥有和当前类成员函数同样的访问权限。如果已经使用了 & 或者 =，就默认添加此选项。捕获 this 的目的是可以在 lambda 中使用当前类的成员函数和成员变量。
-        std::cout << "\nLearningLambda TEST\n";
-        /// Lambda表达式完整的声明格式如下：
-        /// [capture list] (params list) mutable exception-> return type { function body }
-        ///  各项具体含义如下
-        /// capture list：捕获外部变量列表
-        ///  params list：形参列表
-        /// mutable指示符：用来说用是否可以修改捕获的变量
-        ///  exception：异常设定
-        /// return type：返回类型
-        /// function body：函数体
-        /// 此外，我们还可以省略其中的某些成分来声明“不完整”的Lambda表达式，常见的有以下几种：
-        ///
-        /// 1 [capture list] (params list) -> return type {function body}
-        /// 2	[capture list] (params list) {function body}
-        /// 3 [capture list] {function body}
-        ///  其中：
-        /// 格式1声明了const类型的表达式，这种类型的表达式不能修改捕获列表中的值。
-        ///  格式2省略了返回值类型，但编译器可以根据以下规则推断出Lambda表达式的返回类型：
-        ///     （1）：如果function body中存在return语句，则该Lambda表达式的返回类型由return语句的返回类型确定；
-        ///     （2）：如果function body中没有return语句，则返回值为void类型。
-        ///  格式3中省略了参数列表，类似普通函数中的无参函数。
-        class Simple {
-        public:
-            static void func() {
-                auto f = [](int a) -> int { return a + 1; };
-                std::cout << "Simple \n - f(1): " << f(1) << std::endl;
-                //// C++11 中会根据 return 语句自动推导出返回值类型
-                auto y = [](int a) { return a + 1; };
-                std::cout << " - y(1): " << y(1) << std::endl;
-                /// 需要注意 -> 初始化列表不能用于返回值的自动推导
-                auto x1 = [](int i) { return i; };  // OK: return type is int
-                //  auto x2 = [](){ return { 1, 2 }; };  // error: 无法推导出返回值类型
-                /// lambda 表达式在没有参数列表时，参数列表是可以省略的。因此像下面的写法都是正确的：
-                auto y1 = []() { return 1; };
-                auto y2 = [] { return 1; };  // 省略空参数表
-                std::cout << " - x1(0): " << x1(0) << std::endl;
-                std::cout << " - y1: " << y1 << std::endl;
-                std::cout << " - y2: " << y2 << std::endl;
-            }
-        };
-
-        Simple::func();
-        class Example {
-            /// lambda 表达式的捕获列表精细地控制了 lambda 表达式能够访问的外部变量，以及如何访问这些变量。
-        public:
-            int i_ = 0;
-
-            void func(int x, int y) {
-                //      auto x1 = [] { return i_; };                    // error，没有捕获外部变量
-                auto x2 = [=] { return i_ + x + y; };           // OK，捕获所有外部变量
-                auto x3 = [&] { return i_ + x + y; };           // OK，捕获所有外部变量
-                auto x4 = [this] { return i_; };                // OK，捕获this指针
-                //      auto x5 = [this] { return i_ + x + y; };        // error，没有捕获x、y
-                auto x6 = [this, x, y] { return i_ + x + y; };  // OK，捕获this指针、x、y
-                auto x7 = [this] { return i_++; };              // OK，捕获this指针，并修改成员的值
-                std::cout << "Example\n -x2 -> " << x2() << std::endl
-                          << " -x4 -> " << x4() << std::endl;
-            }
-        };
-//  Example::func()
-        Example ex;
-        ex.i_ = 2;
-        ex.func(3, 4);
-        int a = 0, b = 1;
-        //  auto f1 = [] { return a; };               // error，没有捕获外部变量
-        auto f2 = [&] { return a++; };            // OK，捕获所有外部变量，并对a执行自加运算
-        auto f3 = [=] { return a; };              // OK，捕获所有外部变量，并返回a
-//  auto f4 = [=] { return a++; };            // error，a是以复制方式捕获的，无法修改
-//  auto f5 = [a] { return a + b; };          // error，没有捕获变量b
-        auto f6 = [a, &b] { return a + (b++); };  // OK，捕获a和b的引用，并对b做自加运算
-        auto f7 = [=, &b] { return a + (b++); };  // OK，捕获所有外部变量和b的引用，并对b做自加运算
-        /// 默认状态下 lambda 表达式无法修改通过复制方式捕获的外部变量。如果希望修改这些变量的话，我们需要使用引用方式进行捕获。
-
-        //// 关于 lambda 表达式的延迟调用的
-        class B {
-        public:
-            static void func() {
-                int a = 0;
-                auto f = [=] { return a; };      /// 按值捕获外部变量
-                a += 1;                         /// a被修改了 ？当然没有
-                std::cout << f() << std::endl;  /// 输出？
-                /// lambda 表达式按值捕获了所有外部变量。在捕获的一瞬间，a 的值就已经被复制到f中了。之后 a 被修改，但此时 f 中存储的 a 仍然还是捕获时的值，因此，最终输出结果是 0。
-                /// 希望 lambda 表达式在调用时能够即时访问外部变量，我们应当使用引用方式捕获。
-                auto f2 = [&] { return a; };
-                a += 1;
-                std::cout << f2() << std::endl;
-            }
-        };
-        B::func();
-        /// WARNING 被 mutable 修饰的 lambda 表达式就算没有参数也要写明参数列表
-
-        /// 闭包类型 Closure Type
-        class Type {
-        public:
-            /// 可以认为它是一个带有 operator() 的类，即仿函数。因此，我们可以使用 function 和 bind 来存储和操作 lambda 表达式：
-            std::function<int(int)> f1 = [](int a) { return a; };
-
-            std::function<int(void)> f2 = std::bind([](int a) { return a; }, 123);
-            /// 另外，对于没有捕获任何变量的 lambda 表达式，还可以被转换成一个普通的函数指针：
-            using func_t = int (*)(int);
-
-            func_t f = [](int a) { return a; };
-        };
-        Type Type;
-        std::cout << "Type f -> " << Type.f(123) << std::endl;
-
-        typedef void(*Ptr)(int *);
-        Ptr p = [](int *p) { delete p; };  // 正确，没有状态的lambda（没有捕获）的lambda表达式可以直接转换为函数指针
-//  Ptr p1 = [&](int* p){delete p;};  // 错误，有状态的lambda不能直接转换为函数指针
-        std::vector<int> v = {1, 2, 3, 4, 5, 6};
-        int even_count = 0;
-        /// change to Lambda before
-        class CountEven {
-            int &count_;
-
-        public:
-            explicit CountEven(int &count) : count_(count) {}
-
-            void operator()(int val) {
-                if (!(val & 1)) {
-                    ++count_;
-                }
-            }
-        };
-        for_each(v.begin(), v.end(), CountEven(even_count));
-        std::cout << "The number of even is " << even_count << std::endl;
-        /// change to lambda
-        even_count = 0;
-        for_each(v.begin(), v.end(), [&even_count](int val) {
-            if (!(val & 1)) { /// value % 2 == 0
-                ++even_count;
-            }
-        });
-        std::cout << "The number of even is " << even_count << std::endl;
-//  sort(v.begin(), v.end(), [=](int a, int b) {
-//    return b - a;
-//  });
-        sort(v.rbegin(), v.rend());
-        for (auto i: v) {
-            std::cout << i << std::endl;
+void lambda_learning() {
+    /// lambda
+    /// 表达式的价值在于，就地封装短小的功能闭包，可以极其方便地表达出我们希望执行的具体操作，并让上下文结合得更加紧密。
+    /// lambda 表达式的类型在 C++11 中被称为“闭包类型（Closure Type）”。它是一个特殊的，匿名的非
+    /// union 的类类型。
+    //////lambda表达式有如下优点：
+    /// 声明式编程风格：就地匿名定义目标函数或函数对象，不需要额外写一个命名函数或者函数对象。以更直接的方式去写程序，好的可读性和可维护性。
+    /// 简洁：不需要额外再写一个函数或者函数对象，避免了代码膨胀和功能分散，让开发者更加集中精力在手边的问题，同时也获取了更高的生产率。
+    /// 在需要的时间和地点实现功能闭包，使程序更灵活。
+    //// 语法形式   [ capture ] ( params ) opt -> ret { body; };
+    /// 其中 capture 是捕获列表，params 是参数表，opt 是函数选项，ret 是返回值类型，body是函数体。
+    //// lambda 表达式还可以通过捕获列表捕获一定范围内的变量：
+    /// [] 不捕获任何变量。
+    /// [&] 捕获外部作用域中所有变量，并作为引用在函数体中使用（按引用捕获）。
+    /// [=] 捕获外部作用域中所有变量，并作为副本在函数体中使用（按值捕获）。
+    /// [=, &foo] 按值捕获外部作用域中所有变量，并按引用捕获 foo 变量。
+    /// [bar] 按值捕获 bar 变量，同时不捕获其他变量。
+    /// [this] 捕获当前类中的 this 指针，让 lambda
+    /// 表达式拥有和当前类成员函数同样的访问权限。如果已经使用了 & 或者 =，就默认添加此选项。捕获
+    /// this 的目的是可以在 lambda 中使用当前类的成员函数和成员变量。
+    std::cout << "\nLearningLambda TEST\n";
+    /// Lambda表达式完整的声明格式如下：
+    /// [capture list] (params list) mutable exception-> return type { function body }
+    ///  各项具体含义如下
+    /// capture list：捕获外部变量列表
+    ///  params list：形参列表
+    /// mutable指示符：用来说用是否可以修改捕获的变量
+    ///  exception：异常设定
+    /// return type：返回类型
+    /// function body：函数体
+    /// 此外，我们还可以省略其中的某些成分来声明“不完整”的Lambda表达式，常见的有以下几种：
+    ///
+    /// 1 [capture list] (params list) -> return type {function body}
+    /// 2	[capture list] (params list) {function body}
+    /// 3 [capture list] {function body}
+    ///  其中：
+    /// 格式1声明了const类型的表达式，这种类型的表达式不能修改捕获列表中的值。
+    ///  格式2省略了返回值类型，但编译器可以根据以下规则推断出Lambda表达式的返回类型：
+    ///     （1）：如果function
+    ///     body中存在return语句，则该Lambda表达式的返回类型由return语句的返回类型确定；
+    ///     （2）：如果function body中没有return语句，则返回值为void类型。
+    ///  格式3中省略了参数列表，类似普通函数中的无参函数。
+    class Simple {
+     public:
+        static void func() {
+            auto f = [](int a) -> int { return a + 1; };
+            std::cout << "Simple \n - f(1): " << f(1) << std::endl;
+            //// C++11 中会根据 return 语句自动推导出返回值类型
+            auto y = [](int a) { return a + 1; };
+            std::cout << " - y(1): " << y(1) << std::endl;
+            /// 需要注意 -> 初始化列表不能用于返回值的自动推导
+            auto x1 = [](int i) { return i; };  // OK: return type is int
+            //  auto x2 = [](){ return { 1, 2 }; };  // error: 无法推导出返回值类型
+            /// lambda 表达式在没有参数列表时，参数列表是可以省略的。因此像下面的写法都是正确的：
+            auto y1 = []() { return 1; };
+            auto y2 = [] { return 1; };  // 省略空参数表
+            std::cout << " - x1(0): " << x1(0) << std::endl;
+            std::cout << " - y1: " << y1 << std::endl;
+            std::cout << " - y2: " << y2 << std::endl;
         }
-    }
+    };
 
-}//namespace lambda_learning
+    Simple::func();
+    class Example {
+        /// lambda 表达式的捕获列表精细地控制了 lambda
+        /// 表达式能够访问的外部变量，以及如何访问这些变量。
+     public:
+        int i_ = 0;
+
+        void func(int x, int y) {
+            //      auto x1 = [] { return i_; };                    // error，没有捕获外部变量
+            auto x2 = [=] { return i_ + x + y; };  // OK，捕获所有外部变量
+            auto x3 = [&] { return i_ + x + y; };  // OK，捕获所有外部变量
+            auto x4 = [this] { return i_; };       // OK，捕获this指针
+            //      auto x5 = [this] { return i_ + x + y; };        // error，没有捕获x、y
+            auto x6 = [this, x, y] { return i_ + x + y; };  // OK，捕获this指针、x、y
+            auto x7 = [this] { return i_++; };              // OK，捕获this指针，并修改成员的值
+            std::cout << "Example\n -x2 -> " << x2() << std::endl << " -x4 -> " << x4() << std::endl;
+        }
+    };
+    //  Example::func()
+    Example ex;
+    ex.i_ = 2;
+    ex.func(3, 4);
+    int a = 0, b = 1;
+    //  auto f1 = [] { return a; };               // error，没有捕获外部变量
+    auto f2 = [&] { return a++; };  // OK，捕获所有外部变量，并对a执行自加运算
+    auto f3 = [=] { return a; };    // OK，捕获所有外部变量，并返回a
+    //  auto f4 = [=] { return a++; };            // error，a是以复制方式捕获的，无法修改
+    //  auto f5 = [a] { return a + b; };          // error，没有捕获变量b
+    auto f6 = [a, &b] { return a + (b++); };  // OK，捕获a和b的引用，并对b做自加运算
+    auto f7 = [=, &b] { return a + (b++); };  // OK，捕获所有外部变量和b的引用，并对b做自加运算
+    /// 默认状态下 lambda
+    /// 表达式无法修改通过复制方式捕获的外部变量。如果希望修改这些变量的话，我们需要使用引用方式进行捕获。
+
+    //// 关于 lambda 表达式的延迟调用的
+    class B {
+     public:
+        static void func() {
+            int a = 0;
+            auto f = [=] { return a; };     /// 按值捕获外部变量
+            a += 1;                         /// a被修改了 ？当然没有
+            std::cout << f() << std::endl;  /// 输出？
+            /// lambda 表达式按值捕获了所有外部变量。在捕获的一瞬间，a 的值就已经被复制到f中了。之后
+            /// a 被修改，但此时 f 中存储的 a 仍然还是捕获时的值，因此，最终输出结果是 0。 希望
+            /// lambda 表达式在调用时能够即时访问外部变量，我们应当使用引用方式捕获。
+            auto f2 = [&] { return a; };
+            a += 1;
+            std::cout << f2() << std::endl;
+        }
+    };
+    B::func();
+    /// WARNING 被 mutable 修饰的 lambda 表达式就算没有参数也要写明参数列表
+
+    /// 闭包类型 Closure Type
+    class Type {
+     public:
+        /// 可以认为它是一个带有 operator() 的类，即仿函数。因此，我们可以使用 function 和 bind
+        /// 来存储和操作 lambda 表达式：
+        std::function<int(int)> f1 = [](int a) { return a; };
+
+        std::function<int(void)> f2 = std::bind([](int a) { return a; }, 123);
+        /// 另外，对于没有捕获任何变量的 lambda 表达式，还可以被转换成一个普通的函数指针：
+        using func_t = int (*)(int);
+
+        func_t f = [](int a) { return a; };
+    };
+    Type Type;
+    std::cout << "Type f -> " << Type.f(123) << std::endl;
+
+    typedef void (*Ptr)(int *);
+    Ptr p = [](int *p) { delete p; };  // 正确，没有状态的lambda（没有捕获）的lambda表达式可以直接转换为函数指针
+    //  Ptr p1 = [&](int* p){delete p;};  // 错误，有状态的lambda不能直接转换为函数指针
+    std::vector<int> v = {1, 2, 3, 4, 5, 6};
+    int even_count = 0;
+    /// change to Lambda before
+    class CountEven {
+        int &count_;
+
+     public:
+        explicit CountEven(int &count) : count_(count) {}
+
+        void operator()(int val) {
+            if (!(val & 1)) {
+                ++count_;
+            }
+        }
+    };
+    for_each(v.begin(), v.end(), CountEven(even_count));
+    std::cout << "The number of even is " << even_count << std::endl;
+    /// change to lambda
+    even_count = 0;
+    for_each(v.begin(), v.end(), [&even_count](int val) {
+        if (!(val & 1)) {  /// value % 2 == 0
+            ++even_count;
+        }
+    });
+    std::cout << "The number of even is " << even_count << std::endl;
+    //  sort(v.begin(), v.end(), [=](int a, int b) {
+    //    return b - a;
+    //  });
+    sort(v.rbegin(), v.rend());
+    for (auto i : v) {
+        std::cout << i << std::endl;
+    }
+}
+
+}  // namespace lambda_learning
 
 namespace dfs {
-    void dfs(int pos, int cnt, int n, int k, int a[], bool visited[]) {
-        //已标记了k个数，输出结果
-        if (cnt == k) {
-            for (int i = 0; i < n; i++) {
-                if (visited[i]) { std::cout << a[i] << ' '; }
+void dfs(int pos, int cnt, int n, int k, int a[], bool visited[]) {
+    //已标记了k个数，输出结果
+    if (cnt == k) {
+        for (int i = 0; i < n; i++) {
+            if (visited[i]) {
+                std::cout << a[i] << ' ';
             }
-            std::cout << std::endl;
-            return;
         }
-
-        //处理到最后一个数，直接返回
-        if (pos == n) { return; }
-
-        //如果a[pos]没有被选中
-        if (!visited[pos]) {
-            //选中a[pos]
-            visited[pos] = true;
-            //处理在子串a[pos+1, n-1]中取出k-1个数的子问题
-            dfs(pos + 1, cnt + 1, n, k, a, visited);
-            //回溯
-            visited[pos] = false;
-        }
-        //处理在子串a[pos+1, n-1]中取出k个数的问题
-        dfs(pos + 1, cnt, n, k, a, visited);
+        std::cout << std::endl;
+        return;
     }
 
-    int testDfs() {
-        int ii, n, k;
-        while (std::cin >> n >> k, n || k) {
-            int *a = new int[n];
-            bool *visited = new bool[n];
-            for (ii = 0; ii < n; ii++) {
-                a[ii] = ii + 1;
-                visited[ii] = false;
-            }
-            dfs(0, 0, n, k, a, visited);
-            delete[] a;
-            delete[] visited;
-        }
-        getchar();
-        return 0;
+    //处理到最后一个数，直接返回
+    if (pos == n) {
+        return;
     }
 
-} // namespace dfs
+    //如果a[pos]没有被选中
+    if (!visited[pos]) {
+        //选中a[pos]
+        visited[pos] = true;
+        //处理在子串a[pos+1, n-1]中取出k-1个数的子问题
+        dfs(pos + 1, cnt + 1, n, k, a, visited);
+        //回溯
+        visited[pos] = false;
+    }
+    //处理在子串a[pos+1, n-1]中取出k个数的问题
+    dfs(pos + 1, cnt, n, k, a, visited);
+}
 
+int testDfs() {
+    int ii, n, k;
+    while (std::cin >> n >> k, n || k) {
+        int *a = new int[n];
+        bool *visited = new bool[n];
+        for (ii = 0; ii < n; ii++) {
+            a[ii] = ii + 1;
+            visited[ii] = false;
+        }
+        dfs(0, 0, n, k, a, visited);
+        delete[] a;
+        delete[] visited;
+    }
+    getchar();
+    return 0;
+}
+
+}  // namespace dfs
 
 TEST(dontknow, whattest) {
-//    std::cin.get();
-//    op_list::op_array::LC::test();
+    //    std::cin.get();
+    //    op_list::op_array::LC::test();
 }
 
 int primary_algorithms::pa_array::removeDuplicates(std::vector<int> &nums, double point) {
-    if (nums.empty()) { return 0; }
+    if (nums.empty()) {
+        return 0;
+    }
     int left = 0;
     unsigned len = nums.size();
     for (unsigned right = 1; right < len; ++right) {
@@ -1342,7 +1497,9 @@ int primary_algorithms::pa_array::removeDuplicates(std::vector<int> &nums, doubl
 }
 
 int primary_algorithms::pa_array::removeDuplicates(std::vector<int> &nums) {
-    if (nums.empty()) { return 0; }
+    if (nums.empty()) {
+        return 0;
+    }
     int count = 0;
     unsigned len = nums.size();
     for (unsigned right = 1; right < len; ++right) {
@@ -1374,9 +1531,10 @@ TEST(pa_array, removeDuplicates_2) {
     EXPECT_EQ(res, 2);
 }
 
-
 int primary_algorithms::pa_array::maxProfit(std::vector<int> &prices) {
-    if (prices.empty()) { return 0; }
+    if (prices.empty()) {
+        return 0;
+    }
     unsigned len = prices.size();
     int res = 0;
     for (unsigned i = 0; i < len - 1; ++i) {
@@ -1395,7 +1553,6 @@ TEST(pa_array, maxProfit_1) {
     EXPECT_EQ(res, 7);
 }
 
-
 TEST(pa_array, maxProfit_2) {
     auto p = new primary_algorithms::pa_array;
     std::vector<int> t = {1, 2, 3, 4, 5};
@@ -1411,9 +1568,13 @@ TEST(pa_array, maxProfit_3) {
 }
 
 void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k) {
-    if (nums.empty()) { return; }
+    if (nums.empty()) {
+        return;
+    }
     int len = nums.size();
-    if (len == 1) { return; }
+    if (len == 1) {
+        return;
+    }
     int kk = k % len;
     primary_algorithms::reverse_array(nums, 0, len - 1);
     primary_algorithms::reverse_array(nums, 0, kk - 1);
@@ -1424,9 +1585,13 @@ void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k) {
 }
 
 void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, double other_array) {
-    if (nums.empty()) { return; }
+    if (nums.empty()) {
+        return;
+    }
     int len = nums.size();
-    if (len == 1) { return; }
+    if (len == 1) {
+        return;
+    }
     std::vector<int> temp = nums;
     for (int i = 0; i < len; ++i) {
         nums[(i + k) % len] = temp[i];
@@ -1437,9 +1602,13 @@ void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, double 
 }
 
 void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, bool use_stl) {
-    if (nums.empty()) { return; }
+    if (nums.empty()) {
+        return;
+    }
     int len = nums.size();
-    if (len == 1) { return; }
+    if (len == 1) {
+        return;
+    }
     int kk = k % len;
     std::reverse(nums.rbegin(), nums.rend());
     std::reverse(nums.begin(), nums.begin() + kk);
@@ -1450,21 +1619,21 @@ void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, bool us
 }
 
 TEST(pa_array, rotate_1) {
-    //checks that vector v is {5, 10, 15}
-    //ASSERT_THAT(v, ElementsAre(5, 10, 15));
+    // checks that vector v is {5, 10, 15}
+    // ASSERT_THAT(v, ElementsAre(5, 10, 15));
 
-    //checks that map m only have elements 1 => 10, 2 => 20
-    //ASSERT_THAT(m, ElementsAre(Pair(1, 10), Pair(2, 20)));
+    // checks that map m only have elements 1 => 10, 2 => 20
+    // ASSERT_THAT(m, ElementsAre(Pair(1, 10), Pair(2, 20)));
 
-    //checks that in vector v all the elements are greater than 10 and less than 20
-    //ASSERT_THAT(v, Each(AllOf(Gt(10), Lt(20))));
+    // checks that in vector v all the elements are greater than 10 and less than 20
+    // ASSERT_THAT(v, Each(AllOf(Gt(10), Lt(20))));
 
-    //checks that vector v consist of
-    //   5, number greater than 10, anything.
-    //ASSERT_THAT(v, ElementsAre(5, Gt(10), _));
+    // checks that vector v consist of
+    //    5, number greater than 10, anything.
+    // ASSERT_THAT(v, ElementsAre(5, Gt(10), _));
 
     //相同元素判定 不考虑顺序
-    //EXPECT_TRUE(std::is_permutation(source.begin(), source.end(), t.begin()));
+    // EXPECT_TRUE(std::is_permutation(source.begin(), source.end(), t.begin()));
 
     auto p = new primary_algorithms::pa_array;
     std::vector<int> t = {1, 2, 3, 4, 5, 6, 7};
@@ -1509,7 +1678,7 @@ TEST(pa_array, rotate_3) {
 
 bool primary_algorithms::pa_array::containsDuplicate(std::vector<int> &nums) {
     std::set<int> s;
-    for (auto n: nums) {
+    for (auto n : nums) {
         auto p = s.insert(n);
         if (!p.second) {
             return true;
@@ -1540,7 +1709,9 @@ TEST(pa_array, containsDuplicate_1) {
 
 int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums) {
     int res = 0;
-    for (auto n: nums) { res ^= n; }
+    for (auto n : nums) {
+        res ^= n;
+    }
     return res;
 
     //执行用时：20 ms, 在所有C++提交中击败了72.97%的用户
@@ -1549,7 +1720,7 @@ int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums) {
 
 int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums, bool use_set) {
     std::set<int> s;
-    for (auto n: nums) {
+    for (auto n : nums) {
         auto p = s.insert(n);
         if (!p.second) {
             s.erase(n);
@@ -1575,7 +1746,7 @@ TEST(pa_array, singleNumber_2) {
     std::vector<int> t = {2, 2, 1};
     int res = p->singleNumber(t);
     EXPECT_EQ(res, 1);
-    t = {2, 2, 1}; // t为什么在singleNumber_2用例中被修改，而singleNumber_1中未被修改
+    t = {2, 2, 1};  // t为什么在singleNumber_2用例中被修改，而singleNumber_1中未被修改
     res = p->singleNumber(t, true);
     EXPECT_EQ(res, 1);
 }
@@ -1584,8 +1755,8 @@ std::vector<int> primary_algorithms::pa_array::intersect(std::vector<int> &nums1
     return {};
 }
 
-std::vector<int>
-primary_algorithms::pa_array::intersect(std::vector<int> &nums1, std::vector<int> &nums2, bool use_stl) {
+std::vector<int> primary_algorithms::pa_array::intersect(std::vector<int> &nums1, std::vector<int> &nums2,
+                                                         bool use_stl) {
     auto p = new op_list::op_array::VectorCtrl;
     return p->vectors_intersection(nums1, nums2);
 
@@ -1595,29 +1766,26 @@ primary_algorithms::pa_array::intersect(std::vector<int> &nums1, std::vector<int
 
 TEST(pa_array, intersect_1) {
     auto p = new primary_algorithms::pa_array;
-    std::vector<int> t1 = {1, 2, 2, 1},
-            t2 = {2, 2};
+    std::vector<int> t1 = {1, 2, 2, 1}, t2 = {2, 2};
     auto res = p->intersect(t1, t2);
     ASSERT_THAT(res, testing::ElementsAre(2, 2));
 }
 
 TEST(pa_array, intersect_2) {
     auto p = new primary_algorithms::pa_array;
-    std::vector<int> t1 = {4, 9, 5},
-            t2 = {9, 4, 9, 8, 4};
+    std::vector<int> t1 = {4, 9, 5}, t2 = {9, 4, 9, 8, 4};
     auto res = p->intersect(t1, t2);
     ASSERT_THAT(res, testing::ElementsAre(4, 9));
 }
 
-
 void primary_algorithms::reverse_array(std::vector<int> &nums, int begin, int end) {
-//    while (begin < end) {
-//        int temp = nums[begin];
-//        nums[begin++] = nums[end];
-//        nums[end--] = temp;
-//    }
+    //    while (begin < end) {
+    //        int temp = nums[begin];
+    //        nums[begin++] = nums[end];
+    //        nums[end--] = temp;
+    //    }
 
-    //stl也即这么交换的
+    // stl也即这么交换的
     while (begin < end) {
         std::swap(nums[begin++], nums[end--]);
     }
@@ -1631,34 +1799,26 @@ void modern_cpp::usabilityEnhancements() {
     }
 }
 
-
-std::tuple<int, double, std::string> modern_cpp::fTuple() {
-    return std::make_tuple(1, 1.2, "nb");
-}
-
+std::tuple<int, double, std::string> modern_cpp::fTuple() { return std::make_tuple(1, 1.2, "nb"); }
 
 TEST(fTuple, fTuple) {
-    auto[x, y, z] = modern_cpp::fTuple();
+    auto [x, y, z] = modern_cpp::fTuple();
     std::cout << x << " " << y << " " << z << std::endl;
 }
-
 
 void modern_cpp::testIsSame() {
     auto a = 1;
     auto b = 1.1;
     decltype(a + b) z;
-//    if (std::is_same_v<decltype(a), int>)
-//        std::cout << " a is int" << std::endl;
-//    if (std::is_same_v<decltype(b), float>)
-//        std::cout << " b is float" << std::endl;
-//    if (std::is_same_v<decltype(z), decltype(b)>)
-//        std::cout << " z type equals b type" << std::endl;
-
+    //    if (std::is_same_v<decltype(a), int>)
+    //        std::cout << " a is int" << std::endl;
+    //    if (std::is_same_v<decltype(b), float>)
+    //        std::cout << " b is float" << std::endl;
+    //    if (std::is_same_v<decltype(z), decltype(b)>)
+    //        std::cout << " z type equals b type" << std::endl;
 }
 
-
 int main(int argc, char *argv[]) {
-
     std::string name = "sm23.56";
 
     std::string time = "1920-102-2.314+213";
@@ -1680,9 +1840,7 @@ int main(int argc, char *argv[]) {
         std::cout << "type" << type << "\n";
     }
 
-
-//    io_test::string2binary();
-
+    //    io_test::string2binary();
 
     std::string kyaneos = "Kyaneos-Kyaneos-Kyaneos-Kyaneos--";
     augus::PrintTest("Kyaneos", kyaneos);
@@ -1702,32 +1860,31 @@ int main(int argc, char *argv[]) {
     augus::PrintTest("number of comparisons:", count_com);
     augus::PrintTest("vec", vec);
 
-//    getAverage();
+    //    getAverage();
 
     std::string s090 = "she sheaf";
     augus::PrintTest("s090", s090);
     s090 = s090.substr(s090.find(' '), s090.size());
     augus::PrintTest("s090 truncate", s090);
 
-//    augus::PrintTest("FrogClimb", FrogClimb(2, 1, 10));
+    //    augus::PrintTest("FrogClimb", FrogClimb(2, 1, 10));
 
-//    static std::default_random_engine randE(time(nullptr));
-//    static std::uniform_int_distribution<uint64_t> randValue(0, 50);
-//    static const auto getValue = [&]() { return randValue(randE); };
-//
-//    for (std::size_t i = 0; i != 3; ++i) {
-//        std::cout << getValue() << std::endl;
-//    }
-
+    //    static std::default_random_engine randE(time(nullptr));
+    //    static std::uniform_int_distribution<uint64_t> randValue(0, 50);
+    //    static const auto getValue = [&]() { return randValue(randE); };
+    //
+    //    for (std::size_t i = 0; i != 3; ++i) {
+    //        std::cout << getValue() << std::endl;
+    //    }
 
     //以10分为一个分数段统计成绩
-//    std::vector<unsigned> scores(11, 0);
-//    unsigned grade;
-//    while (std::cin >> grade) {
-//        if (grade <= 100) {
-//            ++scores[grade / 10];
-//        }
-//    }
+    //    std::vector<unsigned> scores(11, 0);
+    //    unsigned grade;
+    //    while (std::cin >> grade) {
+    //        if (grade <= 100) {
+    //            ++scores[grade / 10];
+    //        }
+    //    }
 
     std::string s1 = "Hello World";
     augus::PrintTest("s1 is \"Hello World\"", s1);
@@ -1741,46 +1898,32 @@ int main(int argc, char *argv[]) {
     std::cout << "s1 and s2: " << (s1 == s2) << std::endl;
     std::cout << "s1 and s3: " << (s1 == s3) << std::endl;
 
-//    augus::PrintTest("CutBar", Solution::CutBar(8, 2));
-//
-//    std::cout << std::endl;
-//    declare();
-//    std::cout << std::endl;
-//    print();
-//    std::cout << std::endl;
+    //    augus::PrintTest("CutBar", Solution::CutBar(8, 2));
+    //
+    //    std::cout << std::endl;
+    //    declare();
+    //    std::cout << std::endl;
+    //    print();
+    //    std::cout << std::endl;
 
-
-//    int t = 5;
-//    augus::PrintTest("f(t)", f(t));
-//    f(t) = 20;
-//    augus::PrintTest("f(t)", f(t));
-//    t = f(t);
-//    augus::PrintTest("f(t)", f(t));
+    //    int t = 5;
+    //    augus::PrintTest("f(t)", f(t));
+    //    f(t) = 20;
+    //    augus::PrintTest("f(t)", f(t));
+    //    t = f(t);
+    //    augus::PrintTest("f(t)", f(t));
 
     std::cout << std::endl;
-//    jjj();
+    //    jjj();
     std::cout << std::endl;
 
-
-
-//    char a[] = "hello world";
-//    char *p2 = a;
-//    augus::PrintTest("sizeof(a)", sizeof(a));
-//    augus::PrintTest("sizeof(p2)", sizeof(p2));
-
-
+    //    char a[] = "hello world";
+    //    char *p2 = a;
+    //    augus::PrintTest("sizeof(a)", sizeof(a));
+    //    augus::PrintTest("sizeof(p2)", sizeof(p2));
 
     testing::InitGoogleTest(&argc, argv);
     int ret = RUN_ALL_TESTS();
 
     return ret;
 }
-
-
-
-
-
-
-
-
-

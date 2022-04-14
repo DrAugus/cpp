@@ -57,14 +57,14 @@ son_sptr SonC::instance() {
 }
 
 int main() {
-
     std::string name = "sm23.56";
 
     std::string time = "1920-102-2.314+213";
     std::string date = "1920/20/20+213";
 
     auto fn = [&](const std::string &str) {
-        return str.find('-') != std::string::npos || str.find('/') != std::string::npos;
+        return str.find('-') != std::string::npos ||
+               str.find('/') != std::string::npos;
     };
 
     if (name.find("") != std::string::npos) {

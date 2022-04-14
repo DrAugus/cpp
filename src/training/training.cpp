@@ -7,131 +7,6 @@
 using namespace leetcode;
 using namespace codewars;
 
-std::vector<int> TrainingTreeNode::preorderTraversal(TreeNode *root) {
-    if (root == nullptr) { return {}; }
-    std::stack<TreeNode *> sTree;
-    std::vector<int> res;
-    TreeNode *p = root;
-    while (p != nullptr || !sTree.empty()) {
-        if (p) {
-            res.push_back(p->value);
-            sTree.push(p);
-            p = p->left;
-        } else {
-            p = sTree.top();
-            p = p->right;
-            sTree.pop();
-        }
-    }
-    return res;
-}
-
-std::vector<int> TrainingTreeNode::inorderTraversal(TreeNode *root) {
-    if (root == nullptr) { return {}; }
-    std::stack<TreeNode *> sTree;
-    std::vector<int> res;
-    TreeNode *p = root;
-    while (p != nullptr || !sTree.empty()) {
-        if (p) {
-            res.push_back(p->value);
-            sTree.push(p);
-            p = p->left;
-        } else {
-            p = sTree.top();
-            p = p->right;
-            sTree.pop();
-        }
-    }
-    return res;
-}
-
-TreeNode *TrainingTreeNode::insertNode(TreeNode *root, int val) {
-    if (root == nullptr) {
-        return new TreeNode(val);
-    }
-
-    if (val > root->value) {
-        root->right = insertNode(root->right, val);
-    } else if (val < root->value) {
-        root->left = insertNode(root->left, val);
-    } else {
-        return root;
-    }
-
-    root->height = std::max(getHeight(root->left), getHeight(root->right)) + 1;
-
-    int balance = getBalance(root);
-    //LL型
-    if (balance > 1 && val < root->left->value) {
-        return ll_rotate(root);
-    }
-    //RR型
-    if (balance < -1 && val > root->right->value) {
-        return rr_rotate(root);
-    }
-    //LR型
-    if (balance > 1 && val > root->left->value) {
-        root->left = rr_rotate(root->left);
-        return ll_rotate(root);
-    }
-    //RL型
-    if (balance < -1 && val < root->right->value) {
-        root->right = ll_rotate(root->right);
-        return rr_rotate(root);
-    }
-
-    return root;
-}
-
-int TrainingTreeNode::getBalance(TreeNode *root) {
-    if (root == nullptr) { return 0; }
-    return getHeight(root->left) - getHeight(root->right);
-}
-
-int TrainingTreeNode::getHeight(TreeNode *root) {
-    if (root == nullptr) { return 0; }
-    return root->height;
-}
-
-TreeNode *TrainingTreeNode::ll_rotate(TreeNode *y) {
-    TreeNode *x = y->left;
-    y->left = x->right;
-    x->right = y;
-
-    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
-    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-
-    return x;
-}
-
-TreeNode *TrainingTreeNode::rr_rotate(TreeNode *y) {
-    TreeNode *x = y->right;
-    y->right = x->left;
-    x->left = y;
-
-    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
-    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-
-    return x;
-}
-
-
-int TrainingTreeNode::buildAVL() {
-    int root = 2;
-    int configData[] = {1, 0, 3, 4, 5, 6, 9, 8, 7};
-    auto *treeAVL = new TreeNode(root);
-    for (int insertVal: configData) {
-        insertNode(treeAVL, insertVal);
-    }
-
-
-    std::cout << "preorderTraversal ==== >";
-    augus::PrintTest(preorderTraversal(treeAVL));
-    std::cout << "inorderTraversal ==== >";
-    augus::PrintTest(inorderTraversal(treeAVL));
-    return 0;
-}
-
 LCSolution_sptr LCSolution::instance() {
     static LCSolution_sptr sptr = nullptr;
     if (sptr == nullptr) {
@@ -170,10 +45,11 @@ ListNode *LCSolution::addTwoNumbers(ListNode *l1, ListNode *l2) {
         carry /= 10;
     }
 
-    if (carry == 1) { p3->next = new ListNode(1); }
+    if (carry == 1) {
+        p3->next = new ListNode(1);
+    }
 
     return res->next;
-
 }
 
 int LCSolution::lengthOfLongestSubstring(std::string s) {
@@ -182,19 +58,20 @@ int LCSolution::lengthOfLongestSubstring(std::string s) {
 }
 
 double LCSolution::findMedianSortedArrays(std::vector<int> &nums1, std::vector<int> &nums2) {
-//    if (nums1.empty() && nums2.empty()) { return 0; }
-//    unsigned length1 = nums1.size(), length2 = nums2.size();
-//    std::vector<int> mergeArr = op_list::op_array::mergeTest(nums1, length1, nums2, length2);
-//
-//    double res = 0;
-//    unsigned sub = (length1 + length2) / 2;
-//    if ((length1 + length2) % 2) {
-//        res = (double) (mergeArr[sub]);
-//    } else {
-//        res = ((double) (mergeArr[sub - 1] + mergeArr[sub])) / (double) 2;
-//    }
-//    std::cout << res << std::endl;
-//    return res;
+    //    if (nums1.empty() && nums2.empty()) { return 0; }
+    //    unsigned length1 = nums1.size(), length2 = nums2.size();
+    //    std::vector<int> mergeArr = op_list::op_array::mergeTest(nums1, length1, nums2, length2);
+    //
+    //    double res = 0;
+    //    unsigned sub = (length1 + length2) / 2;
+    //    if ((length1 + length2) % 2) {
+    //        res = (double) (mergeArr[sub]);
+    //    } else {
+    //        res = ((double) (mergeArr[sub - 1] + mergeArr[sub])) / (double) 2;
+    //    }
+    //    std::cout << res << std::endl;
+    //    return res;
+    return 0;
 }
 
 int LCSolution::reverse(int x) {
@@ -204,8 +81,6 @@ int LCSolution::reverse(int x) {
         x /= 10;
     }
     return n > INT_MAX || n < INT_MIN ? 0 : n;
-    //			执行耗时:4 ms,击败了49.18% 的C++用户
-    //			内存消耗:5.9 MB,击败了11.60% 的C++用户
 }
 
 TEST(LCSolution, reverse) {
@@ -220,13 +95,7 @@ TEST(LCSolution, reverse) {
 
 int LCSolution::romanToInt(std::string s) {
     std::unordered_map<char, int> symbolValues = {
-            {'I', 1},
-            {'V', 5},
-            {'X', 10},
-            {'L', 50},
-            {'C', 100},
-            {'D', 500},
-            {'M', 1000},
+        {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000},
     };
     int res = 0;
     int len = s.length();
@@ -243,7 +112,9 @@ int LCSolution::romanToInt(std::string s) {
 
 std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target) {
     std::vector<int> res(2, -1);
-    if (nums.empty()) { return res; }
+    if (nums.empty()) {
+        return res;
+    }
     int len = nums.size();
     int left = 0;
     int right = len - 1;
@@ -255,7 +126,9 @@ std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target) {
             left = mid + 1;
         }
     }
-    if (nums[left] != target) { return res; }
+    if (nums[left] != target) {
+        return res;
+    }
     res[0] = left;
     right = len;
     while (left < right) {
@@ -283,7 +156,6 @@ TEST(LCSolution, searchRange) {
 }
 
 int LCSolution::jump(std::vector<int> &nums) {
-
     if (nums[0] == 0) {
         return 0;
     }
@@ -306,17 +178,15 @@ int LCSolution::jump(std::vector<int> &nums) {
                 }
                 return 1 + jump(nums);
             }
-
         }
     }
 
     return 0;
-
 }
 
 int LCSolution::maxSubArray(std::vector<int> &nums) {
     int res = 0, max = nums[0];
-    for (auto v: nums) {
+    for (auto v : nums) {
         res = std::max(v + res, v);
         max = std::max(max, res);
     }
@@ -325,16 +195,16 @@ int LCSolution::maxSubArray(std::vector<int> &nums) {
 
 TEST(LCSolution, maxSubArray) {
     auto p = new LCSolution;
-    std::vector<int> v =
-            {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    std::vector<int> v = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
     int res = 6;
     EXPECT_EQ(p->maxSubArray(v), res);
 }
 
 int LCSolution::lengthOfLastWord(std::string s) {
-
     int sub_begin = -1, sub_end = s.length() - 1;
-    if (s.empty() || s == " ") { return 0; }
+    if (s.empty() || s == " ") {
+        return 0;
+    }
 
     for (int i = s.length() - 1; i >= 0; i--) {
         if (isalpha(s[i])) {
@@ -353,7 +223,9 @@ int LCSolution::lengthOfLastWord(std::string s) {
 }
 
 int LCSolution::minDepth(TreeNode *root) {
-    if (root == nullptr) { return 0; }
+    if (root == nullptr) {
+        return 0;
+    }
 
     int lDepth = minDepth(root->left);
     int rDepth = minDepth(root->right);
@@ -368,10 +240,11 @@ int LCSolution::minDepth(TreeNode *root) {
 }
 
 int LCSolution::maxProfit(int k, std::vector<int> &prices) {
-    if (prices.empty() || prices.size() == 1) { return 0; }
+    if (prices.empty() || prices.size() == 1) {
+        return 0;
+    }
 
     std::vector<int> resGoal(k - 1);
-
 
     std::vector<int> resDiff;
     resDiff.reserve(prices.size() - 1);
@@ -423,17 +296,16 @@ TEST(LCSolution, convertToTitle) {
 }
 
 int LCSolution::titleToNumber(std::string columnTitle) {
-//    int res = 0;
-//    int mul = 1;
-//    for (int i = columnTitle.size() - 1; i >= 0; --i) {
-//        int k = (columnTitle[i] - 'A' + 1);
-//        res += k * mul;
-//        mul *= 26;
-//    }
-//    return res;
+    //    int res = 0;
+    //    int mul = 1;
+    //    for (int i = columnTitle.size() - 1; i >= 0; --i) {
+    //        int k = (columnTitle[i] - 'A' + 1);
+    //        res += k * mul;
+    //        mul *= 26;
+    //    }
+    //    return res;
 
-//above越界
-
+    // above越界
 
     int n = columnTitle.length() - 1;
     int res = 0;
@@ -441,8 +313,6 @@ int LCSolution::titleToNumber(std::string columnTitle) {
         res = columnTitle.at(i) - 'A' + 1 + 26 * res;
     }
     return res;
-//			执行耗时:0 ms,击败了100.00% 的C++用户
-//			内存消耗:5.8 MB,击败了55.66% 的C++用户
 }
 
 TEST(LCSolution, titleToNumber) {
@@ -514,80 +384,83 @@ std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, bool brute_fo
         case 1:
             return {"0:01", "0:02", "0:04", "0:08", "0:16", "0:32", "1:00", "2:00", "4:00", "8:00"};
         case 2:
-            return {"0:03", "0:05", "0:06", "0:09", "0:10", "0:12", "0:17", "0:18", "0:20", "0:24", "0:33", "0:34",
-                    "0:36", "0:40", "0:48", "1:01", "1:02", "1:04", "1:08", "1:16", "1:32", "2:01", "2:02", "2:04",
-                    "2:08", "2:16", "2:32", "4:01", "4:02", "4:04", "4:08", "4:16", "4:32", "8:01", "8:02", "8:04",
-                    "8:08", "8:16", "8:32", "3:00", "5:00", "6:00", "9:00", "10:00"};
+            return {"0:03", "0:05", "0:06", "0:09", "0:10", "0:12", "0:17", "0:18", "0:20", "0:24", "0:33",
+                    "0:34", "0:36", "0:40", "0:48", "1:01", "1:02", "1:04", "1:08", "1:16", "1:32", "2:01",
+                    "2:02", "2:04", "2:08", "2:16", "2:32", "4:01", "4:02", "4:04", "4:08", "4:16", "4:32",
+                    "8:01", "8:02", "8:04", "8:08", "8:16", "8:32", "3:00", "5:00", "6:00", "9:00", "10:00"};
         case 3:
-            return {"0:07", "0:11", "0:13", "0:14", "0:19", "0:21", "0:22", "0:25", "0:26", "0:28", "0:35", "0:37",
-                    "0:38", "0:41", "0:42", "0:44", "0:49", "0:50", "0:52", "0:56", "1:03", "1:05", "1:06", "1:09",
-                    "1:10", "1:12", "1:17", "1:18", "1:20", "1:24", "1:33", "1:34", "1:36", "1:40", "1:48", "2:03",
-                    "2:05", "2:06", "2:09", "2:10", "2:12", "2:17", "2:18", "2:20", "2:24", "2:33", "2:34", "2:36",
-                    "2:40", "2:48", "4:03", "4:05", "4:06", "4:09", "4:10", "4:12", "4:17", "4:18", "4:20", "4:24",
-                    "4:33", "4:34", "4:36", "4:40", "4:48", "8:03", "8:05", "8:06", "8:09", "8:10", "8:12", "8:17",
-                    "8:18", "8:20", "8:24", "8:33", "8:34", "8:36", "8:40", "8:48", "3:01", "3:02", "3:04", "3:08",
-                    "3:16", "3:32", "5:01", "5:02", "5:04", "5:08", "5:16", "5:32", "6:01", "6:02", "6:04", "6:08",
-                    "6:16", "6:32", "9:01", "9:02", "9:04", "9:08", "9:16", "9:32", "10:01", "10:02", "10:04", "10:08",
-                    "10:16", "10:32", "7:00", "11:00"};
+            return {"0:07", "0:11", "0:13", "0:14", "0:19", "0:21",  "0:22",  "0:25",  "0:26",  "0:28",  "0:35",
+                    "0:37", "0:38", "0:41", "0:42", "0:44", "0:49",  "0:50",  "0:52",  "0:56",  "1:03",  "1:05",
+                    "1:06", "1:09", "1:10", "1:12", "1:17", "1:18",  "1:20",  "1:24",  "1:33",  "1:34",  "1:36",
+                    "1:40", "1:48", "2:03", "2:05", "2:06", "2:09",  "2:10",  "2:12",  "2:17",  "2:18",  "2:20",
+                    "2:24", "2:33", "2:34", "2:36", "2:40", "2:48",  "4:03",  "4:05",  "4:06",  "4:09",  "4:10",
+                    "4:12", "4:17", "4:18", "4:20", "4:24", "4:33",  "4:34",  "4:36",  "4:40",  "4:48",  "8:03",
+                    "8:05", "8:06", "8:09", "8:10", "8:12", "8:17",  "8:18",  "8:20",  "8:24",  "8:33",  "8:34",
+                    "8:36", "8:40", "8:48", "3:01", "3:02", "3:04",  "3:08",  "3:16",  "3:32",  "5:01",  "5:02",
+                    "5:04", "5:08", "5:16", "5:32", "6:01", "6:02",  "6:04",  "6:08",  "6:16",  "6:32",  "9:01",
+                    "9:02", "9:04", "9:08", "9:16", "9:32", "10:01", "10:02", "10:04", "10:08", "10:16", "10:32",
+                    "7:00", "11:00"};
         case 4:
-            return {"0:15", "0:23", "0:27", "0:29", "0:30", "0:39", "0:43", "0:45", "0:46", "0:51", "0:53", "0:54",
-                    "0:57", "0:58", "1:07", "1:11", "1:13", "1:14", "1:19", "1:21", "1:22", "1:25", "1:26", "1:28",
-                    "1:35", "1:37", "1:38", "1:41", "1:42", "1:44", "1:49", "1:50", "1:52", "1:56", "2:07", "2:11",
-                    "2:13", "2:14", "2:19", "2:21", "2:22", "2:25", "2:26", "2:28", "2:35", "2:37", "2:38", "2:41",
-                    "2:42", "2:44", "2:49", "2:50", "2:52", "2:56", "4:07", "4:11", "4:13", "4:14", "4:19", "4:21",
-                    "4:22", "4:25", "4:26", "4:28", "4:35", "4:37", "4:38", "4:41", "4:42", "4:44", "4:49", "4:50",
-                    "4:52", "4:56", "8:07", "8:11", "8:13", "8:14", "8:19", "8:21", "8:22", "8:25", "8:26", "8:28",
-                    "8:35", "8:37", "8:38", "8:41", "8:42", "8:44", "8:49", "8:50", "8:52", "8:56", "3:03", "3:05",
-                    "3:06", "3:09", "3:10", "3:12", "3:17", "3:18", "3:20", "3:24", "3:33", "3:34", "3:36", "3:40",
-                    "3:48", "5:03", "5:05", "5:06", "5:09", "5:10", "5:12", "5:17", "5:18", "5:20", "5:24", "5:33",
-                    "5:34", "5:36", "5:40", "5:48", "6:03", "6:05", "6:06", "6:09", "6:10", "6:12", "6:17", "6:18",
-                    "6:20", "6:24", "6:33", "6:34", "6:36", "6:40", "6:48", "9:03", "9:05", "9:06", "9:09", "9:10",
-                    "9:12", "9:17", "9:18", "9:20", "9:24", "9:33", "9:34", "9:36", "9:40", "9:48", "10:03", "10:05",
-                    "10:06", "10:09", "10:10", "10:12", "10:17", "10:18", "10:20", "10:24", "10:33", "10:34", "10:36",
-                    "10:40", "10:48", "7:01", "7:02", "7:04", "7:08", "7:16", "7:32", "11:01", "11:02", "11:04",
-                    "11:08", "11:16", "11:32"};
+            return {"0:15",  "0:23",  "0:27",  "0:29",  "0:30",  "0:39",  "0:43",  "0:45",  "0:46",  "0:51",  "0:53",
+                    "0:54",  "0:57",  "0:58",  "1:07",  "1:11",  "1:13",  "1:14",  "1:19",  "1:21",  "1:22",  "1:25",
+                    "1:26",  "1:28",  "1:35",  "1:37",  "1:38",  "1:41",  "1:42",  "1:44",  "1:49",  "1:50",  "1:52",
+                    "1:56",  "2:07",  "2:11",  "2:13",  "2:14",  "2:19",  "2:21",  "2:22",  "2:25",  "2:26",  "2:28",
+                    "2:35",  "2:37",  "2:38",  "2:41",  "2:42",  "2:44",  "2:49",  "2:50",  "2:52",  "2:56",  "4:07",
+                    "4:11",  "4:13",  "4:14",  "4:19",  "4:21",  "4:22",  "4:25",  "4:26",  "4:28",  "4:35",  "4:37",
+                    "4:38",  "4:41",  "4:42",  "4:44",  "4:49",  "4:50",  "4:52",  "4:56",  "8:07",  "8:11",  "8:13",
+                    "8:14",  "8:19",  "8:21",  "8:22",  "8:25",  "8:26",  "8:28",  "8:35",  "8:37",  "8:38",  "8:41",
+                    "8:42",  "8:44",  "8:49",  "8:50",  "8:52",  "8:56",  "3:03",  "3:05",  "3:06",  "3:09",  "3:10",
+                    "3:12",  "3:17",  "3:18",  "3:20",  "3:24",  "3:33",  "3:34",  "3:36",  "3:40",  "3:48",  "5:03",
+                    "5:05",  "5:06",  "5:09",  "5:10",  "5:12",  "5:17",  "5:18",  "5:20",  "5:24",  "5:33",  "5:34",
+                    "5:36",  "5:40",  "5:48",  "6:03",  "6:05",  "6:06",  "6:09",  "6:10",  "6:12",  "6:17",  "6:18",
+                    "6:20",  "6:24",  "6:33",  "6:34",  "6:36",  "6:40",  "6:48",  "9:03",  "9:05",  "9:06",  "9:09",
+                    "9:10",  "9:12",  "9:17",  "9:18",  "9:20",  "9:24",  "9:33",  "9:34",  "9:36",  "9:40",  "9:48",
+                    "10:03", "10:05", "10:06", "10:09", "10:10", "10:12", "10:17", "10:18", "10:20", "10:24", "10:33",
+                    "10:34", "10:36", "10:40", "10:48", "7:01",  "7:02",  "7:04",  "7:08",  "7:16",  "7:32",  "11:01",
+                    "11:02", "11:04", "11:08", "11:16", "11:32"};
         case 5:
-            return {"0:31", "0:47", "0:55", "0:59", "1:15", "1:23", "1:27", "1:29", "1:30", "1:39", "1:43", "1:45",
-                    "1:46", "1:51", "1:53", "1:54", "1:57", "1:58", "2:15", "2:23", "2:27", "2:29", "2:30", "2:39",
-                    "2:43", "2:45", "2:46", "2:51", "2:53", "2:54", "2:57", "2:58", "4:15", "4:23", "4:27", "4:29",
-                    "4:30", "4:39", "4:43", "4:45", "4:46", "4:51", "4:53", "4:54", "4:57", "4:58", "8:15", "8:23",
-                    "8:27", "8:29", "8:30", "8:39", "8:43", "8:45", "8:46", "8:51", "8:53", "8:54", "8:57", "8:58",
-                    "3:07", "3:11", "3:13", "3:14", "3:19", "3:21", "3:22", "3:25", "3:26", "3:28", "3:35", "3:37",
-                    "3:38", "3:41", "3:42", "3:44", "3:49", "3:50", "3:52", "3:56", "5:07", "5:11", "5:13", "5:14",
-                    "5:19", "5:21", "5:22", "5:25", "5:26", "5:28", "5:35", "5:37", "5:38", "5:41", "5:42", "5:44",
-                    "5:49", "5:50", "5:52", "5:56", "6:07", "6:11", "6:13", "6:14", "6:19", "6:21", "6:22", "6:25",
-                    "6:26", "6:28", "6:35", "6:37", "6:38", "6:41", "6:42", "6:44", "6:49", "6:50", "6:52", "6:56",
-                    "9:07", "9:11", "9:13", "9:14", "9:19", "9:21", "9:22", "9:25", "9:26", "9:28", "9:35", "9:37",
-                    "9:38", "9:41", "9:42", "9:44", "9:49", "9:50", "9:52", "9:56", "10:07", "10:11", "10:13", "10:14",
-                    "10:19", "10:21", "10:22", "10:25", "10:26", "10:28", "10:35", "10:37", "10:38", "10:41", "10:42",
-                    "10:44", "10:49", "10:50", "10:52", "10:56", "7:03", "7:05", "7:06", "7:09", "7:10", "7:12", "7:17",
-                    "7:18", "7:20", "7:24", "7:33", "7:34", "7:36", "7:40", "7:48", "11:03", "11:05", "11:06", "11:09",
-                    "11:10", "11:12", "11:17", "11:18", "11:20", "11:24", "11:33", "11:34", "11:36", "11:40", "11:48"};
+            return {"0:31",  "0:47",  "0:55",  "0:59",  "1:15",  "1:23",  "1:27",  "1:29",  "1:30",  "1:39",  "1:43",
+                    "1:45",  "1:46",  "1:51",  "1:53",  "1:54",  "1:57",  "1:58",  "2:15",  "2:23",  "2:27",  "2:29",
+                    "2:30",  "2:39",  "2:43",  "2:45",  "2:46",  "2:51",  "2:53",  "2:54",  "2:57",  "2:58",  "4:15",
+                    "4:23",  "4:27",  "4:29",  "4:30",  "4:39",  "4:43",  "4:45",  "4:46",  "4:51",  "4:53",  "4:54",
+                    "4:57",  "4:58",  "8:15",  "8:23",  "8:27",  "8:29",  "8:30",  "8:39",  "8:43",  "8:45",  "8:46",
+                    "8:51",  "8:53",  "8:54",  "8:57",  "8:58",  "3:07",  "3:11",  "3:13",  "3:14",  "3:19",  "3:21",
+                    "3:22",  "3:25",  "3:26",  "3:28",  "3:35",  "3:37",  "3:38",  "3:41",  "3:42",  "3:44",  "3:49",
+                    "3:50",  "3:52",  "3:56",  "5:07",  "5:11",  "5:13",  "5:14",  "5:19",  "5:21",  "5:22",  "5:25",
+                    "5:26",  "5:28",  "5:35",  "5:37",  "5:38",  "5:41",  "5:42",  "5:44",  "5:49",  "5:50",  "5:52",
+                    "5:56",  "6:07",  "6:11",  "6:13",  "6:14",  "6:19",  "6:21",  "6:22",  "6:25",  "6:26",  "6:28",
+                    "6:35",  "6:37",  "6:38",  "6:41",  "6:42",  "6:44",  "6:49",  "6:50",  "6:52",  "6:56",  "9:07",
+                    "9:11",  "9:13",  "9:14",  "9:19",  "9:21",  "9:22",  "9:25",  "9:26",  "9:28",  "9:35",  "9:37",
+                    "9:38",  "9:41",  "9:42",  "9:44",  "9:49",  "9:50",  "9:52",  "9:56",  "10:07", "10:11", "10:13",
+                    "10:14", "10:19", "10:21", "10:22", "10:25", "10:26", "10:28", "10:35", "10:37", "10:38", "10:41",
+                    "10:42", "10:44", "10:49", "10:50", "10:52", "10:56", "7:03",  "7:05",  "7:06",  "7:09",  "7:10",
+                    "7:12",  "7:17",  "7:18",  "7:20",  "7:24",  "7:33",  "7:34",  "7:36",  "7:40",  "7:48",  "11:03",
+                    "11:05", "11:06", "11:09", "11:10", "11:12", "11:17", "11:18", "11:20", "11:24", "11:33", "11:34",
+                    "11:36", "11:40", "11:48"};
         case 6:
-            return {"1:31", "1:47", "1:55", "1:59", "2:31", "2:47", "2:55", "2:59", "4:31", "4:47", "4:55", "4:59",
-                    "8:31", "8:47", "8:55", "8:59", "3:15", "3:23", "3:27", "3:29", "3:30", "3:39", "3:43", "3:45",
-                    "3:46", "3:51", "3:53", "3:54", "3:57", "3:58", "5:15", "5:23", "5:27", "5:29", "5:30", "5:39",
-                    "5:43", "5:45", "5:46", "5:51", "5:53", "5:54", "5:57", "5:58", "6:15", "6:23", "6:27", "6:29",
-                    "6:30", "6:39", "6:43", "6:45", "6:46", "6:51", "6:53", "6:54", "6:57", "6:58", "9:15", "9:23",
-                    "9:27", "9:29", "9:30", "9:39", "9:43", "9:45", "9:46", "9:51", "9:53", "9:54", "9:57", "9:58",
-                    "10:15", "10:23", "10:27", "10:29", "10:30", "10:39", "10:43", "10:45", "10:46", "10:51", "10:53",
-                    "10:54", "10:57", "10:58", "7:07", "7:11", "7:13", "7:14", "7:19", "7:21", "7:22", "7:25", "7:26",
-                    "7:28", "7:35", "7:37", "7:38", "7:41", "7:42", "7:44", "7:49", "7:50", "7:52", "7:56", "11:07",
-                    "11:11", "11:13", "11:14", "11:19", "11:21", "11:22", "11:25", "11:26", "11:28", "11:35", "11:37",
-                    "11:38", "11:41", "11:42", "11:44", "11:49", "11:50", "11:52", "11:56"};
+            return {"1:31",  "1:47",  "1:55",  "1:59",  "2:31",  "2:47",  "2:55",  "2:59",  "4:31",  "4:47",  "4:55",
+                    "4:59",  "8:31",  "8:47",  "8:55",  "8:59",  "3:15",  "3:23",  "3:27",  "3:29",  "3:30",  "3:39",
+                    "3:43",  "3:45",  "3:46",  "3:51",  "3:53",  "3:54",  "3:57",  "3:58",  "5:15",  "5:23",  "5:27",
+                    "5:29",  "5:30",  "5:39",  "5:43",  "5:45",  "5:46",  "5:51",  "5:53",  "5:54",  "5:57",  "5:58",
+                    "6:15",  "6:23",  "6:27",  "6:29",  "6:30",  "6:39",  "6:43",  "6:45",  "6:46",  "6:51",  "6:53",
+                    "6:54",  "6:57",  "6:58",  "9:15",  "9:23",  "9:27",  "9:29",  "9:30",  "9:39",  "9:43",  "9:45",
+                    "9:46",  "9:51",  "9:53",  "9:54",  "9:57",  "9:58",  "10:15", "10:23", "10:27", "10:29", "10:30",
+                    "10:39", "10:43", "10:45", "10:46", "10:51", "10:53", "10:54", "10:57", "10:58", "7:07",  "7:11",
+                    "7:13",  "7:14",  "7:19",  "7:21",  "7:22",  "7:25",  "7:26",  "7:28",  "7:35",  "7:37",  "7:38",
+                    "7:41",  "7:42",  "7:44",  "7:49",  "7:50",  "7:52",  "7:56",  "11:07", "11:11", "11:13", "11:14",
+                    "11:19", "11:21", "11:22", "11:25", "11:26", "11:28", "11:35", "11:37", "11:38", "11:41", "11:42",
+                    "11:44", "11:49", "11:50", "11:52", "11:56"};
         case 7:
-            return {"3:31", "3:47", "3:55", "3:59", "5:31", "5:47", "5:55", "5:59", "6:31", "6:47", "6:55", "6:59",
-                    "9:31", "9:47", "9:55", "9:59", "10:31", "10:47", "10:55", "10:59", "7:15", "7:23", "7:27", "7:29",
-                    "7:30", "7:39", "7:43", "7:45", "7:46", "7:51", "7:53", "7:54", "7:57", "7:58", "11:15", "11:23",
-                    "11:27", "11:29", "11:30", "11:39", "11:43", "11:45", "11:46", "11:51", "11:53", "11:54", "11:57",
-                    "11:58"};
+            return {"3:31",  "3:47",  "3:55",  "3:59",  "5:31",  "5:47",  "5:55",  "5:59",  "6:31",  "6:47",
+                    "6:55",  "6:59",  "9:31",  "9:47",  "9:55",  "9:59",  "10:31", "10:47", "10:55", "10:59",
+                    "7:15",  "7:23",  "7:27",  "7:29",  "7:30",  "7:39",  "7:43",  "7:45",  "7:46",  "7:51",
+                    "7:53",  "7:54",  "7:57",  "7:58",  "11:15", "11:23", "11:27", "11:29", "11:30", "11:39",
+                    "11:43", "11:45", "11:46", "11:51", "11:53", "11:54", "11:57", "11:58"};
         case 8:
             return {"7:31", "7:47", "7:55", "7:59", "11:31", "11:47", "11:55", "11:59"};
         default:
             return {};
     }
-    //	执行耗时:4 ms,击败了40.02% 的C++用户
-    //	内存消耗:6.6 MB,击败了11.17% 的C++用户
 }
 
 std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_force) {
@@ -600,8 +473,6 @@ std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_for
         }
     }
     return res;
-    //			执行耗时:0 ms,击败了100.00% 的C++用户
-    //			内存消耗:6.2 MB,击败了85.67% 的C++用户
 }
 
 TEST(LCSolution, readBinaryWatch) {
@@ -612,8 +483,12 @@ TEST(LCSolution, readBinaryWatch) {
 }
 
 int LCSolution::numberOfArithmeticSlices(std::vector<int> &nums) {
-    if (nums.empty()) { return 0; }
-    if (nums.size() < 3) { return 0; }
+    if (nums.empty()) {
+        return 0;
+    }
+    if (nums.size() < 3) {
+        return 0;
+    }
     int count = 0;
     int addend = 0;
 
@@ -638,7 +513,7 @@ int LCSolution::strongPasswordChecker(std::string password) {
     // TODO 研究实现
     int len = password.length();
     bool has_upper = false, has_lower = false, has_digit = false;
-    for (auto ch: password) {
+    for (auto ch : password) {
         if (std::isupper(ch)) {
             has_upper = true;
         } else if (std::islower(ch)) {
@@ -654,9 +529,10 @@ int LCSolution::strongPasswordChecker(std::string password) {
         int replace = 0;
         int cnt = 0;
         char cur = '#';
-        for (char ch: password) {
-            if (ch == cur) { ++cnt; }
-            else {
+        for (char ch : password) {
+            if (ch == cur) {
+                ++cnt;
+            } else {
                 replace += cnt / 3;
                 cnt = 1;
                 cur = ch;
@@ -671,9 +547,10 @@ int LCSolution::strongPasswordChecker(std::string password) {
         int rm2 = 0;
         int cnt = 0;
         char cur = '#';
-        for (char ch: password) {
-            if (ch == cur) { ++cnt; }
-            else {
+        for (char ch : password) {
+            if (ch == cur) {
+                ++cnt;
+            } else {
                 if (remove > 0 && cnt >= 3) {
                     if (cnt % 3 == 0) {
                         // 如果是 k % 3 = 0 的组，那么优先删除 1 个字符，减少 1 次替换操作
@@ -694,15 +571,17 @@ int LCSolution::strongPasswordChecker(std::string password) {
             if (cnt % 3 == 0) {
                 --remove;
                 --replace;
+            } else if (cnt % 3 == 1) {
+                ++rm2;
             }
-            else if (cnt % 3 == 1) { ++rm2; }
         }
         replace += cnt / 3;
         // 使用 k % 3 = 1 的组的数量，由剩余的替换次数、组数和剩余的删除次数共同决定
         int use2 = std::min({replace, rm2, remove / 2});
         replace -= use2;
         remove -= use2 * 2;
-        // 由于每有一次替换次数就一定有 3 个连续相同的字符（k / 3 决定），因此这里可以直接计算出使用 k % 3 = 2 的组的数量
+        // 由于每有一次替换次数就一定有 3 个连续相同的字符（k / 3 决定），因此这里可以直接计算出使用
+        // k % 3 = 2 的组的数量
         int use3 = std::min({replace, remove / 3});
         replace -= use3;
         remove -= use3 * 3;
@@ -723,21 +602,22 @@ TEST(LCSolution, strongPasswordChecker) {
 }
 
 int LCSolution::findMaximumXOR(std::vector<int> &nums) {
-    if (nums.empty()) { return 0; }
+    if (nums.empty()) {
+        return 0;
+    }
     auto biggest = max_element(begin(nums), end(nums));
     int res = 0;
-    for (auto compare: nums) {
+    for (auto compare : nums) {
         int max = compare ^ *biggest;
         if (max > res) {
             res = max;
         }
-//    res = (compare ^ *biggest) > res ? (compare ^ *biggest) : res;
+        //    res = (compare ^ *biggest) > res ? (compare ^ *biggest) : res;
     }
     return res;
 }
 
 int LCSolution::maxPoints(std::vector<std::vector<int>> &points) {
-
     if (points.size() <= 2) {
         return points.size();
     }
@@ -748,7 +628,6 @@ int LCSolution::maxPoints(std::vector<std::vector<int>> &points) {
         int duplicate = 0;
         int sameSlope = 1;
         for (int j = i + 1; j < points.size(); j++) {
-
             abx = points[i][0] - points[j][0];
             aby = points[i][1] - points[j][1];
 
@@ -787,21 +666,20 @@ std::vector<int> LCSolution::findDuplicates(std::vector<int> &nums) {
     }
     return des;
 
-//  if (nums.empty()) return {};
-//  std::vector<int> res;
-//  for (auto i = 0; i < nums.size(); i++) {
-//    while (nums[i] != i) {
-//      if (nums[i] != nums[nums[i]]) {
-//        int temp = nums[i];
-//        nums[i] = nums[temp];
-//        nums[temp] = temp;
-//      } else {
-//        res.push_back(nums[i]);
-//      }
-//    }
-//  }
-//  return res;
-
+    //  if (nums.empty()) return {};
+    //  std::vector<int> res;
+    //  for (auto i = 0; i < nums.size(); i++) {
+    //    while (nums[i] != i) {
+    //      if (nums[i] != nums[nums[i]]) {
+    //        int temp = nums[i];
+    //        nums[i] = nums[temp];
+    //        nums[temp] = temp;
+    //      } else {
+    //        res.push_back(nums[i]);
+    //      }
+    //    }
+    //  }
+    //  return res;
 }
 
 std::vector<int> LCSolution::findDisappearedNumbers(std::vector<int> &nums) {
@@ -816,7 +694,8 @@ std::vector<int> LCSolution::findDisappearedNumbers(std::vector<int> &nums) {
 }
 
 bool LCSolution::findTarget(TreeNode *root, int k) {
-    if (!root) return false;
+    if (!root)
+        return false;
     if (ss653.count(k - root->value)) {
         return true;
     }
@@ -827,7 +706,7 @@ bool LCSolution::findTarget(TreeNode *root, int k) {
 int LCSolution::calPoints(std::vector<std::string> &ops) {
     std::stack<std::string> s;
     int res = 0;
-    for (const auto &info: ops) {
+    for (const auto &info : ops) {
         s.push(info);
         if (s.top() == "C") {
             s.pop();
@@ -861,10 +740,12 @@ bool LCSolution::hasAlternatingBits(int n) {
 }
 
 int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
-    if (costs.empty()) { return 0; }
+    if (costs.empty()) {
+        return 0;
+    }
     std::sort(costs.begin(), costs.end());
     int use = 0, res = 0;
-    for (auto co: costs) {
+    for (auto co : costs) {
         if (co > coins) {
             //最小的都买不起
             return res;
@@ -873,13 +754,13 @@ int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
         ++res;
         if (use >= coins) {
             //没有那么多钱 减去最后加的
-            if (use > coins) { --res; }
+            if (use > coins) {
+                --res;
+            }
             return res;
         }
     }
     return res;
-//			执行耗时:256 ms,击败了5.17% 的C++用户
-//			内存消耗:74.7 MB,击败了9.88% 的C++用户
 }
 
 TEST(LCSolution, maxIceCream) {
@@ -895,14 +776,22 @@ TEST(LCSolution, maxIceCream) {
 }
 
 int LCSolution::maximumElementAfterDecrementingAndRearranging(std::vector<int> &arr) {
-    if (arr.empty()) { return 0; }
+    if (arr.empty()) {
+        return 0;
+    }
     std::sort(arr.begin(), arr.end());
-    if (arr[0] != 1) { arr[0] = 1; }
+    if (arr[0] != 1) {
+        arr[0] = 1;
+    }
     for (int i = 1; i < arr.size(); ++i) {
         int val = arr[i - 1] - arr[i];
         int a = val > 0 ? val : (-val);
-        if (val > 1) { arr[i - 1] -= (a - 1); }
-        if (val < -1) { arr[i] -= (a - 1); }
+        if (val > 1) {
+            arr[i - 1] -= (a - 1);
+        }
+        if (val < -1) {
+            arr[i] -= (a - 1);
+        }
     }
     return arr[arr.size() - 1];
 }
@@ -934,13 +823,15 @@ TEST(LCSolution, minPairSum) {
 bool LCSolution::isCovered(std::vector<std::vector<int>> &ranges, int left, int right) {
     for (int i = left; i <= right; ++i) {
         bool flag = false;
-        for (auto &item: ranges) {
+        for (auto &item : ranges) {
             if (item[0] <= i && item[1] >= i) {
                 flag = true;
                 break;
             }
         }
-        if (!flag) { return false; }
+        if (!flag) {
+            return false;
+        }
     }
     return true;
 }
@@ -952,7 +843,8 @@ std::vector<int> LCSolution::missingRolls(std::vector<int> &rolls, int mean, int
     }
     int v = sum / n;
     std::vector<int> res(n, v);
-    if (v == 6) return res;
+    if (v == 6)
+        return res;
     sum -= v * n;
     for (int i = 0; sum; ++i) {
         int add = std::min(sum, 6 - v);
@@ -987,7 +879,7 @@ TEST(LCSolution, missingRolls) {
 int LCSolution::count1ofBinary(int n) {
     int key = n % 4;
     const int error = -1;
-    //4种算法都可行
+    // 4种算法都可行
     switch (key) {
         case 1: {
             int res = 0;
@@ -1017,22 +909,23 @@ int LCSolution::count1ofBinary(int n) {
 
 std::vector<std::vector<int>> LCSolution::prefixSum(std::vector<std::vector<int>> a) {
     std::vector<std::vector<int>> b;
-    int n = a.size();//n行
-    int m = a[0].size();//m列
+    int n = a.size();     // n行
+    int m = a[0].size();  // m列
     for (int y = 0; y < n; ++y) {
         for (int x = 0; x < m; ++x) {
             if (x == 0 && y == 0) {
-                b[y][x] = a[y][x];//左上角的值
+                b[y][x] = a[y][x];  //左上角的值
             } else if (x == 0) {
-                b[y][x] = b[y - 1][x] + a[y][x];//第一列
+                b[y][x] = b[y - 1][x] + a[y][x];  //第一列
             } else if (y == 0) {
-                b[y][x] = b[y][x - 1] + a[y][x];//第一行
-            } else { b[y][x] = b[y - 1][x] + b[y][x - 1] - b[y - 1][x - 1] + a[y][x]; }
+                b[y][x] = b[y][x - 1] + a[y][x];  //第一行
+            } else {
+                b[y][x] = b[y - 1][x] + b[y][x - 1] - b[y - 1][x - 1] + a[y][x];
+            }
         }
     }
     return b;
 }
-
 
 int codewars::CWSolution::Multiples3Or5(int number) {
     const int err = -1;
@@ -1041,21 +934,21 @@ int codewars::CWSolution::Multiples3Or5(int number) {
         case 1: {
             /// < number
             /// 商
-            int a1 = number / 3,
-                    a2 = number / 5,
-                    a3 = number / 15;
+            int a1 = number / 3, a2 = number / 5, a3 = number / 15;
             /// 余数
-            int b1 = number % 3,
-                    b2 = number % 5,
-                    b3 = number % 15;
+            int b1 = number % 3, b2 = number % 5, b3 = number % 15;
             /// 3、5、15的倍数的数目
-            int c1 = 0,
-                    c2 = 0,
-                    c3 = 0;
+            int c1 = 0, c2 = 0, c3 = 0;
             /// < number
-            if (!b1) { a1 -= 1; }
-            if (!b2) { a2 -= 1; }
-            if (!b3) { a3 -= 1; }
+            if (!b1) {
+                a1 -= 1;
+            }
+            if (!b2) {
+                a2 -= 1;
+            }
+            if (!b3) {
+                a3 -= 1;
+            }
 
             for (int i = 1; i <= a1; i++) {
                 c1 += i;
@@ -1094,18 +987,18 @@ bool codewars::CWSolution::validBraces(std::string braces) {
             std::stack<char> s;
             std::string bracketLeft = "{[(";
             std::string bracketRight = "}])";
-            for (char chr: braces) {
+            for (char chr : braces) {
                 int indexLeft = -1, indexRight = -1;
                 indexLeft = bracketLeft.find(chr);
                 indexRight = bracketRight.find(chr);
                 // 是左括号
                 if (indexLeft >= 0) {
-                    s.push(chr);    // 入栈
+                    s.push(chr);  // 入栈
                     // 是右括号
                 } else if (indexRight >= 0) {
                     // 匹配成功
                     if (!s.empty() && s.top() == bracketLeft[indexRight]) {
-                        s.pop();    // 出栈
+                        s.pop();  // 出栈
                     } else {
                         return false;
                     }
@@ -1115,13 +1008,14 @@ bool codewars::CWSolution::validBraces(std::string braces) {
         }
         case 2: {
             std::regex r(R"(\(\)|\[\]|\{\})");
-            while (regex_search(braces, r)) { braces = regex_replace(braces, r, ""); }
+            while (regex_search(braces, r)) {
+                braces = regex_replace(braces, r, "");
+            }
             return braces.length() == 0;
         }
         default:
             return false;
     }
-
 }
 
 int codewars::SnailSort::GetDirection(bool Direction[4]) {
@@ -1229,13 +1123,11 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
                 DirectionGo[(UP + 1) % 4] = true;
                 break;
         }
-
     }
     return Res;
 }
 
 std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> &snail_map) {
-
     ///// GOT CycleTimes
     //// 5x5
     //// 5 4 4 3
@@ -1253,12 +1145,14 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
     //// 3 2 2 1
     //// 1
 
-    if (snail_map.empty()) { return {}; }
+    if (snail_map.empty()) {
+        return {};
+    }
 
     std::vector<int> res;
 
     if (snail_map.size() == 1) {
-//    res.push_back(snail_map[0][0]); /// 内存泄漏
+        //    res.push_back(snail_map[0][0]); /// 内存泄漏
         res = snail_map[0];
         return res;
     }
@@ -1266,8 +1160,7 @@ std::vector<int> codewars::SnailSort::snail(const std::vector<std::vector<int>> 
     //// n x n
     const int rank = snail_map.size();
 
-    int begin = 0,
-            end = rank;
+    int begin = 0, end = rank;
 
     int CycleTimes = ((rank * 2) - 1) / 4;
     if (((rank * 2) - 1) % 4) {
@@ -1336,11 +1229,12 @@ int codewars::Casino::solution(std::vector<int> v) {
 
 TEST(codewars_t1, Casino) {
     auto p = new codewars::Casino;
-    EXPECT_EQ(p->solution({1, 1, 1}), 1);//because after you pick on day one, there will be only one chip left
-    EXPECT_EQ(p->solution({1, 2, 1}), 2);// you can pick twice; you pick two chips on day one then on day two
+    EXPECT_EQ(p->solution({1, 1, 1}),
+              1);  // because after you pick on day one, there will be only one chip left
+    EXPECT_EQ(p->solution({1, 2, 1}),
+              2);  // you can pick twice; you pick two chips on day one then on day two
     EXPECT_EQ(p->solution({4, 1, 1}), 2);
 }
-
 
 int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxValue, std::vector<int> &AllNum) {
     int Count = 0;
@@ -1369,11 +1263,11 @@ int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxVal
                 continue;
             }
 
-            int MaxDigit = ((int) log10(TempSum)) + 1;
+            int MaxDigit = ((int)log10(TempSum)) + 1;
             bool IsCorrectNum = true;
             for (int StartDigit = 1, LastDigit = MaxDigit; StartDigit < LastDigit; StartDigit++, LastDigit--) {
-                int FirstNum = ((int) (TempSum / ((int) pow(10, MaxDigit - StartDigit)))) % 10;
-                int SecondNum = ((int) (TempSum / ((int) (pow(10, MaxDigit - LastDigit))))) % 10;
+                int FirstNum = ((int)(TempSum / ((int)pow(10, MaxDigit - StartDigit)))) % 10;
+                int SecondNum = ((int)(TempSum / ((int)(pow(10, MaxDigit - LastDigit))))) % 10;
 
                 if (FirstNum != SecondNum) {
                     IsCorrectNum = false;
@@ -1387,7 +1281,6 @@ int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxVal
                 continue;
             }
         }
-
     }
 
     return Count;
