@@ -3,10 +3,6 @@
 // Created by AUGUS on 2022/1/27.
 //
 
-
-
-
-
 #include "augus/augus.h"
 
 int hhh(int &a) {
@@ -30,15 +26,12 @@ int &f(int x) {
     return global_a;
 }
 
-
 /* max_element
  * min_element
  * assign
  * reverse
  * wstring_convert
  * */
-
-
 
 void declare() {
     int i;
@@ -56,9 +49,8 @@ void print() {
     }
 }
 
-
 class Solution {
-public:
+ public:
     static int CutBar(int n, int m) {
         int slices = 1;
         int cnt = 0;
@@ -90,10 +82,10 @@ void convolution(const double *input1, const double *input2, double *output, int
 
 int FrogClimb(int m, int n, int h) {
     int day = 0;
-    while (h - n > 0) { // 昨天还没爬出去
-        h -= m;//白天爬了m
+    while (h - n > 0) {  // 昨天还没爬出去
+        h -= m;          //白天爬了m
         ++day;
-        h += n;//夜里掉了n
+        h += n;  //夜里掉了n
     }
     return day;
 }
@@ -112,7 +104,6 @@ std::array<int, 6> getAverage(std::array<int, 30> arr) {
 }
 
 int getAverage() {
-
     int arr[30];
     for (int i = 0; i < 30; ++i) {
         arr[i] = 2 * (i + 1);
@@ -121,7 +112,7 @@ int getAverage() {
         }
     }
     int got[6] = {2, 7, 12, 17, 22, 27};
-    for (int i: got) {
+    for (int i : got) {
         printf("%d ", arr[i]);
     }
 
@@ -136,7 +127,7 @@ int getAverage() {
         i += 5;
     }
 
-    for (auto i: res) {
+    for (auto i : res) {
         std::cout << res[i] << " ";
     }
     std::cout << "\n";
@@ -144,21 +135,13 @@ int getAverage() {
     return 0;
 }
 
-
 // lambda 重载 仅在c++17及以上支持 [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
 constexpr auto translate = [](auto idx) {
     if constexpr (std::is_same_v<decltype(idx), int>) {
         constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};
         return table[idx];
     } else if constexpr (std::is_same_v<decltype(idx), char>) {
-        std::map<char, int> table{{'a', 0},
-                                  {'b', 1},
-                                  {'c', 2},
-                                  {'d', 3},
-                                  {'e', 4},
-                                  {'f', 5},
-                                  {'g', 6},
-                                  {'h', 7}};
+        std::map<char, int> table{{'a', 0}, {'b', 1}, {'c', 2}, {'d', 3}, {'e', 4}, {'f', 5}, {'g', 6}, {'h', 7}};
         return table[idx];
     }
 };
@@ -173,21 +156,18 @@ void WideCharacter() {
     std::wstring w_str = L"shit";
     std::string result;
 
-    result.assign((char *) w_str.data(), w_str.size() * 2);
+    result.assign((char *)w_str.data(), w_str.size() * 2);
 
     std::wcout << w_str << std::endl;
     std::wcout << w_str.data() << std::endl;
-    std::wcout << (char *) w_str.data() << std::endl;
+    std::wcout << (char *)w_str.data() << std::endl;
     std::wcout << w_str.size() * 2 << std::endl;
 
     std::cout << w_str.data() << std::endl;
-    std::cout << (char *) w_str.data() << std::endl;
+    std::cout << (char *)w_str.data() << std::endl;
     std::cout << w_str.size() * 2 << std::endl;
 
     std::cout << result << std::endl;
-
 }
 
-
-
-
+int main() { return 0; }
