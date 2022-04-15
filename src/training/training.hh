@@ -112,6 +112,9 @@ class LCSolution {
     // 693 交替位二进制数
     bool hasAlternatingBits(int n);
 
+    // 744 寻找比目标字母大的最小字母
+    char nextGreatestLetter(std::vector<char> &letters, char target);
+
     // 1833
     int maxIceCream(std::vector<int> &costs, int coins);
 

@@ -739,6 +739,25 @@ bool LCSolution::hasAlternatingBits(int n) {
     return !(a & a + 1);
 }
 
+char LCSolution::nextGreatestLetter(std::vector<char> &letters, char target) {
+
+    int left = 0;
+    int right = letters.size();
+    while (left < right){
+        int min = (left + right) /2;
+        char sub = letters[min];
+        if(sub < target){
+            right = sub;
+        }else{
+            left = sub;
+        }
+    }
+    return right == letters.size() ? letters[0] : letters[right];
+
+
+
+}
+
 int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
     if (costs.empty()) {
         return 0;
