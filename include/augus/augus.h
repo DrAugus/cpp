@@ -24,7 +24,8 @@
 #include <numeric>  // std::partial_sum
 #include <random>
 #include <regex>
-#include <set>     // for std::set
+#include <set>  // for std::set
+#include <shared_mutex>
 #include <stack>   // for std::stack
 #include <thread>  // for std::thread
 #include <tuple>

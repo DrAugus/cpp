@@ -79,8 +79,8 @@ class F {
     double* res;
 };
 
-double f(const std::vector<double>& v){};
-void g(const std::vector<double>& v, double* res){};
+double f(const std::vector<double>& v) { return 0.0; }
+void g(const std::vector<double>& v, double* res){}
 int comp(std::vector<double>& vec1, std::vector<double>& vec2, std::vector<double>& vec3) {
     double res1;
     double res2;
@@ -98,6 +98,18 @@ int comp(std::vector<double>& vec1, std::vector<double>& vec2, std::vector<doubl
 std::mutex mutex_x;
 std::atomic<bool> atomic_bool_x;
 int int_x;
+
+// 共享锁
+std::shared_mutex shared_mutex_x;
+void reader_mutex() {
+    // 跟其他 reader 共享访问
+    std::shared_lock lck{shared_mutex_x};
+    // 读
+}
+void writer_mutex() {
+    // writer 独占
+    std::unique_lock lck{shared_mutex_x};
+}
 
 void access1() {
     if (!atomic_bool_x) {
@@ -244,8 +256,47 @@ class pair {
     Second second;
 };
 
+void pass_para(int);
+void pass_para(int&);
+void pass_para(const int&);
+void pass_para(int&&);
+
+template <typename T>
+using Value_type = typename T::value_type;
+
+// std::complex<double> complex_z = 2 + 3i;
+
+union U {
+    int i;
+    char* p;
+};
+
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
+
+using var_t = std::variant<int, long, double, std::string>;
+
 int main() {
     auto t0 = std::chrono::system_clock::now();
+
+    U u{};
+    int xu = u.i;
+    char* pu = u.p;
+
+    std::optional<int> optional_int = 6;
+    std::variant<int, std::string> variant_ = 6;
+    std::any any_ = 6;
+
+    // 对 optional 解引用 解
+    auto x1 = *optional_int;
+    // 像访问 tuple 一样访问 variant
+    auto x2 = std::get<int>(variant_);
+    // 转换 any
+    auto x3 = std::any_cast<int>(any_);
 
     std::string name = "sm23.56";
 
@@ -284,6 +335,14 @@ int main() {
     user(int{99});
 
     LengthInKM marks[] = {LengthInMile(2.3), LengthInMile(0.76)};
+
+    std::vector<var_t> vec_var_t = {10, 20L, 30.40, "hello"};
+    for (auto& var : vec_var_t) {
+        std::visit(overloaded{[](auto arg) { std::cout << arg << '\n'; },
+                              [](double arg) { std::cout << "double:" << arg << '\n'; },
+                              [](const std::string& arg) { std::cout << "\"" << arg << "\"\n"; }},
+                   var);
+    }
 
     auto t1 = std::chrono::system_clock::now();
     // duration_cast 把依赖于时钟的“嘀嗒”节拍数转换为程序员选用的时间单位
