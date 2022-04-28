@@ -80,8 +80,9 @@ class F {
 };
 
 double f(const std::vector<double>& v) { return 0.0; }
-void g(const std::vector<double>& v, double* res){}
-int comp(std::vector<double>& vec1, std::vector<double>& vec2, std::vector<double>& vec3) {
+void g(const std::vector<double>& v, double* res) {}
+int comp(std::vector<double>& vec1, std::vector<double>& vec2,
+         std::vector<double>& vec3) {
     double res1;
     double res2;
     double res3;
@@ -250,7 +251,8 @@ template <typename First, typename Second>
 class pair {
     template <typename First2, typename Second2>
     explicit pair(pair<First2, Second2>&& rhs) noexcept(
-        std::is_nothrow_constructible<First, First2&&>::value&& std::is_nothrow_constructible<Second, Second2&&>::value)
+        std::is_nothrow_constructible<First, First2&&>::value&&
+            std::is_nothrow_constructible<Second, Second2&&>::value)
         : first(std::move(rhs.first)), second(std::move(rhs.second)) {}
     First first;
     Second second;
@@ -280,8 +282,272 @@ overloaded(Ts...) -> overloaded<Ts...>;
 
 using var_t = std::variant<int, long, double, std::string>;
 
+class MagicFoo {
+ public:
+    std::vector<int> vec;
+    MagicFoo(std::initializer_list<int> list) {
+        for (int it : list) {
+            vec.push_back(it);
+        }
+    }
+};
+
+template <typename T, typename U>
+class MagicType {
+ public:
+    T dark;
+    U magic;
+};
+typedef int (*process)(void*);
+using NewProcess = int (*)(void*);
+template <typename T>
+using TruelyDarkMagic = MagicType<std::vector<T>, std::string>;
+
+class Base {
+ public:
+    int value1;
+    int value2{};
+    Base() { value1 = 1; }
+    // 委托 Base() 构造函数
+    explicit Base(int value) : Base() { value2 = value; }
+
+ public:
+    virtual void foo(int);
+};
+void Base::foo(int) {}
+
+class SubBase : public Base {
+ public:
+    // 继承构造
+    using Base::Base;
+
+ public:
+    void foo(int) override;
+    virtual void foo(float) final;
+};
+void SubBase::foo(int) {}
+void SubBase::foo(float) {}
+
+class Sub2Base final : public SubBase {};
+
+enum class new_enum : unsigned int { value1, value2, value3 = 100, value4 = 102 };
+
+template <typename T>
+std::ostream& operator<<(
+    typename std::enable_if<std::is_enum<T>::value, std::ostream>::type& stream,
+    const T& e) {
+    return stream << static_cast<typename std::underlying_type<T>::type>(e);
+}
+
+template <typename Key, typename Value, typename F>
+void update(std::map<Key, Value>& m, F foo) {
+    for (auto&& [key, value] : m) value = foo(key);
+}
+
+namespace lambda_learning {
+void lambda_learning() {
+    std::cout << "\nLearningLambda TEST\n";
+    class Simple {
+     public:
+        static void func() {
+            auto f = [](int a) -> int { return a + 1; };
+            std::cout << "Simple \n - f(1): " << f(1) << std::endl;
+            //// C++11 中会根据 return 语句自动推导出返回值类型
+            auto y = [](int a) { return a + 1; };
+            std::cout << " - y(1): " << y(1) << std::endl;
+            /// 需要注意 -> 初始化列表不能用于返回值的自动推导
+            auto x1 = [](int i) { return i; };  // OK: return type is int
+            //  auto x2 = [](){ return { 1, 2 }; };  // error: 无法推导出返回值类型
+            /// lambda
+            /// 表达式在没有参数列表时，参数列表是可以省略的。因此像下面的写法都是正确的：
+            auto y1 = []() { return 1; };
+            auto y2 = [] { return 1; };  // 省略空参数表
+            std::cout << " - x1(0): " << x1(0) << std::endl;
+            std::cout << " - y1: " << y1 << std::endl;
+            std::cout << " - y2: " << y2 << std::endl;
+        }
+    };
+
+    Simple::func();
+    class Example {
+        /// lambda 表达式的捕获列表精细地控制了 lambda
+        /// 表达式能够访问的外部变量，以及如何访问这些变量。
+     public:
+        int i_ = 0;
+
+        void func(int x, int y) {
+            //      auto x1 = [] { return i_; };                    //
+            //      error，没有捕获外部变量
+            auto x2 = [=] { return i_ + x + y; };  // OK，捕获所有外部变量
+            auto x3 = [&] { return i_ + x + y; };  // OK，捕获所有外部变量
+            auto x4 = [this] { return i_; };       // OK，捕获this指针
+            //      auto x5 = [this] { return i_ + x + y; };        // error，没有捕获x、y
+            auto x6 = [this, x, y] { return i_ + x + y; };  // OK，捕获this指针、x、y
+            auto x7 = [this] { return i_++; };  // OK，捕获this指针，并修改成员的值
+            std::cout << "Example\n -x2 -> " << x2() << std::endl
+                      << " -x4 -> " << x4() << std::endl;
+        }
+    };
+    //  Example::func()
+    Example ex;
+    ex.i_ = 2;
+    ex.func(3, 4);
+    int a = 0, b = 1;
+    //  auto f1 = [] { return a; };               // error，没有捕获外部变量
+    auto f2 = [&] { return a++; };  // OK，捕获所有外部变量，并对a执行自加运算
+    auto f3 = [=] { return a; };  // OK，捕获所有外部变量，并返回a
+    //  auto f4 = [=] { return a++; };            // error，a是以复制方式捕获的，无法修改
+    //  auto f5 = [a] { return a + b; };          // error，没有捕获变量b
+    auto f6 = [a, &b] { return a + (b++); };  // OK，捕获a和b的引用，并对b做自加运算
+    auto f7 = [=, &b] {
+        return a + (b++);
+    };  // OK，捕获所有外部变量和b的引用，并对b做自加运算
+    /// 默认状态下 lambda
+    /// 表达式无法修改通过复制方式捕获的外部变量。如果希望修改这些变量的话，我们需要使用引用方式进行捕获。
+
+    //// 关于 lambda 表达式的延迟调用的
+    class B {
+     public:
+        static void func() {
+            int a = 0;
+            auto f = [=] { return a; };     /// 按值捕获外部变量
+            a += 1;                         /// a被修改了 ？当然没有
+            std::cout << f() << std::endl;  /// 输出？
+            /// lambda 表达式按值捕获了所有外部变量。在捕获的一瞬间，a
+            /// 的值就已经被复制到f中了。之后 a 被修改，但此时 f 中存储的 a
+            /// 仍然还是捕获时的值，因此，最终输出结果是 0。 希望 lambda
+            /// 表达式在调用时能够即时访问外部变量，我们应当使用引用方式捕获。
+            auto f2 = [&] { return a; };
+            a += 1;
+            std::cout << f2() << std::endl;
+        }
+    };
+    B::func();
+    /// WARNING 被 mutable 修饰的 lambda 表达式就算没有参数也要写明参数列表
+
+    /// 闭包类型 Closure Type
+    class Type {
+     public:
+        /// 可以认为它是一个带有 operator() 的类，即仿函数。因此，我们可以使用 function 和
+        /// bind 来存储和操作 lambda 表达式：
+        std::function<int(int)> f1 = [](int a) { return a; };
+
+        std::function<int(void)> f2 = std::bind([](int a) { return a; }, 123);
+        /// 另外，对于没有捕获任何变量的 lambda 表达式，还可以被转换成一个普通的函数指针：
+        using func_t = int (*)(int);
+
+        func_t f = [](int a) { return a; };
+    };
+    Type Type;
+    std::cout << "Type f -> " << Type.f(123) << std::endl;
+
+    typedef void (*Ptr)(int*);
+    Ptr p = [](int* p) {
+        delete p;
+    };  // 正确，没有状态的lambda（没有捕获）的lambda表达式可以直接转换为函数指针
+    //  Ptr p1 = [&](int* p){delete p;};  // 错误，有状态的lambda不能直接转换为函数指针
+    std::vector<int> v = {1, 2, 3, 4, 5, 6};
+    int even_count = 0;
+    /// change to Lambda before
+    class CountEven {
+        int& count_;
+
+     public:
+        explicit CountEven(int& count) : count_(count) {}
+
+        void operator()(int val) {
+            if (!(val & 1)) {
+                ++count_;
+            }
+        }
+    };
+    for_each(v.begin(), v.end(), CountEven(even_count));
+    std::cout << "The number of even is " << even_count << std::endl;
+    /// change to lambda
+    even_count = 0;
+    for_each(v.begin(), v.end(), [&even_count](int val) {
+        if (!(val & 1)) {  /// value % 2 == 0
+            ++even_count;
+        }
+    });
+    std::cout << "The number of even is " << even_count << std::endl;
+    //  sort(v.begin(), v.end(), [=](int a, int b) {
+    //    return b - a;
+    //  });
+    sort(v.rbegin(), v.rend());
+    for (auto i : v) {
+        std::cout << i << std::endl;
+    }
+}
+
+void lambda_value_capture() {
+    // 与参数传值类似，值捕获的前提是变量可以拷贝，不同之处则在于，被捕获的变量在 Lambda
+    // 表达式被创建时拷贝， 而非调用时才拷贝：
+    int value = 1;
+    auto copy_value = [value] { return value; };
+    value = 100;
+    auto stored_value = copy_value();
+    augus::PrintTest("lambda_value_capture stored_value", stored_value);
+}
+
+void lambda_reference_capture() {
+    int value = 1;
+    auto copy_value = [&value] { return value; };
+    value = 100;
+    auto stored_value = copy_value();
+    augus::PrintTest("lambda_reference_capture stored_value", stored_value);
+}
+
+void lambda_expression_capture() {
+    auto important = std::make_unique<int>(1);
+    // important 是一个独占指针，是不能够被
+    // "=" 值捕获到，这时候我们可以将其转移为右值，在表达式中初始化。
+    auto add = [v1 = 1, v2 = std::move(important)](int x, int y) {
+        return x + y + v1 + (*v2);
+    };
+    augus::PrintTest("lambda_expression_capture add(3,4)", add(3, 4));
+}
+
+auto add = [](auto x, auto y) { return x + y; };
+
+}  // namespace lambda_learning
+
+using foo = void(int);
+void functional(foo f) { f(1); }
+
+void functional_test() {
+    auto f = [](int value) { augus::PrintTest("value", value); };
+    functional(f);
+    f(1);
+}
+
 int main() {
     auto t0 = std::chrono::system_clock::now();
+
+    lambda_learning::lambda_value_capture();
+    lambda_learning::lambda_reference_capture();
+    lambda_learning::lambda_expression_capture();
+
+    augus::PrintTest("new_enum value2", new_enum::value2);
+
+    std::map<std::string, long long int> m{{"a", 1}, {"b", 2}, {"c", 3}};
+    update(m, [](const std::string& key) -> long long int {
+        return std::hash<std::string>{}(key);
+    });
+    for (auto&& [key, value] : m) std::cout << key << ":" << value << std::endl;
+
+    SubBase sb(3);
+    std::cout << sb.value1 << std::endl;
+    std::cout << sb.value2 << std::endl;
+
+    MagicFoo magic_foo = {1, 2, 3, 4, 5};
+    std::cout << "magic foo:";
+    for (auto it : magic_foo.vec) {
+        std::cout << it << ", ";
+    }
+    std::cout << std::endl;
+
+    TruelyDarkMagic<bool> you;
 
     U u{};
     int xu = u.i;
@@ -327,7 +593,7 @@ int main() {
     std::vector<double> vec_d_x3 = {12.41, 51.52, 14};
     comp(vec_d_x1, vec_d_x2, vec_d_x3);
 
-    augus::PrintTest(comp4(vec_d_x));
+    //    augus::PrintTest(comp4(vec_d_x));
 
     std::promise<double> p_d;
     ff(2, p_d);
@@ -340,13 +606,16 @@ int main() {
     for (auto& var : vec_var_t) {
         std::visit(overloaded{[](auto arg) { std::cout << arg << '\n'; },
                               [](double arg) { std::cout << "double:" << arg << '\n'; },
-                              [](const std::string& arg) { std::cout << "\"" << arg << "\"\n"; }},
+                              [](const std::string& arg) {
+                                  std::cout << "\"" << arg << "\"\n";
+                              }},
                    var);
     }
 
     auto t1 = std::chrono::system_clock::now();
     // duration_cast 把依赖于时钟的“嘀嗒”节拍数转换为程序员选用的时间单位
-    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() << "msec\n";
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count()
+              << "msec\n";
     // c++20 可以直接使用 t1-t0
 
     return 0;

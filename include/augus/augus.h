@@ -16,6 +16,7 @@
 #include <fstream>
 #include <functional>  // for std::function for std::greater_equal
 #include <future>
+#include <initializer_list>
 #include <iomanip>  //using std::put_time
 #include <iostream>
 #include <list>  // for std::list
@@ -40,8 +41,8 @@
 
 namespace augus {
 
-// The weakness of variadic templates is that they can easily lead to code bloat as N parameters
-// imply N instantiations of the template.
+// The weakness of variadic templates is that they can easily lead to code bloat as N
+// parameters imply N instantiations of the template.
 // 变参模板的缺点是容易导致代码膨胀，因为 N 个参数意味着模板的 N 次实例化。
 template <typename T, typename... Args>
 void printf(const char *s, const T &value, const Args &...args) {
@@ -55,34 +56,29 @@ void printf(const char *s, const T &value, const Args &...args) {
     throw std::runtime_error("extra arguments provided to printf");
 }
 
-void PrintTest() {}
-
 template <typename T, typename... Args>
-void PrintTest(std::vector<T> info, Args... args) {
-    for (auto i : info) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-    PrintTest(args...);
-}
-
-template <typename T, typename... Args>
-void PrintTest(T info, Args... args) {
+auto PrintTest(T info, Args... args) {
     std::cout << info << std::endl;
-    PrintTest(args...);
+    (void)std::initializer_list<T>{
+        ([&args] { std::cout << args << std::endl; }(), info)...};
 }
 
 template <typename T>
-void PrintTest(std::vector<T> info) {
+auto PrintTest(T info) {
     for (auto i : info) {
         std::cout << i << " ";
     }
     std::cout << std::endl;
 }
 
-template <typename T>
-void PrintTest(T info) {
-    std::cout << info << std::endl;
+template <typename... T>
+auto sum(T... t) {
+    return (t + ...);
+}
+
+template <typename... T>
+auto average(T... t) {
+    return (t + ...) / sizeof...(t);
 }
 
 /// Evaluate Factorial
@@ -106,7 +102,8 @@ T GetFactorial(T num, bool Recursive) {
 
 /// Calculate the number of combinations
 template <typename T>
-void ComputeAllChoices(std::vector<T> &data, T n, T outLen, T startIndex, T m, T *arr, T arrIndex) {
+void ComputeAllChoices(std::vector<T> &data, T n, T outLen, T startIndex, T m, T *arr,
+                       T arrIndex) {
     if (m == 0) {
         for (T i = 0; i < outLen; i++) {
             std::cout << arr[i] << "\t";
@@ -156,7 +153,9 @@ class AugusUtils {
     static augus_utils_sptr instance();
     // inline
  public:
-    bool FindTargetString(const std::string &str, const std::string &tag) { return str.find(tag) != std::string::npos; }
+    bool FindTargetString(const std::string &str, const std::string &tag) {
+        return str.find(tag) != std::string::npos;
+    }
 };
 
 class JsonCombine {
@@ -245,7 +244,8 @@ struct Random {
         randH.seed(timeSeed);
         randM.seed(timeSeed);
         randS.seed(timeSeed);
-        std::uniform_int_distribution<time_t> randTimeH{0, 23}, randTimeM(0, 59), randTimeS(0, 59);
+        std::uniform_int_distribution<time_t> randTimeH{0, 23}, randTimeM(0, 59),
+            randTimeS(0, 59);
         tmH = randTimeH(randH);
         tmM = randTimeM(randM);
         tmS = randTimeS(randS);
@@ -419,7 +419,8 @@ class Duplicate {
  public:
     bool isContainsDuplicate(const std::vector<int> &v);
 
-    int findDuplicateElements(int *arr, int length, std::set<int> s, std::vector<int> &output);
+    int findDuplicateElements(int *arr, int length, std::set<int> s,
+                              std::vector<int> &output);
 
     int Test();
 };  // class Duplicate
@@ -467,7 +468,8 @@ class LC {
 
 };  // class LC
 
-std::vector<int> mergeTest(std::vector<int> &nums1, unsigned m, std::vector<int> &nums2, unsigned n);
+std::vector<int> mergeTest(std::vector<int> &nums1, unsigned m, std::vector<int> &nums2,
+                           unsigned n);
 
 int findMaxInArray();
 
@@ -492,7 +494,8 @@ struct TreeNode {
 
     explicit TreeNode(int val) : value(val), height(1), left(nullptr), right(nullptr) {}
 
-    TreeNode(int val, int h, TreeNode *left, TreeNode *right) : value(val), height(h), left(left), right(right) {}
+    TreeNode(int val, int h, TreeNode *left, TreeNode *right)
+        : value(val), height(h), left(left), right(right) {}
 };  // struct TreeNode
 
 struct BinaryTree {
@@ -539,7 +542,8 @@ void reverse_array(std::vector<int> &nums, int begin, int end);
 
 struct pa_array {
     // 删除排序数组中的重复项
-    int removeDuplicates(std::vector<int> &nums, double point);  // double point means 双指针
+    int removeDuplicates(std::vector<int> &nums,
+                         double point);  // double point means 双指针
     int removeDuplicates(std::vector<int> &nums);
 
     int removeDuplicates(std::vector<int> &nums, bool use_stl);
@@ -566,7 +570,8 @@ struct pa_array {
     // 两个数组的交集 II
     std::vector<int> intersect(std::vector<int> &nums1, std::vector<int> &nums2);
 
-    std::vector<int> intersect(std::vector<int> &nums1, std::vector<int> &nums2, bool use_stl);
+    std::vector<int> intersect(std::vector<int> &nums1, std::vector<int> &nums2,
+                               bool use_stl);
 };
 
 }  // namespace primary_algorithms
@@ -579,8 +584,8 @@ void usabilityEnhancements();
 // 结构化绑定
 std::tuple<int, double, std::string> fTuple();
 
-// decltype 关键字是为了解决 auto 关键字只能对变量进行类型推导的缺陷而出现的。它的用法和 typeof
-// 很相似
+// decltype 关键字是为了解决 auto 关键字只能对变量进行类型推导的缺陷而出现的。它的用法和
+// typeof 很相似
 void testIsSame();
 
 }  // namespace modern_cpp
