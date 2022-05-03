@@ -62,7 +62,8 @@ class Solution {
     }
 };
 
-void convolution(const double *input1, const double *input2, double *output, int mm, int nn) {
+void convolution(const double *input1, const double *input2, double *output, int mm,
+                 int nn) {
     auto *xx = new double[mm + nn - 1];
     // do convolution
     for (int i = 0; i < mm + nn - 1; i++) {
@@ -83,9 +84,9 @@ void convolution(const double *input1, const double *input2, double *output, int
 int FrogClimb(int m, int n, int h) {
     int day = 0;
     while (h - n > 0) {  // 昨天还没爬出去
-        h -= m;          //白天爬了m
+        h -= m;          // 白天爬了m
         ++day;
-        h += n;  //夜里掉了n
+        h += n;  // 夜里掉了n
     }
     return day;
 }
@@ -135,13 +136,15 @@ int getAverage() {
     return 0;
 }
 
-// lambda 重载 仅在c++17及以上支持 [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
+// lambda 重载 仅在c++17及以上支持
+// [refer](https://stackoverflow.com/questions/58700542/overload-a-lambda-function)
 constexpr auto translate = [](auto idx) {
     if constexpr (std::is_same_v<decltype(idx), int>) {
         constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};
         return table[idx];
     } else if constexpr (std::is_same_v<decltype(idx), char>) {
-        std::map<char, int> table{{'a', 0}, {'b', 1}, {'c', 2}, {'d', 3}, {'e', 4}, {'f', 5}, {'g', 6}, {'h', 7}};
+        std::map<char, int> table{{'a', 0}, {'b', 1}, {'c', 2}, {'d', 3},
+                                  {'e', 4}, {'f', 5}, {'g', 6}, {'h', 7}};
         return table[idx];
     }
 };
@@ -163,7 +166,7 @@ void WideCharacter() {
     std::wcout << (char *)w_str.data() << std::endl;
     std::wcout << w_str.size() * 2 << std::endl;
 
-    std::cout << w_str.data() << std::endl;
+    std::wcout << w_str.data() << std::endl;
     std::cout << (char *)w_str.data() << std::endl;
     std::cout << w_str.size() * 2 << std::endl;
 
