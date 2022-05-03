@@ -1,0 +1,15 @@
+稀疏矩阵：大多数元素均为零的矩阵。
+        定义矩阵m*n如果有t个非零元素，那么s = t/m*n称为矩阵的稀疏因子，如果s<=0.05那么矩阵为稀疏矩阵。
+数据对象集合：稀疏矩阵可以使用三元组顺序表表示，其中三元组格式为(i,j,e)记录了非零元素的行号、列号以及非零元素。
+
+
+
+基本操作集合：
+CreateMatrix(&M):创建稀疏矩阵
+DestroyMatrix(&M):销毁稀疏矩阵
+PrintMatrix(M):打印稀疏矩阵
+CopyMatrix(M,&N):复制稀疏矩阵M到N
+AddMatrix(M,N,&Q):矩阵加法
+SubMatrix(M,N,&Q):矩阵减法
+MultiMatrix(M,N,&Q):矩阵乘法
+TransposeMatrix(M,&N):矩阵转置

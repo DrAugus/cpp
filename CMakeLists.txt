@@ -2,9 +2,9 @@
 cmake_minimum_required(VERSION 3.9)
 #定义工程名称
 project(augus_cpp
-        LANGUAGES CXX
+        LANGUAGES C CXX
         VERSION 1.0.0
-        DESCRIPTION "All my test in C++.")
+        DESCRIPTION "All my test in C++ or C.")
 #打印相关消息消息
 message("Project Directory: ${PROJECT_SOURCE_DIR}")
 message("msg: cmake so hard")
