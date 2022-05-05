@@ -1,7 +1,7 @@
 /* PRESET CODE BEGIN - NEVER TOUCH CODE BELOW */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 typedef struct sdata {
     char data;

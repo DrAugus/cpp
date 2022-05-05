@@ -1,4 +1,4 @@
-//本test仅供娱乐，瞎调试
+// 鏈瑃est浠呬緵濞变箰锛岀瀻璋冭瘯
 #include <stdio.h>
 int main() {
     int d[5], i, max;
