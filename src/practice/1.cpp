@@ -480,6 +480,7 @@ void lambda_learning() {
     }
 }
 
+// 值捕获
 void lambda_value_capture() {
     // 与参数传值类似，值捕获的前提是变量可以拷贝，不同之处则在于，被捕获的变量在 Lambda
     // 表达式被创建时拷贝， 而非调用时才拷贝：
@@ -490,6 +491,7 @@ void lambda_value_capture() {
     augus::PrintTest("lambda_value_capture stored_value", stored_value);
 }
 
+// 引用捕获
 void lambda_reference_capture() {
     int value = 1;
     auto copy_value = [&value] { return value; };
@@ -498,6 +500,7 @@ void lambda_reference_capture() {
     augus::PrintTest("lambda_reference_capture stored_value", stored_value);
 }
 
+// 表达式捕获
 void lambda_expression_capture() {
     auto important = std::make_unique<int>(1);
     // important 是一个独占指针，是不能够被
@@ -513,16 +516,114 @@ auto add = [](auto x, auto y) { return x + y; };
 }  // namespace lambda_learning
 
 using foo = void(int);
-void functional(foo f) { f(1); }
+// 定义在参数列表中的函数类型 foo 被视为退化后的函数指针类型 foo*
+void functional(foo f) {
+    // 通过函数指针调用函
+    f(1);
+}
 
 void functional_test() {
     auto f = [](int value) { augus::PrintTest("value", value); };
-    functional(f);
-    f(1);
+    functional(f);  // 传递闭包对象，隐式转换为 foo* 类型的函数指针值
+    f(1);           // lambda 表达式调
+}
+
+int foo_func_int(int para) { return para; }
+
+int func_case() {
+    std::function<int(int)> func = foo_func_int;
+    int important = 10;
+    std::function<int(int)> func2 = [&](int value) -> int {
+        return 1 + value + important;
+    };
+    std::cout << func(10) << std::endl;
+    std::cout << func2(10) << std::endl;
+
+    return 0;
+}
+
+int foo_func_bind(int a, int b, int c) {
+    ;
+    return 0;
+}
+
+int func_bind_case() {
+    // 将参数1,2绑定到函数 foo 上，但是使用 std::placeholders::_1 来对第一个参数进行占位
+    auto bind_foo = std::bind(foo_func_bind, std::placeholders::_1, 3, 4);
+    bind_foo(2);
+    return 0;
+}
+
+void reference(std::string& str) { augus::PrintTest("l value", str); }
+
+void reference(std::string&& str) { augus::PrintTest("r value", str); }
+
+void reference_case() {
+    std::string lv1 = "str";
+    // std::move可以将左值转移为右值
+    std::string&& rv1 = std::move(lv1);
+    augus::PrintTest("rv1", rv1);
+    // 常量左值引用能够延长临时变量的生命周期
+    const std::string& lv2 = lv1 + lv1;
+    augus::PrintTest("lv2", lv2);
+    std::string&& rv2 = lv1 + lv2;
+    rv2 += "case";
+    augus::PrintTest("rv2", rv2);
+    reference(rv2);
+}
+
+class LReference {
+ public:
+    int* pointer;
+    LReference() : pointer(new int(1)) { augus::PrintTest("construct", pointer); }
+    LReference(LReference& lr) : pointer(new int(*lr.pointer)) {
+        augus::PrintTest("copy but no sense", pointer);
+    }
+    LReference(LReference&& lr) noexcept : pointer(lr.pointer) {
+        lr.pointer = nullptr;
+        augus::PrintTest("move", pointer);
+    }
+    ~LReference() {
+        augus::PrintTest("destruct", pointer);
+        delete pointer;
+    }
+};
+
+// 防止编译器优化
+LReference return_rvalue(bool test) {
+    LReference l1, l2;
+    // 等价于 static_cast<A&&>(a);
+    if (test)
+        return l1;
+    // 等价于 static_cast<A&&>(b)
+    else
+        return l2;
+}
+
+void vector_copy() {
+    std::string str = "Hello World";
+    std::vector<std::string> v;
+    v.push_back(str);
+    augus::PrintTest("str: ", str);
+    v.push_back(std::move(str));
+    augus::PrintTest("str: ", str);
 }
 
 int main() {
     auto t0 = std::chrono::system_clock::now();
+
+    vector_copy();
+
+    LReference lr_boj = return_rvalue(false);
+    augus::PrintTest("lr_obj", lr_boj.pointer, *lr_boj.pointer);
+
+    reference_case();
+
+    func_bind_case();
+
+    func_case();
+
+    functional_test();
 
     lambda_learning::lambda_value_capture();
     lambda_learning::lambda_reference_capture();
