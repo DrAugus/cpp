@@ -5,16 +5,6 @@
 #ifndef AUGUS_CPP_PTR_HH
 #define AUGUS_CPP_PTR_HH
 
-#include <fstream>
-#include <iostream>  // for std::cout
-#include <map>       // for std::map
-#include <memory>
-#include <set>     // for std::set
-#include <stack>   // for std::stack
-#include <string>  // for memset
-#include <valarray>  // for std::valarray std::max_element std::min_element std::sort
-#include <vector>  // for std::vector
-
 #include "augus/augus.h"
 
 namespace auto_ptr {
@@ -30,8 +20,7 @@ class Solution {
     ~Solution() = default;
 
  public:
-    void merge1(std::vector<int> &nums1, int m, std::vector<int> &nums2,
-                int n) {
+    void merge1(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n) {
         std::vector<int> array(m + n);
         int k = 0;
         int i = 0;
@@ -61,8 +50,7 @@ class Solution {
     }
 
  public:
-    void merge2(std::vector<int> &nums1, int m, std::vector<int> &nums2,
-                int n) {
+    void merge2(std::vector<int> &nums1, int m, std::vector<int> &nums2, int n) {
         int i = m - 1;
         int j = n - 1;
         int k = m + n - 1;
