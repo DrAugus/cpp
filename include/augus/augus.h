@@ -58,9 +58,9 @@ void printf(const char *s, const T &value, const Args &...args) {
 
 template <typename T, typename... Args>
 auto PrintTest(T info, Args... args) {
-    std::cout << info << std::endl;
-    (void)std::initializer_list<T>{
-        ([&args] { std::cout << args << std::endl; }(), info)...};
+    std::cout << info;
+    (void)std::initializer_list<T>{([&args] { std::cout << args; }(), info)...};
+    std::cout << std::endl;
 }
 
 template <typename T>
@@ -79,6 +79,16 @@ auto sum(T... t) {
 template <typename... T>
 auto average(T... t) {
     return (t + ...) / sizeof...(t);
+}
+
+template <typename T>
+auto tuple_len(T &tpl) {
+    return std::tuple_size<T>::value;
+}
+
+template<typename T, typename ...Args>
+std::unique_ptr<T> make_unique( Args&& ...args ) {
+    return std::unique_ptr<T>( new T( std::forward<Args>(args)... ) );
 }
 
 /// Evaluate Factorial

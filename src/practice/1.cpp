@@ -558,6 +558,12 @@ void reference(std::string& str) { augus::PrintTest("l value", str); }
 
 void reference(std::string&& str) { augus::PrintTest("r value", str); }
 
+void reference(int& v) { augus::PrintTest("l value int", v); }
+
+void reference(int&& v) { augus::PrintTest("r value int", v); }
+
+// TODO 完美转发 还没看
+
 void reference_case() {
     std::string lv1 = "str";
     // std::move可以将左值转移为右值
@@ -607,10 +613,125 @@ void vector_copy() {
     augus::PrintTest("str: ", str);
     v.push_back(std::move(str));
     augus::PrintTest("str: ", str);
+
+    // vec 被清空元素的内存不会归还 shrink_to_fit 才可以
+    v.shrink_to_fit();
 }
+
+void simple_arr(int* p, int len) {
+    for (int i = 0; i < len; ++i) {
+        std::cout << " " << p[i];
+    }
+    std::cout << std::endl;
+}
+
+void map_compare_unordered_map() {
+    std::unordered_map<int, std::string> u = {{1, "1"}, {3, "3"}, {2, "2"}};
+    std::map<int, std::string> v = {{1, "1"}, {3, "3"}, {2, "2"}};
+    augus::PrintTest("std::unordered_map", "");
+    for (const auto& n : u) {
+        augus::PrintTest("key:[", n.first, "] value:[", n.second, "]");
+    }
+    augus::PrintTest("std::map", "");
+    for (const auto& n : v) {
+        augus::PrintTest("key:[", n.first, "] value:[", n.second, "]");
+    }
+}
+
+// --------------------------------------------------------------------------------------
+// solve 运行期索引
+template <size_t n, typename... T>
+constexpr std::variant<T...> _tuple_index(const std::tuple<T...>& tpl, size_t i) {
+    if constexpr (n >= sizeof...(T))
+        throw std::out_of_range("out of range.");
+    if (i == n)
+        return std::variant<T...>{std::in_place_index<n>, std::get<n>(tpl)};
+    return _tuple_index<(n < sizeof...(T) - 1 ? n + 1 : 0)>(tpl, i);
+}
+template <typename... T>
+constexpr std::variant<T...> tuple_index(const std::tuple<T...>& tpl, size_t i) {
+    return _tuple_index<0>(tpl, i);
+}
+template <typename T0, typename... Ts>
+std::ostream& operator<<(std::ostream& s, std::variant<T0, Ts...> const& v) {
+    std::visit([&](auto&& x) { s << x; }, v);
+    return s;
+}
+// --------------------------------------------------------------------------------------
+
+auto get_student(int id) {
+    switch (id) {
+        case 0:
+            return std::make_tuple(3.9, 'A', "Paul");
+        case 1:
+            return std::make_tuple(2.8, 'B', "Meira");
+        case 3:
+            return std::make_tuple(1.7, 'C', "Ben");
+        default:
+            return std::make_tuple(0.0, 'D', "null");
+    }
+    return std::make_tuple(0.0, 'D', "null");
+}
+
+void use_tuple() {
+    auto student = get_student(0);
+    augus::PrintTest("ID: 0, GPA: ", std::get<0>(student),
+                     ", rank: ", std::get<1>(student), ", name: ", std::get<2>(student));
+    // 拆包
+    double gpa;
+    char rank;
+    std::string name;
+    std::tie(gpa, rank, name) = get_student(1);
+    augus::PrintTest("ID: 1, GPA: ", gpa, ", rank: ", rank, ", name: ", name);
+
+    auto cat_tuple = std::tuple_cat(get_student(1), std::move(student));
+    for (int i = 0; i != augus::tuple_len(cat_tuple); ++i) {
+        std::cout << tuple_index(cat_tuple, i) << std::endl;
+    }
+
+    // c++14 latter
+    std::tuple<std::string, double, double, int> t("123", 4.5, 6.7, 8);
+    // 依赖一个编译期的常量 解决方案见运行期索引
+    // augus::PrintTest("get type",std::get<std::string>(student));
+    augus::PrintTest("get type", std::get<std::string>(t));
+}
+
+// Custom Literal
+std::string operator"" _wow(const char* wow1, size_t len) {
+    return std::string(wow1) + "wow, amazing";
+}
+
+std::string operator"" _wow(unsigned long long i) {
+    return std::to_string(i) + "wow, amazing";
+}
+
+struct Storage {
+    char a;
+    int b;
+    double c;
+    long long d;
+};
+
+struct alignas(std::max_align_t) AlignasStorage {
+    char a;
+    int b;
+    double c;
+    long long d;
+};
 
 int main() {
     auto t0 = std::chrono::system_clock::now();
+
+    augus::PrintTest("alignof(Storage): ",alignof(Storage));
+    augus::PrintTest("alignof(AlignasStorage): ",alignof(AlignasStorage));
+
+    use_tuple();
+
+    map_compare_unordered_map();
+
+    std::array<int, 4> simple_arr_values = {1, 2, 3, 4};
+    simple_arr(simple_arr_values.data(), simple_arr_values.size());
+    simple_arr(&simple_arr_values[0], simple_arr_values.size());
 
     vector_copy();
 
