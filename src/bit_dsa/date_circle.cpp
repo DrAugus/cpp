@@ -34,7 +34,7 @@ PDATE del(PDATE p0) {
 int main() {
     count = 10;
     int n = 0, k = 0, m = 0;
-    scanf_s("%d,%d,%d", &n, &m, &k);
+    scanf("%d,%d,%d", &n, &m, &k);
     if (!(n > 0 && m > 0 && k > 0))
         printf("n,m,k must bigger than 0.\n");
     else if (m > n)
