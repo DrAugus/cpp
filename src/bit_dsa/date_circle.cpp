@@ -1,5 +1,10 @@
 #include <cstdio>
 #include <cstdlib>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct date {
     int a;
     struct date* next;
@@ -57,3 +62,7 @@ int main() {
         printf("\n");
     }
 }
+
+#ifdef __cplusplus
+}
+#endif

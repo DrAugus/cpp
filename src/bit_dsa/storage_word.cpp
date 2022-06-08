@@ -3,6 +3,10 @@
 #include <cstdio>
 #include <cstdlib>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct sdata {
     char data;
     struct sdata *next;
@@ -127,3 +131,7 @@ SNODE *ziplist(SNODE *head1, SNODE *head2) {
         return p11->next;
     }
 }
+
+#ifdef __cplusplus
+}
+#endif
