@@ -1,6 +1,7 @@
 #include <iostream>
-int main(int n) {
+int main() {
     int length = 1;
+    int n;
     std::cin >> n;
     // hailstone
     while (n > 1) {

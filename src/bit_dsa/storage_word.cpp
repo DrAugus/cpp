@@ -17,8 +17,8 @@ int main() {
     SNODE *head1, *head2, *head;
     char str1[100], str2[100];
 
-    gets_s(str1);
-    gets_s(str2);
+    gets_s(str1, 100);
+    gets_s(str2, 100);
 
     head1 = (SNODE *)malloc(sizeof(SNODE));
     head2 = (SNODE *)malloc(sizeof(SNODE));
