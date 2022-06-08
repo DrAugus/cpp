@@ -1,11 +1,7 @@
 /* PRESET CODE BEGIN - NEVER TOUCH CODE BELOW */
 
-#include <cstdio>
-#include <cstdlib>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct sdata {
     char data;
@@ -131,7 +127,3 @@ SNODE *ziplist(SNODE *head1, SNODE *head2) {
         return p11->next;
     }
 }
-
-#ifdef __cplusplus
-}
-#endif

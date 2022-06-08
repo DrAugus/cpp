@@ -28,7 +28,7 @@ int CreateMatrix(Matrix *M) {
     int e;
     int flag;
     printf("Input the Matrix's row,col and the number of non-zero element:");
-    scanf_s("%d%d%d", &m, &n, &len);
+    scanf("%d%d%d", &m, &n, &len);
     if (len > MAXSIZE)
         return 0;
     M->len = len;
@@ -40,7 +40,7 @@ int CreateMatrix(Matrix *M) {
             printf(
                 "%d、Input the row(1-%d) and col(i-%d) of element by the order of row:",
                 i, M->m, M->n);
-            scanf_s("%d%d%d", &m, &n, &e);
+            scanf("%d%d%d", &m, &n, &e);
             flag = 0;
             if (m < 0 || n < 0 || m > M->m || n > M->n)
                 flag = 1;

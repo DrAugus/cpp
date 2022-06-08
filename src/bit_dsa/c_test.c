@@ -2,7 +2,7 @@
 #include <stdio.h>
 int main() {
     int d[5], i, max;
-    for (i = 0; i < 5; i++) sscanf_s("%d", &d[i]);
+    for (i = 0; i < 5; i++) sscanf("%d", &d[i]);
     max = d[0];
     for (i = 1; i < 5; i++)
         if (max < d[i])
