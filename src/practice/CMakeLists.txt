@@ -9,6 +9,10 @@ if (WIN_CLION_TEST)
     add_definitions(-DWIN_CLION)
 endif (WIN_CLION_TEST)
 
+if (UNIX)
+    set(Github_pthread pthread)
+endif ()
+
 foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})
@@ -16,7 +20,7 @@ foreach (testsourcefile ${APP_SOURCES})
 
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
     if (OpenMP_CXX_FOUND)
-        target_link_libraries(${testname} OpenMP::OpenMP_CXX)
+        target_link_libraries(${testname} OpenMP::OpenMP_CXX Github_pthread)
     endif ()
     install(TARGETS ${testname} DESTINATION "bin/backtracking")
 
