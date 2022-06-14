@@ -83,6 +83,16 @@ int LCSolution::reverse(int x) {
     return n > INT_MAX || n < INT_MIN ? 0 : n;
 }
 
+TEST(LCSolution, reverse) {
+    auto p = new LCSolution;
+    int x = 321;
+    int res = p->reverse(x);
+    EXPECT_EQ(res, 123);
+    x = -132;
+    res = p->reverse(x);
+    EXPECT_EQ(res, -231);
+}
+
 int LCSolution::romanToInt(std::string s) {
     std::unordered_map<char, int> symbolValues = {
         {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000},
@@ -133,6 +143,18 @@ std::vector<int> LCSolution::searchRange(std::vector<int> &nums, int target) {
     return res;
 }
 
+TEST(LCSolution, searchRange) {
+    std::vector<int> v = {5, 7, 7, 8, 8, 10};
+    int t = 6;
+    auto p = new LCSolution;
+    std::vector<int> res = {-1, -1};
+    EXPECT_EQ(p->searchRange(v, t), res);
+    v = {2, 2};
+    t = 2;
+    res = {0, 1};
+    EXPECT_EQ(p->searchRange(v, t), res);
+}
+
 int LCSolution::jump(std::vector<int> &nums) {
     if (nums[0] == 0) {
         return 0;
@@ -169,6 +191,13 @@ int LCSolution::maxSubArray(std::vector<int> &nums) {
         max = std::max(max, res);
     }
     return max;
+}
+
+TEST(LCSolution, maxSubArray) {
+    auto p = new LCSolution;
+    std::vector<int> v = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    int res = 6;
+    EXPECT_EQ(p->maxSubArray(v), res);
 }
 
 int LCSolution::lengthOfLastWord(std::string s) {
@@ -257,6 +286,15 @@ std::string LCSolution::convertToTitle(int columnNumber) {
     return ans;
 }
 
+TEST(LCSolution, convertToTitle) {
+    std::array<int, 4> test{1, 28, 701, 2147483647};
+    std::vector<std::string> ans{"A", "AB", "ZY", "FXSHRXW"};
+    auto p = new LCSolution;
+    for (int i = 0; i < 4; ++i) {
+        EXPECT_EQ(p->convertToTitle(test[i]), ans[i]);
+    }
+}
+
 int LCSolution::titleToNumber(std::string columnTitle) {
     //    int res = 0;
     //    int mul = 1;
@@ -275,6 +313,15 @@ int LCSolution::titleToNumber(std::string columnTitle) {
         res = columnTitle.at(i) - 'A' + 1 + 26 * res;
     }
     return res;
+}
+
+TEST(LCSolution, titleToNumber) {
+    std::array<int, 4> test{1, 28, 701, 2147483647};
+    std::vector<std::string> ans{"A", "AB", "ZY", "FXSHRXW"};
+    auto p = new LCSolution;
+    for (int i = 0; i < 4; ++i) {
+        EXPECT_EQ(p->titleToNumber(ans[i]), test[i]);
+    }
 }
 
 int LCSolution::trailingZeroes(int n) {
@@ -428,6 +475,13 @@ std::vector<std::string> LCSolution::readBinaryWatch(int turnedOn, int brute_for
     return res;
 }
 
+TEST(LCSolution, readBinaryWatch) {
+    auto p = new LCSolution;
+    std::vector<std::string> t = {"0:01", "0:02", "0:04", "0:08", "0:16", "0:32", "1:00", "2:00", "4:00", "8:00"};
+    std::vector<std::string> res = p->readBinaryWatch(1, true);
+    EXPECT_EQ(res, t);
+}
+
 int LCSolution::numberOfArithmeticSlices(std::vector<int> &nums) {
     if (nums.empty()) {
         return 0;
@@ -446,6 +500,12 @@ int LCSolution::numberOfArithmeticSlices(std::vector<int> &nums) {
         }
     }
     return count;
+}
+
+TEST(LCSolution, numberOfArithmeticSlices) {
+    std::vector<int> t = {1, 2, 3, 4, 5};
+    int res = LCSolution::instance()->numberOfArithmeticSlices(t);
+    EXPECT_EQ(res, 6);
 }
 
 int LCSolution::strongPasswordChecker(std::string password) {
@@ -527,6 +587,18 @@ int LCSolution::strongPasswordChecker(std::string password) {
         remove -= use3 * 3;
         return (len - 20) + std::max(replace, 3 - categories);
     }
+}
+
+TEST(LCSolution, strongPasswordChecker) {
+    std::string test = "a";
+    int res = LCSolution::instance()->strongPasswordChecker(test);
+    EXPECT_EQ(res, 5);
+    test = "aA1";
+    res = LCSolution::instance()->strongPasswordChecker(test);
+    EXPECT_EQ(res, 3);
+    test = "1337C0d3";
+    res = LCSolution::instance()->strongPasswordChecker(test);
+    EXPECT_EQ(res, 0);
 }
 
 int LCSolution::findMaximumXOR(std::vector<int> &nums) {
@@ -710,6 +782,18 @@ int LCSolution::maxIceCream(std::vector<int> &costs, int coins) {
     return res;
 }
 
+TEST(LCSolution, maxIceCream) {
+    auto p = new LCSolution;
+    std::vector<int> t{1, 3, 2, 4, 1};
+    EXPECT_EQ(p->maxIceCream(t, 7), 4);
+
+    t = {10, 6, 8, 7, 7, 8};
+    EXPECT_EQ(p->maxIceCream(t, 5), 0);
+
+    t = {7, 3, 3, 6, 6, 6, 10, 5, 9, 2};
+    EXPECT_EQ(p->maxIceCream(t, 56), 9);
+}
+
 int LCSolution::maximumElementAfterDecrementingAndRearranging(std::vector<int> &arr) {
     if (arr.empty()) {
         return 0;
@@ -739,6 +823,20 @@ int LCSolution::minPairSum(std::vector<int> &nums) {
         res = std::max(res, nums[i] + nums[len - 1 - i]);
     }
     return res;
+}
+
+TEST(LCSolution, minPairSum) {
+    std::vector<int> v = {3, 5, 4, 2, 4, 6};
+    int res = 8;
+    EXPECT_EQ(LCSolution::instance()->minPairSum(v), res);
+
+    v = {3, 5, 2, 3};
+    res = 7;
+    EXPECT_EQ(LCSolution::instance()->minPairSum(v), res);
+
+    v = {4, 1, 5, 1, 2, 5, 1, 5, 5, 4};
+    res = 8;
+    EXPECT_EQ(LCSolution::instance()->minPairSum(v), res);
 }
 
 bool LCSolution::isCovered(std::vector<std::vector<int>> &ranges, int left, int right) {
@@ -773,6 +871,27 @@ std::vector<int> LCSolution::missingRolls(std::vector<int> &rolls, int mean, int
         sum -= add;
     }
     return res;
+}
+
+TEST(LCSolution, missingRolls) {
+    std::vector<int> eq;
+
+    std::vector<int> v = {1, 5, 6};
+    int mean = 3;
+    int n = 4;
+    std::vector<int> res = {};
+    res = LCSolution::instance()->missingRolls(v, mean, n);
+    eq = {3, 2, 2, 2};
+    EXPECT_EQ(eq, res);
+    augus::PrintTest(res);
+
+    v = {3, 5, 3};
+    mean = 5;
+    n = 3;
+    res = LCSolution::instance()->missingRolls(v, mean, n);
+    eq = {};
+    EXPECT_EQ(eq, res);
+    augus::PrintTest(res);
 }
 
 //计算二进制中1的个数
@@ -1125,6 +1244,15 @@ int codewars::Casino::solution(std::vector<int> v) {
     }
 
     return DayCount;
+}
+
+TEST(codewars_t1, Casino) {
+    auto p = new codewars::Casino;
+    EXPECT_EQ(p->solution({1, 1, 1}),
+              1);  // because after you pick on day one, there will be only one chip left
+    EXPECT_EQ(p->solution({1, 2, 1}),
+              2);  // you can pick twice; you pick two chips on day one then on day two
+    EXPECT_EQ(p->solution({4, 1, 1}), 2);
 }
 
 int Palindrome::maxSlidingWindow(const std::vector<int> &nums, int k, int MaxValue, std::vector<int> &AllNum) {

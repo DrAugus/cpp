@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <cstring>
 
-#include "augus.h"
+#include "augus/augus.h"
 
 namespace poker {
 

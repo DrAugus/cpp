@@ -5,7 +5,7 @@
 #ifndef AUGUS_CPP_PTR_HH
 #define AUGUS_CPP_PTR_HH
 
-#include "augus.h"
+#include "augus/augus.h"
 
 namespace auto_ptr {
 

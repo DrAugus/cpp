@@ -3,7 +3,7 @@
 // Created by AUGUS on 2022/5/18.
 //
 
-#include "augus.h"
+#include "augus/augus.h"
 
 // 拆分配置字符串中的数字,以","分割
 bool getSectionInfo(const std::string &str, std::vector<int> &vecInt) {

@@ -2,7 +2,7 @@
 // Created by AUGUS on 2021/12/16.
 //
 
-#include "augus.h"
+#include "augus/augus.h"
 
 using namespace augus;
 
@@ -173,6 +173,11 @@ void JsonCombine::use() {
     PrintTest(str_json_res);
 }
 
+TEST(JsonCombine, use) {
+    auto JC = new JsonCombine;
+    JC->use();
+}
+
 // 插入排序（算法中是直接交换节点，时间复杂度O（n^2）,空间复杂度O（1））
 ListNode *ListSort::insertionSortList(ListNode *head) {
     // IMPORTANT: Please reset any member data you declared, as
@@ -330,6 +335,11 @@ MathPtr Math::instance() {
         ptr = std::make_shared<Math>();
     }
     return ptr;
+}
+
+TEST(Math, gcd) {
+    auto p = Math::instance();
+    EXPECT_EQ(p->gcd(49, 28), 7);
 }
 
 // 常见的随机分布模板类
@@ -1335,6 +1345,11 @@ int testDfs() {
 
 }  // namespace dfs
 
+TEST(dontknow, whattest) {
+    //    std::cin.get();
+    //    op_list::op_array::LC::test();
+}
+
 int primary_algorithms::pa_array::removeDuplicates(std::vector<int> &nums, double point) {
     if (nums.empty()) {
         return 0;
@@ -1370,6 +1385,20 @@ int primary_algorithms::pa_array::removeDuplicates(std::vector<int> &nums, bool)
     return nums.size();
 }
 
+TEST(pa_array, removeDuplicates_1) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> arr = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+    int res = p->removeDuplicates(arr);
+    EXPECT_EQ(res, 5);
+}
+
+TEST(pa_array, removeDuplicates_2) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> arr = {1, 1, 2};
+    int res = p->removeDuplicates(arr);
+    EXPECT_EQ(res, 2);
+}
+
 int primary_algorithms::pa_array::maxProfit(std::vector<int> &prices) {
     if (prices.empty()) {
         return 0;
@@ -1383,6 +1412,27 @@ int primary_algorithms::pa_array::maxProfit(std::vector<int> &prices) {
         }
     }
     return res;
+}
+
+TEST(pa_array, maxProfit_1) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {7, 1, 5, 3, 6, 4};
+    int res = p->maxProfit(t);
+    EXPECT_EQ(res, 7);
+}
+
+TEST(pa_array, maxProfit_2) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {1, 2, 3, 4, 5};
+    int res = p->maxProfit(t);
+    EXPECT_EQ(res, 4);
+}
+
+TEST(pa_array, maxProfit_3) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {7, 6, 4, 3, 1};
+    int res = p->maxProfit(t);
+    EXPECT_EQ(res, 0);
 }
 
 void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k) {
@@ -1415,6 +1465,9 @@ void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k,
     for (int i = 0; i < len; ++i) {
         nums[(i + k) % len] = temp[i];
     }
+
+    // 执行用时：48 ms, 在所有 C++ 提交中击败了7.76%的用户
+    // 内存消耗：25.1 MB, 在所有 C++ 提交中击败了7.06%的用户
 }
 
 void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, bool use_stl) {
@@ -1429,6 +1482,67 @@ void primary_algorithms::pa_array::rotate(std::vector<int> &nums, int k, bool us
     std::reverse(nums.rbegin(), nums.rend());
     std::reverse(nums.begin(), nums.begin() + kk);
     std::reverse(nums.begin() + kk, nums.end());
+
+    // 执行用时：36 ms, 在所有C++提交中击败了38.58%的用户
+    // 内存消耗：24.3 MB, 在所有C++提交中击败了48.88%的用户
+}
+
+TEST(pa_array, rotate_1) {
+    // checks that vector v is {5, 10, 15}
+    // ASSERT_THAT(v, ElementsAre(5, 10, 15));
+
+    // checks that map m only have elements 1 => 10, 2 => 20
+    // ASSERT_THAT(m, ElementsAre(Pair(1, 10), Pair(2, 20)));
+
+    // checks that in vector v all the elements are greater than 10 and less than 20
+    // ASSERT_THAT(v, Each(AllOf(Gt(10), Lt(20))));
+
+    // checks that vector v consist of
+    //    5, number greater than 10, anything.
+    // ASSERT_THAT(v, ElementsAre(5, Gt(10), _));
+
+    // 相同元素判定 不考虑顺序
+    //  EXPECT_TRUE(std::is_permutation(source.begin(), source.end(), t.begin()));
+
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {1, 2, 3, 4, 5, 6, 7};
+    int k = 3;
+    p->rotate(t, k);
+    ASSERT_THAT(t, testing::ElementsAre(5, 6, 7, 1, 2, 3, 4));
+    t = {1, 2, 3, 4, 5, 6, 7};
+    p->rotate(t, k, true);
+    ASSERT_THAT(t, testing::ElementsAre(5, 6, 7, 1, 2, 3, 4));
+    t = {1, 2, 3, 4, 5, 6, 7};
+    p->rotate(t, k, 1.2);
+    ASSERT_THAT(t, testing::ElementsAre(5, 6, 7, 1, 2, 3, 4));
+}
+
+TEST(pa_array, rotate_2) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {-1, -100, 3, 99};
+    int k = 2;
+    p->rotate(t, k);
+    ASSERT_THAT(t, testing::ElementsAre(3, 99, -1, -100));
+    t = {-1, -100, 3, 99};
+    p->rotate(t, k, true);
+    ASSERT_THAT(t, testing::ElementsAre(3, 99, -1, -100));
+    t = {-1, -100, 3, 99};
+    p->rotate(t, k, 1.3);
+    ASSERT_THAT(t, testing::ElementsAre(3, 99, -1, -100));
+}
+
+TEST(pa_array, rotate_3) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {1, 2};
+    int k = 3;
+    p->rotate(t, k);
+    ASSERT_THAT(t, testing::ElementsAre(2, 1));
+    t = {1, 2};
+    p->rotate(t, k, true);
+    ASSERT_THAT(t, testing::ElementsAre(2, 1));
+    t = {1, 2};
+    p->rotate(t, k, 1.3);
+    ASSERT_THAT(t, testing::ElementsAre(2, 1));
 }
 
 bool primary_algorithms::pa_array::containsDuplicate(std::vector<int> &nums) {
@@ -1440,12 +1554,27 @@ bool primary_algorithms::pa_array::containsDuplicate(std::vector<int> &nums) {
         }
     }
     return false;
+
+    // 执行用时：56 ms, 在所有C++提交中击败了19.24%的用户
+    // 内存消耗：20.4 MB, 在所有C++提交中击败了14.56%的用户
 }
 
 bool primary_algorithms::pa_array::containsDuplicate(std::vector<int> &nums,
                                                      bool use_stl) {
     std::sort(nums.begin(), nums.end());
     return (std::unique(nums.begin(), nums.end()) != nums.end());
+
+    // 执行用时：28 ms, 在所有C++提交中击败了78.88%的用户
+    // 内存消耗：15.1 MB, 在所有C++提交中击败了85.08%的用户
+}
+
+TEST(pa_array, containsDuplicate_1) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {1, 1, 1, 3, 3, 4, 3, 2, 4, 2};
+    bool res = p->containsDuplicate(t);
+    EXPECT_TRUE(res);
+    res = p->containsDuplicate(t, true);
+    EXPECT_TRUE(res);
 }
 
 int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums) {
@@ -1454,6 +1583,9 @@ int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums) {
         res ^= n;
     }
     return res;
+
+    // 执行用时：20 ms, 在所有C++提交中击败了72.97%的用户
+    // 内存消耗：16.6 MB, 在所有C++提交中击败了19.50%的用户
 }
 
 int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums, bool use_set) {
@@ -1465,6 +1597,28 @@ int primary_algorithms::pa_array::singleNumber(std::vector<int> &nums, bool use_
         }
     }
     return *(s.begin());
+
+    // 执行用时：60 ms, 在所有C++提交中击败了5.12%的用户
+    // 内存消耗：20.1 MB, 在所有C++提交中击败了5.06%的用户
+}
+
+TEST(pa_array, singleNumber_1) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {4, 1, 2, 1, 2};
+    int res = p->singleNumber(t);
+    EXPECT_EQ(res, 4);
+    res = p->singleNumber(t, true);
+    EXPECT_EQ(res, 4);
+}
+
+TEST(pa_array, singleNumber_2) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t = {2, 2, 1};
+    int res = p->singleNumber(t);
+    EXPECT_EQ(res, 1);
+    t = {2, 2, 1};  // t为什么在singleNumber_2用例中被修改，而singleNumber_1中未被修改
+    res = p->singleNumber(t, true);
+    EXPECT_EQ(res, 1);
 }
 
 std::vector<int> primary_algorithms::pa_array::intersect(std::vector<int> &nums1,
@@ -1477,6 +1631,23 @@ std::vector<int> primary_algorithms::pa_array::intersect(std::vector<int> &nums1
                                                          bool use_stl) {
     auto p = new op_list::op_array::VectorCtrl;
     return p->vectors_intersection(nums1, nums2);
+
+    // 执行用时：8 ms, 在所有C++提交中击败了55.26%的用户
+    // 内存消耗：9.8 MB, 在所有C++提交中击败了62.19%的用户
+}
+
+TEST(pa_array, intersect_1) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t1 = {1, 2, 2, 1}, t2 = {2, 2};
+    auto res = p->intersect(t1, t2);
+    ASSERT_THAT(res, testing::ElementsAre(2, 2));
+}
+
+TEST(pa_array, intersect_2) {
+    auto p = new primary_algorithms::pa_array;
+    std::vector<int> t1 = {4, 9, 5}, t2 = {9, 4, 9, 8, 4};
+    auto res = p->intersect(t1, t2);
+    ASSERT_THAT(res, testing::ElementsAre(4, 9));
 }
 
 void primary_algorithms::reverse_array(std::vector<int> &nums, int begin, int end) {
@@ -1503,6 +1674,11 @@ void modern_cpp::usabilityEnhancements() {
 
 std::tuple<int, double, std::string> modern_cpp::fTuple() {
     return std::make_tuple(1, 1.2, "nb");
+}
+
+TEST(fTuple, fTuple) {
+    auto [x, y, z] = modern_cpp::fTuple();
+    std::cout << x << " " << y << " " << z << std::endl;
 }
 
 void modern_cpp::testIsSame() {
