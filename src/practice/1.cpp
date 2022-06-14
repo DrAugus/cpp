@@ -81,7 +81,7 @@ class F {
 
 double f(const std::vector<double>& v) { return 0.0; }
 void g(const std::vector<double>& v, double* res) {}
-#ifndef WIN_CLION
+#ifdef WIN_CLION
 int comp(std::vector<double>& vec1, std::vector<double>& vec2,
          std::vector<double>& vec3) {
     double res1;
@@ -133,7 +133,7 @@ void access2() {
 
 double accum(double* s, double* e, double v) { return std::accumulate(s, e, v); }
 
-#ifndef WIN_CLION
+#ifdef WIN_CLION
 double comp4(std::vector<double>& v) {
     if (v.size() < 10000)
         return std::accumulate(v.begin(), v.end(), 0.0);
@@ -161,7 +161,7 @@ void ff(int y, std::promise<double>& p) {
     }
 }
 
-#ifndef WIN_CLION
+#ifdef WIN_CLION
 void user(int arg) {
     auto pro = std::promise<double>{};
     auto fut = pro.get_future();
@@ -820,9 +820,10 @@ int main() {
     std::vector<double> vec_d_x2 = {12.41, 51.52, 14};
     std::vector<double> vec_d_x3 = {12.41, 51.52, 14};
 
-#ifndef WIN_CLION
+#ifdef WIN_CLION
     comp(vec_d_x1, vec_d_x2, vec_d_x3);
     user(int{99});
+    std::cout << "fucky";
 #endif
 
     //    augus::PrintTest(comp4(vec_d_x));

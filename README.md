@@ -4,7 +4,7 @@
 
 ## CMake Options
 
-`-DWIN_CLION_TEST=2`
+`-DWIN_CLION_TEST=ON`
 
 ## RUN
 

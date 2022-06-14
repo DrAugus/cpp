@@ -4,6 +4,11 @@
 file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 # file( GLOB APP_SOURCES ${CMAKE_SOURCE_DIR}/*.c )
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
+if (WIN_CLION_TEST)
+    message(STATUS "practice Now WIN_CLION_TEST")
+    add_definitions(-DWIN_CLION)
+endif (WIN_CLION_TEST)
+
 foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})

@@ -6,9 +6,6 @@ project(augus_cpp
         VERSION 1.0.0
         DESCRIPTION "All my test in C++ or C.")
 
-option(WIN_CLION_TEST "Enable windows clion tests" OFF)
-
-
 #打印相关消息消息
 message("Project Directory: ${PROJECT_SOURCE_DIR}")
 message("msg: cmake so hard")
@@ -79,12 +76,10 @@ set(cmake_build_type DEBUG)
 #add_compile_options(-std=gnu++11)
 
 #设置option，可以根据option从而选择代码中的宏定义部分
-option(_LINUX "build the project on linux " ON)
-if (_LINUX)
-    add_definitions("-D_LINUX")
-endif ()
+option(WIN_CLION_TEST "Enable windows clion tests" OFF)
 
 if(WIN_CLION_TEST)
+    message(STATUS "Now WIN_CLION_TEST")
     add_definitions(-DWIN_CLION)
 endif(WIN_CLION_TEST)
 
