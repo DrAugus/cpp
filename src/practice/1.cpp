@@ -81,20 +81,20 @@ class F {
 
 double f(const std::vector<double>& v) { return 0.0; }
 void g(const std::vector<double>& v, double* res) {}
-int comp(std::vector<double>& vec1, std::vector<double>& vec2,
-         std::vector<double>& vec3) {
-    double res1;
-    double res2;
-    double res3;
-    std::thread t1{F{vec1, &res1}};
-    std::thread t2{[&]() { res2 = f(vec2); }};
-    std::thread t3{g, std::ref(vec3), &res3};
-    t1.join();
-    t2.join();
-    t3.join();
-    std::cout << res1 << " " << res2 << " " << res3 << " " << std::endl;
-    return 0;
-}
+//int comp(std::vector<double>& vec1, std::vector<double>& vec2,
+//         std::vector<double>& vec3) {
+//    double res1;
+//    double res2;
+//    double res3;
+//    std::thread t1{F{vec1, &res1}};
+//    std::thread t2{[&]() { res2 = f(vec2); }};
+//    std::thread t3{g, std::ref(vec3), &res3};
+//    t1.join();
+//    t2.join();
+//    t3.join();
+//    std::cout << res1 << " " << res2 << " " << res3 << " " << std::endl;
+//    return 0;
+//}
 
 std::mutex mutex_x;
 std::atomic<bool> atomic_bool_x;
@@ -157,15 +157,15 @@ void ff(int y, std::promise<double>& p) {
     }
 }
 
-void user(int arg) {
-    auto pro = std::promise<double>{};
-    auto fut = pro.get_future();
-    // 在不同线程上运行ff
-    std::thread t{ff, arg, std::ref(pro)};
-    double x = fut.get();
-    std::cout << x << std::endl;
-    t.join();
-}
+//void user(int arg) {
+//    auto pro = std::promise<double>{};
+//    auto fut = pro.get_future();
+//    // 在不同线程上运行ff
+//    std::thread t{ff, arg, std::ref(pro)};
+//    double x = fut.get();
+//    std::cout << x << std::endl;
+//    t.join();
+//}
 
 template <typename T>
 void f(T& r) {
