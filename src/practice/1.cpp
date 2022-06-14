@@ -813,7 +813,7 @@ int main() {
     std::vector<double> vec_d_x1 = {12.41, 51.52, 14};
     std::vector<double> vec_d_x2 = {12.41, 51.52, 14};
     std::vector<double> vec_d_x3 = {12.41, 51.52, 14};
-    comp(vec_d_x1, vec_d_x2, vec_d_x3);
+//    comp(vec_d_x1, vec_d_x2, vec_d_x3);
 
     //    augus::PrintTest(comp4(vec_d_x));
 
