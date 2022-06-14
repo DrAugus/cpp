@@ -5,6 +5,10 @@ project(augus_cpp
         LANGUAGES C CXX
         VERSION 1.0.0
         DESCRIPTION "All my test in C++ or C.")
+
+option(WIN_CLION_TEST "Enable windows clion tests" OFF)
+
+
 #打印相关消息消息
 message("Project Directory: ${PROJECT_SOURCE_DIR}")
 message("msg: cmake so hard")
@@ -80,6 +84,9 @@ if (_LINUX)
     add_definitions("-D_LINUX")
 endif ()
 
+if(WIN_CLION_TEST)
+    add_definitions(-DWIN_CLION)
+endif(WIN_CLION_TEST)
 
 #要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 

@@ -81,20 +81,22 @@ class F {
 
 double f(const std::vector<double>& v) { return 0.0; }
 void g(const std::vector<double>& v, double* res) {}
-//int comp(std::vector<double>& vec1, std::vector<double>& vec2,
-//         std::vector<double>& vec3) {
-//    double res1;
-//    double res2;
-//    double res3;
-//    std::thread t1{F{vec1, &res1}};
-//    std::thread t2{[&]() { res2 = f(vec2); }};
-//    std::thread t3{g, std::ref(vec3), &res3};
-//    t1.join();
-//    t2.join();
-//    t3.join();
-//    std::cout << res1 << " " << res2 << " " << res3 << " " << std::endl;
-//    return 0;
-//}
+#ifndef WIN_CLION
+int comp(std::vector<double>& vec1, std::vector<double>& vec2,
+         std::vector<double>& vec3) {
+    double res1;
+    double res2;
+    double res3;
+    std::thread t1{F{vec1, &res1}};
+    std::thread t2{[&]() { res2 = f(vec2); }};
+    std::thread t3{g, std::ref(vec3), &res3};
+    t1.join();
+    t2.join();
+    t3.join();
+    std::cout << res1 << " " << res2 << " " << res3 << " " << std::endl;
+    return 0;
+}
+#endif
 
 std::mutex mutex_x;
 std::atomic<bool> atomic_bool_x;
@@ -131,19 +133,21 @@ void access2() {
 
 double accum(double* s, double* e, double v) { return std::accumulate(s, e, v); }
 
-//double comp4(std::vector<double>& v) {
-//    if (v.size() < 10000)
-//        return std::accumulate(v.begin(), v.end(), 0.0);
-//    auto v0 = &v[0];
-//    auto sz = v.size();
-//
-//    auto f0 = std::async(accum, v0, v0 + sz / 4, 0.0);
-//    auto f1 = std::async(accum, v0 + sz / 4, v0 + sz / 2, 0.0);
-//    auto f2 = std::async(accum, v0 + sz / 2, v0 + sz * 3 / 4, 0.0);
-//    auto f3 = std::async(accum, v0 + sz * 3 / 4, v0 + sz, 0.0);
-//
-//    return f0.get() + f1.get() + f2.get() + f3.get();
-//}
+#ifndef WIN_CLION
+double comp4(std::vector<double>& v) {
+    if (v.size() < 10000)
+        return std::accumulate(v.begin(), v.end(), 0.0);
+    auto v0 = &v[0];
+    auto sz = v.size();
+
+    auto f0 = std::async(accum, v0, v0 + sz / 4, 0.0);
+    auto f1 = std::async(accum, v0 + sz / 4, v0 + sz / 2, 0.0);
+    auto f2 = std::async(accum, v0 + sz / 2, v0 + sz * 3 / 4, 0.0);
+    auto f3 = std::async(accum, v0 + sz * 3 / 4, v0 + sz, 0.0);
+
+    return f0.get() + f1.get() + f2.get() + f3.get();
+}
+#endif
 
 double f(int) { return 22.0; }
 
@@ -157,15 +161,17 @@ void ff(int y, std::promise<double>& p) {
     }
 }
 
-//void user(int arg) {
-//    auto pro = std::promise<double>{};
-//    auto fut = pro.get_future();
-//    // 在不同线程上运行ff
-//    std::thread t{ff, arg, std::ref(pro)};
-//    double x = fut.get();
-//    std::cout << x << std::endl;
-//    t.join();
-//}
+#ifndef WIN_CLION
+void user(int arg) {
+    auto pro = std::promise<double>{};
+    auto fut = pro.get_future();
+    // 在不同线程上运行ff
+    std::thread t{ff, arg, std::ref(pro)};
+    double x = fut.get();
+    std::cout << x << std::endl;
+    t.join();
+}
+#endif
 
 template <typename T>
 void f(T& r) {
@@ -813,14 +819,18 @@ int main() {
     std::vector<double> vec_d_x1 = {12.41, 51.52, 14};
     std::vector<double> vec_d_x2 = {12.41, 51.52, 14};
     std::vector<double> vec_d_x3 = {12.41, 51.52, 14};
-//    comp(vec_d_x1, vec_d_x2, vec_d_x3);
+
+#ifndef WIN_CLION
+    comp(vec_d_x1, vec_d_x2, vec_d_x3);
+    user(int{99});
+#endif
 
     //    augus::PrintTest(comp4(vec_d_x));
 
     std::promise<double> p_d;
     ff(2, p_d);
 
-//    user(int{99});
+
 
     LengthInKM marks[] = {LengthInMile(2.3), LengthInMile(0.76)};
 

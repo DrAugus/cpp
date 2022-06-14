@@ -2,6 +2,10 @@
 
 > RECORD MY LEARNING
 
+## CMake Options
+
+`-DWIN_CLION_TEST=2`
+
 ## RUN
 
 1. clone `git clone https://github.com/DrAugus/cpp.git`
