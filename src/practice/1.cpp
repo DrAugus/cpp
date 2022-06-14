@@ -378,7 +378,7 @@ void lambda_learning() {
         void func(int x, int y) {
             //      auto x1 = [] { return i_; };                    //
             //      error，没有捕获外部变量
-            auto x2 = [=] { return i_ + x + y; };  // OK，捕获所有外部变量
+            auto x2 = [&] { return i_ + x + y; };  // OK，捕获所有外部变量 c++20弃用 [=]
             auto x3 = [&] { return i_ + x + y; };  // OK，捕获所有外部变量
             auto x4 = [this] { return i_; };       // OK，捕获this指针
             //      auto x5 = [this] { return i_ + x + y; };        // error，没有捕获x、y
