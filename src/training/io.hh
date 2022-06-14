@@ -15,7 +15,7 @@
 #include <stack> // for std::stack
 #include <memory>
 
-#include "augus/augus.h"
+#include "augus.h"
 
 namespace io_test {
     void string2binary();

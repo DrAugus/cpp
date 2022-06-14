@@ -3,7 +3,7 @@
 // Created by AUGUS on 2022/1/27.
 //
 
-#include "augus/augus.h"
+#include "augus.h"
 
 int hhh(int &a) {
     a++;

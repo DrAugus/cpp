@@ -36,9 +36,6 @@
 #include <valarray>       // for std::valarray std::max_element std::min_element std::sort
 #include <vector>         // for std::vector
 
-#include "gmock/gmock-matchers.h"
-#include "gtest/gtest.h"
-
 namespace augus {
 
 // The weakness of variadic templates is that they can easily lead to code bloat as N
