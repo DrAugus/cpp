@@ -820,7 +820,7 @@ int main() {
     std::promise<double> p_d;
     ff(2, p_d);
 
-    user(int{99});
+//    user(int{99});
 
     LengthInKM marks[] = {LengthInMile(2.3), LengthInMile(0.76)};
 
