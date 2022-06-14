@@ -168,12 +168,12 @@ int thread_main() {
 }
 
 int main() {
-    std::thread t(threadTask);
-    t.join();
-
-    thread_test();
-    testThread();
-    thread_main();
+//    std::thread t(threadTask);
+//    t.join();
+//
+//    thread_test();
+//    testThread();
+//    thread_main();
 
     return 0;
 }
