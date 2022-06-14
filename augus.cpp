@@ -1622,8 +1622,5 @@ int main(int argc, char *argv[]) {
     //    augus::PrintTest("sizeof(a)", sizeof(a));
     //    augus::PrintTest("sizeof(p2)", sizeof(p2));
 
-    testing::InitGoogleTest(&argc, argv);
-    int ret = RUN_ALL_TESTS();
-
-    return ret;
+    return 0;
 }
