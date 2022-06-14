@@ -4,6 +4,8 @@
 
 #include "thread_practice.hh"
 
+#ifdef WIN_CLION
+
 std::thread::id main_thread_id = std::this_thread::get_id();
 
 void is_main_thread() {
@@ -168,12 +170,14 @@ int thread_main() {
 }
 
 int main() {
-//    std::thread t(threadTask);
-//    t.join();
-//
-//    thread_test();
-//    testThread();
-//    thread_main();
+    std::thread t(threadTask);
+    t.join();
+
+    thread_test();
+    testThread();
+    thread_main();
 
     return 0;
 }
+
+#endif
