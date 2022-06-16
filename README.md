@@ -6,6 +6,11 @@
 
 `-DWIN_CLION_TEST=ON`
 
+## Questions
+
+无法在 github 正常编译 thread
+
+
 ## RUN
 
 1. clone `git clone https://github.com/DrAugus/cpp.git`

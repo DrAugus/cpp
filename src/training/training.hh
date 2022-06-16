@@ -5,7 +5,7 @@
 #ifndef AUGUSTEST_TRAINING_HH
 #define AUGUSTEST_TRAINING_HH
 
-#include "augus/augus.h"
+#include "augus.h"
 
 using augus::ListNode;
 using augus::PrintTest;

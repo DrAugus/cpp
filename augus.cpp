@@ -2,7 +2,7 @@
 // Created by AUGUS on 2021/12/16.
 //
 
-#include "augus/augus.h"
+#include "augus.h"
 
 using namespace augus;
 

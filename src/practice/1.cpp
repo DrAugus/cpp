@@ -2,7 +2,7 @@
 // Created by AUGUS on 2021/12/27.
 //
 
-#include "augus/augus.h"
+#include "augus.h"
 
 // 3.
 // 编写基类B，并派生类C。分别定义两个类的对象，针对有虚函数和无虚函数两种情况，在运行时判别并打印对象所属的类的名称：
