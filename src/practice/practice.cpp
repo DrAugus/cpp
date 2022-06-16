@@ -5,27 +5,6 @@
 
 #include "augus.h"
 
-int hhh(int &a) {
-    a++;
-    printf("---a---%d", a);
-    return a;
-}
-
-int jjj() {
-    int a = 6;
-    int answer = sizeof(hhh(a));
-    auto fuc = [&](int a) { return a++; };
-    printf("a##%d answer###%d", a, answer);
-    return 0;
-}
-
-int global_a = 4;
-
-int &f(int x) {
-    global_a = global_a + x;
-    return global_a;
-}
-
 /* max_element
  * min_element
  * assign
@@ -33,24 +12,8 @@ int &f(int x) {
  * wstring_convert
  * */
 
-void declare() {
-    int i;
-    int a[100];
-    for (i = 0; i < 100; i++) {
-        a[i] = i;
-    }
-}
-
-void print() {
-    int i;
-    int a[100];
-    for (i = 0; i < 100; i++) {
-        printf("%d ", a[i]);
-    }
-}
-
 class Solution {
- public:
+public:
     static int CutBar(int n, int m) {
         int slices = 1;
         int cnt = 0;
@@ -113,7 +76,7 @@ int getAverage() {
         }
     }
     int got[6] = {2, 7, 12, 17, 22, 27};
-    for (int i : got) {
+    for (int i: got) {
         printf("%d ", arr[i]);
     }
 
@@ -128,7 +91,7 @@ int getAverage() {
         i += 5;
     }
 
-    for (auto i : res) {
+    for (auto i: res) {
         std::cout << res[i] << " ";
     }
     std::cout << "\n";
@@ -143,34 +106,17 @@ constexpr auto translate = [](auto idx) {
         constexpr static int table[8]{7, 6, 5, 4, 3, 2, 1, 0};
         return table[idx];
     } else if constexpr (std::is_same_v<decltype(idx), char>) {
-        std::map<char, int> table{{'a', 0}, {'b', 1}, {'c', 2}, {'d', 3},
-                                  {'e', 4}, {'f', 5}, {'g', 6}, {'h', 7}};
+        std::map<char, int> table{{'a', 0},
+                                  {'b', 1},
+                                  {'c', 2},
+                                  {'d', 3},
+                                  {'e', 4},
+                                  {'f', 5},
+                                  {'g', 6},
+                                  {'h', 7}};
         return table[idx];
     }
 };
 
-void WideCharacter() {
-    std::string china = "中国";
-    augus::PrintTest("中国", china);
-
-    std::wstring w_china = L"中国";
-    std::wcout << w_china << std::endl;
-
-    std::wstring w_str = L"shit";
-    std::string result;
-
-    result.assign((char *)w_str.data(), w_str.size() * 2);
-
-    std::wcout << w_str << std::endl;
-    std::wcout << w_str.data() << std::endl;
-    std::wcout << (char *)w_str.data() << std::endl;
-    std::wcout << w_str.size() * 2 << std::endl;
-
-    std::wcout << w_str.data() << std::endl;
-    std::cout << (char *)w_str.data() << std::endl;
-    std::cout << w_str.size() * 2 << std::endl;
-
-    std::cout << result << std::endl;
-}
 
 int main() { return 0; }
