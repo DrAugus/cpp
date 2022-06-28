@@ -1,6 +1,7 @@
 # AUGUS CPP
 
-> RECORD MY LEARNING
+> RECORD MY LEARNING  
+> 轮子都不是
 
 ## CMake Options
 
@@ -9,7 +10,6 @@
 ## Questions
 
 无法在 github 正常编译 thread
-
 
 ## RUN
 
