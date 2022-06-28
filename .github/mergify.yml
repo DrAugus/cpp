@@ -3,7 +3,6 @@ pull_request_rules:
     conditions:
       - author=imgbot[bot]
       - check-success=Summary
-      - check-success=restyled
     actions:
       merge:
         method: merge
@@ -12,7 +11,6 @@ pull_request_rules:
     conditions:
       - author=renovate[bot]
       - check-success=Summary
-      - check-success=restyled
     actions:
       merge:
         method: merge
@@ -22,7 +20,6 @@ pull_request_rules:
       - title~=^\[requires.io\]
       - head~=^requires-io
       - check-success=Summary
-      - check-success=restyled
     actions:
       merge:
         method: merge
