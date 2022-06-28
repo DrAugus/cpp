@@ -95,7 +95,7 @@ jobs:
         run: lcov --directory . --capture --output-file coverage.info
         if: ${{ matrix.coverage }}
       - name: upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           file: ./coverage.info
         if: ${{ matrix.coverage }}
