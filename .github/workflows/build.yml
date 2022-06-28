@@ -59,9 +59,6 @@ jobs:
       - name: enable compatibility test (linux)
         run: echo "COMPATIBILITY=-DENABLE_COMPATIBILITY_TEST=ON" >> $GITHUB_ENV
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
-      - name: install protobuf for compatibility test
-        run: sudo apt install protobuf-compiler libprotobuf-dev -y
-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
       - name: install benchmark deps
         run: |
           sudo apt install libbenchmark-dev -y
@@ -72,23 +69,15 @@ jobs:
           echo "CC=`which gcc-11`" >> $GITHUB_ENV
           echo "CXX=`which g++-11`" >> $GITHUB_ENV
         if: ${{ startsWith(matrix.os, 'macos') }}
-      - name: install protobuf for compatibility test (mac)
-        run: brew install protobuf
-        if: ${{ startsWith(matrix.os, 'macos') }}
       - name: install benchmark deps (mac)
         run: |
           brew install google-benchmark
         if: ${{ startsWith(matrix.os, 'macos') && matrix.type == 'Release' }}
-      # - name: install protobuf for compatibility test (windows)
-      #   run: |
-      #     vcpkg install protobuf:x64-windows
-      #     echo "COMPATIBILITY=-DENABLE_COMPATIBILITY_TEST=ON" >> $Env:GITHUB_ENV
-      #   if: ${{ startsWith(matrix.os, 'windows') }}
-      # - name: install benchmark deps (windows)
-      #   run: |
-      #     vcpkg install benchmark:x64-windows
-      #     echo "BENCHMARK=-DENABLE_BENCHMARK=ON" >> $Env:GITHUB_ENV
-      #   if: ${{ startsWith(matrix.os, 'windows') && matrix.type == 'Release' }} 
+      - name: install benchmark deps (windows)
+        run: |
+          vcpkg install benchmark:x64-windows
+          echo "BENCHMARK=-DENABLE_BENCHMARK=ON" >> $Env:GITHUB_ENV
+        if: ${{ startsWith(matrix.os, 'windows') && matrix.type == 'Release' }}
       - name: install coverage tools
         run: sudo apt install lcov -y
         if: ${{ matrix.coverage }}
@@ -102,12 +91,6 @@ jobs:
         run: cmake --build . --config ${{ matrix.type }}
       - name: run unit testing
         run: ctest
-      - name: run benchmark
-        run: ./test/benchmark/protopuf_benchmark
-        if: ${{ startsWith(matrix.os, 'ubuntu') && matrix.type == 'Release' }}
-      # - name: run benchmark (windows)
-      #   run: .\test\benchmark\Release\protopuf_benchmark
-      #   if: ${{ startsWith(matrix.os, 'windows') && matrix.type == 'Release' }}
       - name: capture coverage
         run: lcov --directory . --capture --output-file coverage.info
         if: ${{ matrix.coverage }}
