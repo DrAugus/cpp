@@ -17,26 +17,26 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             type: Debug
             cxx: gcc
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             type: Release
             cxx: gcc
             coverage: -DCMAKE_CXX_FLAGS=--coverage
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             type: Debug
             cxx: clang
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             type: Release
             cxx: clang
-          - os: windows-2019
+          - os: windows-latest
             type: Debug
-          - os: windows-2019
+          - os: windows-latest
             type: Release
-          - os: macos-10.15
+          - os: macos-latest
             type: Debug
-          - os: macos-10.15
+          - os: macos-latest
             type: Release
     
     runs-on: ${{ matrix.os }}
