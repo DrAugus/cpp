@@ -1,11 +1,11 @@
 name: BuildAndTest
 
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
-      - '.gitignore'
-      - 'LICENSE'
+#  push:
+#    paths-ignore:
+#      - 'README.md'
+#      - '.gitignore'
+#      - 'LICENSE'
   pull_request:
     paths-ignore:
       - 'README.md'
