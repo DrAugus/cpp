@@ -7,6 +7,7 @@
 #include <string_view>
 #include <iostream>
 #include <cctype>
+#include <vector>
 
 bool isOdd(int i) { return i & 2; }
 
