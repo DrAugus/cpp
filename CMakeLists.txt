@@ -12,7 +12,7 @@ message("msg: cmake so hard")
 message("Project Name: ${PROJECT_NAME}")
 message("CMake Source Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 IF (WIN32)
@@ -21,6 +21,9 @@ ELSEIF (APPLE)
     message("APPLE ${PROJECT_SOURCE_DIR}")
 ELSEIF (UNIX)
     message("UNIX ${PROJECT_SOURCE_DIR}")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.1)
+        set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_GLIBCXX_USE_CXX11_ABI=0")
+    endif()
     #设置可执行文件的输出目录
     #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
     #分别设置了Debug版本和Release版本可执行文件的输出目录
@@ -94,21 +97,12 @@ endif ()
 
 IF (WIN32)
     message(STATUS "Now is windows.")
-    set(GOOGLE_LIBRARIES
-            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmockd.a
-            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtestd.a
-            )
 ELSEIF (APPLE)
     message(STATUS "Now is Apple.")
 ELSEIF (UNIX)
     message(STATUS "Now is UNIX-like OS's.")
-    set(GOOGLE_LIBRARIES
-            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmock.a
-            ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtest.a
-            )
     find_package (Threads REQUIRED)
     target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
-    target_link_libraries(-lpthread)
 ELSE ()
     message(STATUS "other platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF ()

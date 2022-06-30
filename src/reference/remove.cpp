@@ -30,7 +30,6 @@ void example() {
     print(v);
 }
 
-
 int main() {
     std::string str1 = "Text with some   spaces";
 

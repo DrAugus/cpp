@@ -35,9 +35,9 @@
 #include <unordered_set>  // for std::unordered_set
 #include <valarray>       // for std::valarray std::max_element std::min_element std::sort
 #include <vector>         // for std::vector
-
-#include "gmock/gmock-matchers.h"
-#include "gtest/gtest.h"
+#include <variant>
+#include <cstddef>
+#include <any>
 
 namespace augus {
 
