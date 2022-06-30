@@ -1,4 +1,4 @@
-#ifdef _APPLE_
+#ifdef __APPLE__
 #include <sys/malloc.h>
 #else
 #include <malloc.h>
