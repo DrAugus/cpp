@@ -38,6 +38,7 @@
 #include <variant>
 #include <cstddef>
 #include <any>
+#include <bitset>
 
 #ifdef _WIN32
 #define _USE_MATH_DEFINES
