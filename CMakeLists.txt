@@ -106,6 +106,8 @@ ELSEIF (UNIX)
             ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgmock.a
             ${CMAKE_CURRENT_SOURCE_DIR}/lib/libgtest.a
             )
+    find_package (Threads REQUIRED)
+    target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 ELSE ()
     message(STATUS "other platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF ()
