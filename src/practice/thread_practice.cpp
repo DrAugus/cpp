@@ -4,8 +4,6 @@
 
 #include "thread_practice.hh"
 
-#ifdef WIN_CLION
-
 std::thread::id main_thread_id = std::this_thread::get_id();
 
 void is_main_thread() {
@@ -179,8 +177,3 @@ int main() {
 
     return 0;
 }
-#else
-int main() {
-    return 0;
-}
-#endif
