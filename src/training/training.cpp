@@ -911,10 +911,11 @@ int LCSolution::count1ofBinary(int n) {
         case 2:
             return std::bitset<32>(n).count();
         case 3:
-#ifdef _WIN32
+#ifdef __linux__
+            return __builtin_popcount(n);
+#else
             break;
 #endif
-            return __builtin_popcount(n);
         case 4: {
             n = (n & 0x55555555) + ((n >> 1) & 0x55555555);
             n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
