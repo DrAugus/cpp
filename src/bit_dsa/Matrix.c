@@ -1,4 +1,8 @@
+#ifdef _APPLE_
+#include <sys/malloc.h>
+#else
 #include <malloc.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 /**稀疏矩阵压缩存储**/
