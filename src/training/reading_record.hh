@@ -9,6 +9,7 @@
 #include <vector>
 #include <random>
 #include <stdexcept>
+#include <string>
 
 namespace cpp_primer {
 

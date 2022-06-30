@@ -302,7 +302,7 @@ void cpp_primer::function_part::useBigger(const std::string &,
 int cpp_primer::function_part::test()
 {
     std::string s;
-    std::getline(std::cin, s);
+    getline(std::cin, s);
     size_t ctr = 0;
     std::string::size_type index = find_char(s, 'o', ctr);
     std::cout << index << " " << ctr << std::endl;
