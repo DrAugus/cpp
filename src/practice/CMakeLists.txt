@@ -17,7 +17,7 @@ foreach (testsourcefile ${APP_SOURCES})
     find_package (Threads REQUIRED)
     target_link_libraries(${testname} ${CMAKE_THREAD_LIBS_INIT})
     if (UNIX)
-        target_link_libraries(-pthread)
+        target_link_libraries(-lpthread)
     endif ()
     install(TARGETS ${testname} DESTINATION "bin/backtracking")
 
