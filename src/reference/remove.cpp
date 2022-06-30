@@ -37,12 +37,15 @@ int main() {
 
     auto noSpaceEnd = std::remove(str1.begin(), str1.end(), ' ');
 
+    //TODO
+#ifdef _WIN32
     // The spaces are removed from the string only logically.
     // Note, we use view, the original string is still not shrunk:
     std::cout << std::string_view(str1.begin(), noSpaceEnd)
               << " size: " << str1.size() << '\n';
 
     str1.erase(noSpaceEnd, str1.end());
+#endif
 
     // The spaces are removed from the string physically.
     std::cout << str1 << " size: " << str1.size() << '\n';
