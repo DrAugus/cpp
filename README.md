@@ -5,7 +5,6 @@
 
 ## CMake Options
 
-`-DWIN_CLION_TEST=ON`
 
 ## Questions
 

@@ -76,12 +76,12 @@ set(cmake_build_type DEBUG)
 #add_compile_options(-std=gnu++11)
 
 #设置option，可以根据option从而选择代码中的宏定义部分
-option(WIN_CLION_TEST "Enable windows clion tests" OFF)
-
-if(WIN_CLION_TEST)
-    message(STATUS "Now WIN_CLION_TEST")
-    add_definitions(-DWIN_CLION)
-endif(WIN_CLION_TEST)
+#option(WIN_CLION_TEST "Enable windows clion tests" OFF)
+#
+#if(WIN_CLION_TEST)
+#    message(STATUS "Now WIN_CLION_TEST")
+#    add_definitions(-DWIN_CLION)
+#endif(WIN_CLION_TEST)
 
 #要将 ADD_EXECUTABLE的声明放到设置库文件的TARGET_LINK_LIBRARIES之前
 
