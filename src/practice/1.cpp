@@ -393,11 +393,13 @@ namespace lambda_learning {
                 //  auto x2 = [](){ return { 1, 2 }; };  // error: 无法推导出返回值类型
                 /// lambda
                 /// 表达式在没有参数列表时，参数列表是可以省略的。因此像下面的写法都是正确的：
-                auto y1 = []() { return 1; };
-                auto y2 = [] { return 1; };  // 省略空参数表
+                // 但是 会编译错误
+                // error C2679: binary '<<': no operator found which takes a right-hand operand of type 'lambda_learning::lambda_learning::Simple::func::<lambda_5>' (or there is no acceptable conversion)
+//                auto y1 = []() { return 1; };
+//                auto y2 = [] { return 1; };  // 省略空参数表
                 std::cout << " - x1(0): " << x1(0) << std::endl;
-                std::cout << " - y1: " << y1 << std::endl;
-                std::cout << " - y2: " << y2 << std::endl;
+//                std::cout << " - y1: " << y1 << std::endl;
+//                std::cout << " - y2: " << y2 << std::endl;
             }
         };
 
