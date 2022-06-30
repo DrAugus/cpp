@@ -39,6 +39,11 @@
 #include <cstddef>
 #include <any>
 
+#ifdef _WIN32
+#define _USE_MATH_DEFINES
+#endif
+
+
 namespace augus {
 
 // The weakness of variadic templates is that they can easily lead to code bloat as N
