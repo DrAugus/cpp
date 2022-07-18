@@ -411,10 +411,6 @@ class SomeSort {
 };
 }  // namespace basic_cpp
 
-namespace sizeof_val {
-int test();
-}  // namespace sizeof_val
-
 namespace op_list {
 int commonOP();
 
