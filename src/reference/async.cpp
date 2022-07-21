@@ -10,8 +10,12 @@
 #include <future>
 #include <string>
 #include <mutex>
-#include <unistd.h>
 #include <iomanip>
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 std::mutex m;
 
@@ -78,7 +82,11 @@ int main() {
         for (long long i = 0; i < 999999; i++) {
             sum++;
         }
+#ifdef _WIN32
+        Sleep(2);
+#else
         sleep(2);
+#endif
         auto e = std::chrono::system_clock::now();
         std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
                   std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec\n";
@@ -109,7 +117,6 @@ int main() {
         for (long long i = 0; i < 999999; i++) {
             sum++;
         }
-//        sleep(1);
         auto e = std::chrono::system_clock::now();
         std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
                   std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec\n";
