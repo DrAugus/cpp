@@ -10,6 +10,8 @@
 #include <future>
 #include <string>
 #include <mutex>
+#include <unistd.h>
+#include <iomanip>
 
 std::mutex m;
 
@@ -44,7 +46,81 @@ int parallel_sum(RandomIt beg, RandomIt end) {
     return sum + handle.get();
 }
 
+
 int main() {
+
+    auto fn = [&]() {
+        auto s = std::chrono::system_clock::now();
+        std::time_t c = std::chrono::system_clock::to_time_t(s);
+        long long sum = 0;
+        for (long long i = 0; i < 999999999; i++) {
+            sum++;
+        }
+        auto e = std::chrono::system_clock::now();
+        std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
+                  std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec ";
+        std::cout << "hit thread fn \n";
+    };
+
+    std::thread th1 (fn);
+    std::thread th2 (fn);
+    std::thread th3 (fn);
+    std::thread th4 (fn);
+    th1.detach();
+    th2.detach();
+    th3.detach();
+    th4.detach();
+
+    std::cout << "over fn, over ? \n";
+
+
+
+    auto cal1 = std::async(std::launch::async, [&]() {
+        auto s = std::chrono::system_clock::now();
+        std::time_t c = std::chrono::system_clock::to_time_t(s);
+        long long sum = 0;
+        for (long long i = 0; i < 999999; i++) {
+            sum++;
+        }
+        sleep(2);
+        auto e = std::chrono::system_clock::now();
+        std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
+                  std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec\n";
+        return "hit first async ";
+    });
+    std::cout << cal1.get() << std::endl;
+
+    for (int i = 0; i < 3; ++i) {
+        auto cal = std::async(std::launch::async, [&]() {
+            auto s = std::chrono::system_clock::now();
+            std::time_t c = std::chrono::system_clock::to_time_t(s);
+            long long sum = 0;
+            for (long long i = 0; i < 999999999; i++) {
+                sum++;
+            }
+            auto e = std::chrono::system_clock::now();
+            std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
+                      std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec\n";
+            return "hit circle async ";
+        });
+        std::cout << cal.get() << std::endl;
+    }
+
+    auto cal2 = std::async(std::launch::async, [&]() {
+        auto s = std::chrono::system_clock::now();
+        std::time_t c = std::chrono::system_clock::to_time_t(s);
+        long long sum = 0;
+        for (long long i = 0; i < 999999; i++) {
+            sum++;
+        }
+//        sleep(1);
+        auto e = std::chrono::system_clock::now();
+        std::cout << std::put_time(std::localtime(&c), "%Y/%m/%d %H:%M:%S ") <<
+                  std::chrono::duration_cast<std::chrono::milliseconds>(e - s).count() << " msec\n";
+        return "hit last async ";
+    });
+    std::cout << cal2.get() << std::endl;
+
     std::vector<int> v(10000, 1);
     std::cout << "The sum is " << parallel_sum(v.begin(), v.end()) << '\n';
 
