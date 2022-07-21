@@ -4,6 +4,8 @@
 // 二进制1的个数
 //
 
+#include <bitset>
+
 namespace leetcode {
     int hammingWeight(int n) {
         int key = n % 4;
