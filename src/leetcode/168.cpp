@@ -6,6 +6,7 @@
 
 #include <string>
 #include <array>
+#include <algorithm>
 
 namespace leetcode {
     std::string convertToTitle(int columnNumber) {

@@ -5,13 +5,14 @@
 //
 
 #include <vector>
+#include <algorithm>
 
 namespace leetcode {
     int findMaximumXOR(std::vector<int> &nums) {
         if (nums.empty()) {
             return 0;
         }
-        auto biggest = max_element(begin(nums), end(nums));
+        auto biggest = std::max_element(begin(nums), end(nums));
         int res = 0;
         for (auto compare: nums) {
             int max = compare ^ *biggest;

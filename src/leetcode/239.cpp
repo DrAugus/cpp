@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <deque>
+#include <algorithm>
 
 namespace leetcode {
     std::vector<int> maxSlidingWindow(std::vector<int> &nums, int k) {

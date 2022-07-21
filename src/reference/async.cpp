@@ -62,17 +62,13 @@ int main() {
         std::cout << "hit thread fn \n";
     };
 
-    std::thread th1 (fn);
-    std::thread th2 (fn);
-    std::thread th3 (fn);
-    std::thread th4 (fn);
-    th1.detach();
-    th2.detach();
-    th3.detach();
-    th4.detach();
+    for (int i = 0; i < 5; ++i) {
+        std::thread th(fn);
+        th.detach();
+    }
+
 
     std::cout << "over fn, over ? \n";
-
 
 
     auto cal1 = std::async(std::launch::async, [&]() {

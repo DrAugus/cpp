@@ -5,6 +5,7 @@
 //
 
 #include <vector>
+#include <algorithm>
 
 namespace leetcode {
     int maxProfit(int k, std::vector<int> &prices) {
@@ -21,7 +22,7 @@ namespace leetcode {
                 resDiff.push_back(prices[j] - prices[i]);
             }
         }
-        sort(resDiff.rbegin(), resDiff.rend());
+        std::sort(resDiff.rbegin(), resDiff.rend());
         int res = 0;
         for (int i = 0; i < k; i++) {
             int tempRes = res;

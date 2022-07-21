@@ -5,6 +5,7 @@
 //
 
 #include <string>
+#include <algorithm>
 
 namespace leetcode {
     int strongPasswordChecker(std::string password) {

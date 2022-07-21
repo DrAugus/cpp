@@ -4,6 +4,7 @@
 //
 
 #include <vector>
+#include <algorithm>
 
 namespace leetcode {
     int maximumElementAfterDecrementingAndRearranging(std::vector<int> &arr) {

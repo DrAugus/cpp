@@ -5,10 +5,11 @@
 //
 
 #include <vector>
+#include <algorithm>
 
 namespace leetcode {
     int maximumGap(std::vector<int> &nums) {
-        sort(nums.begin(), nums.end());
+        std::sort(nums.begin(), nums.end());
         int max_differ = 0;
         for (int i = 1; i < nums.size(); i++) {
             if (nums[i] - nums[i - 1] >= max_differ) {

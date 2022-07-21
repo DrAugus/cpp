@@ -4,6 +4,7 @@
 //
 
 #include <vector>
+#include <algorithm>
 
 namespace leetcode {
     int maxIceCream(std::vector<int> &costs, int coins) {
