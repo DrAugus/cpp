@@ -5,7 +5,7 @@
 //
 
 #include <utils.h>
-#include <cmath>
+#include <algorithm>
 
 namespace leetcode {
     int minDepth(TreeNode *root) {
