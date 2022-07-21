@@ -8,9 +8,15 @@
 
 ## Questions
 
-无法在 github 正常编译 thread
+### 无法在 linux 正常编译 thread
 
-## RUN
+cmake添加
+```cmake
+find_package (Threads REQUIRED)
+target_link_libraries(${your_project_name} ${CMAKE_THREAD_LIBS_INIT})
+```
+
+## [RUN](./.github/workflows/cmake.yml)
 
 1. clone `git clone https://github.com/DrAugus/cpp.git`
 2. enter the dir `cd cpp`
