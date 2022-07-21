@@ -31,3 +31,5 @@ namespace leetcode {
         return res->next;
     }
 }
+
+int main() { return 1; }

@@ -18,3 +18,5 @@ namespace leetcode {
         return des;
     }
 }
+
+int main() { return 1; }

@@ -43,3 +43,5 @@ namespace leetcode {
         return res;
     }
 }
+
+int main() { return 1; }

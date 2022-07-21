@@ -38,3 +38,5 @@ std::vector<int> findDuplicates(std::vector<int> &nums) {
     }
     return res;
 }
+
+int main() { return 1; }

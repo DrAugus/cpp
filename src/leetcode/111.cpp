@@ -25,3 +25,5 @@ namespace leetcode {
         }
     }
 }
+
+int main() { return 1; }

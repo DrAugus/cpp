@@ -23,3 +23,5 @@ namespace leetcode {
         return true;
     }
 }
+
+int main() { return 1; }

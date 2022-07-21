@@ -12,7 +12,7 @@ message("msg: cmake so hard")
 message("Project Name: ${PROJECT_NAME}")
 message("CMake Source Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-set(CMAKE_CXX_STANDARD 20)
+set(CXX_STANDARD_REQUIRED ON)
 
 IF (WIN32)
     message("WIN32")

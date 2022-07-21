@@ -27,3 +27,5 @@ namespace leetcode {
         return arr[arr.size() - 1];
     }
 }
+
+int main() { return 1; }

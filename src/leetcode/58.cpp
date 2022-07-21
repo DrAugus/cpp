@@ -29,3 +29,5 @@ namespace leetcode {
         return sub_end - sub_begin;
     }
 }
+
+int main() { return 1; }

@@ -22,3 +22,5 @@ namespace leetcode {
         return right == letters.size() ? letters[0] : letters[right];
     }
 }
+
+int main() { return 1; }

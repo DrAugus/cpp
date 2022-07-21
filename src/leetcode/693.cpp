@@ -11,3 +11,5 @@ namespace leetcode {
         return !(a & a + 1);
     }
 }
+
+int main() { return 1; }

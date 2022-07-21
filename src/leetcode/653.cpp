@@ -20,3 +20,5 @@ namespace leetcode {
         return findTarget(root->left, k) || findTarget(root->right, k);
     }
 }
+
+int main() { return 1; }

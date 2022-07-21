@@ -51,3 +51,5 @@ std::vector<int> maxSlidingWindow(std::vector<int> &nums, int k) {
 
     return res;
 }
+
+int main() { return 1; }

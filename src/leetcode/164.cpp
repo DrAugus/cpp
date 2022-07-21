@@ -18,3 +18,5 @@ namespace leetcode {
         return max_differ;
     }
 }
+
+int main() { return 1; }
