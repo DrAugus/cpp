@@ -5,20 +5,20 @@ file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 # file( GLOB APP_SOURCES ${CMAKE_SOURCE_DIR}/*.c )
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
 
-foreach (leetcodefile ${APP_SOURCES})
+foreach (practice_file ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
-    string(REPLACE ".cpp" "" leetcodename ${leetcodefile})
-    add_executable(${leetcodename} ${leetcodefile})
+    string(REPLACE ".cpp" "" practice_name ${practice_file})
+    add_executable(${practice_name} ${practice_file})
 
-    set_target_properties(${leetcodename} PROPERTIES LINKER_LANGUAGE CXX)
+    set_target_properties(${practice_name} PROPERTIES LINKER_LANGUAGE CXX)
     if (OpenMP_CXX_FOUND)
-        target_link_libraries(${leetcodename} OpenMP::OpenMP_CXX)
+        target_link_libraries(${practice_name} OpenMP::OpenMP_CXX)
     endif ()
     find_package (Threads REQUIRED)
-    target_link_libraries(${leetcodename} ${CMAKE_THREAD_LIBS_INIT})
-    install(TARGETS ${leetcodename} DESTINATION "bin/backtracking")
+    target_link_libraries(${practice_name} ${CMAKE_THREAD_LIBS_INIT})
+    install(TARGETS ${practice_name} DESTINATION "bin/backtracking")
 
-endforeach (leetcodefile ${APP_SOURCES})
+endforeach (practice_file ${APP_SOURCES})
 
 
 include_directories(

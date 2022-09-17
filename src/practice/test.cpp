@@ -97,5 +97,5 @@ int main() {
 
     std::cout << stoi(ss, nullptr);
 
-
+    return 0;
 }
