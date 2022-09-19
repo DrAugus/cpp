@@ -4,18 +4,21 @@
 file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 # file( GLOB APP_SOURCES ${CMAKE_SOURCE_DIR}/*.c )
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
-foreach (testsourcefile ${APP_SOURCES})
+
+foreach (primer_file ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
-    string(REPLACE ".cpp" "" testname ${testsourcefile})
-    add_executable(${testname} ${testsourcefile})
+    string(REPLACE ".cpp" "" primer_name ${primer_file})
+    add_executable(${primer_name} ${primer_file})
 
-    set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
+    set_target_properties(${primer_name} PROPERTIES LINKER_LANGUAGE CXX)
     if (OpenMP_CXX_FOUND)
-        target_link_libraries(${testname} OpenMP::OpenMP_CXX)
+        target_link_libraries(${primer_name} OpenMP::OpenMP_CXX)
     endif ()
-    install(TARGETS ${testname} DESTINATION "bin/backtracking")
+    find_package (Threads REQUIRED)
+    target_link_libraries(${primer_name} ${CMAKE_THREAD_LIBS_INIT})
+    install(TARGETS ${primer_name} DESTINATION "bin/backtracking")
 
-endforeach (testsourcefile ${APP_SOURCES})
+endforeach (primer_file ${APP_SOURCES})
 
 
 include_directories(
