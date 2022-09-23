@@ -3,6 +3,14 @@
 // JPEG图像压缩解压算法——C++实现
 //
 
+#ifdef __linux__
+
+int main() {
+    return 1;
+}
+
+#else
+
 
 #include<iostream>
 #include<string>
@@ -169,19 +177,19 @@ string TenToTwo(int temp) {
 
 
 /*将正整数二进制转换成十进制*/
-int TwoToTen(string strTemp) {
+int TwoToTen(const string &strTemp) {
     int temp = 0;
-    for (int i = 0; i < strTemp.length(); i++) {
-        temp = temp * 2 + strTemp[i] - '0';
+    for (char i: strTemp) {
+        temp = temp * 2 + i - '0';
     }
     return temp;
 }
 
 /*将一个负数的二进制串逐位取反*/
-string ConvertToComplement(string strTemp) {
-    string str = "";
-    for (int i = 0; i < strTemp.length(); i++) {
-        str = str + (strTemp[i] == '1' ? '0' : '1');
+string ConvertToComplement(const string &strTemp) {
+    string str;
+    for (char i: strTemp) {
+        str = str + (i == '1' ? '0' : '1');
     }
     return str;
 }
@@ -411,17 +419,17 @@ int main() {
     double ff[N][N], F[N][N];
 
     /*输入图像的一个分量样本*/
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cin >> f[i][j];
+    for (auto &i: f) {
+        for (double &j: i) {
+            cin >> j;
         }
     }
 
     cout << "源图像的一个分量样本：" << endl;
     /*输出—源图像的一个分量样本*/
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << f[i][j] << "\t";
+    for (auto &i: f) {
+        for (double j: i) {
+            cout << j << "\t";
         }
         cout << endl;
     }
@@ -435,9 +443,9 @@ int main() {
 
     cout << "源图像的一个分量样本-128后：" << endl;
     /*输出—图像的一个分量样本-128后*/
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << ff[i][j] << "\t";
+    for (auto &i: ff) {
+        for (double j: i) {
+            cout << j << "\t";
         }
         cout << endl;
     }
@@ -459,9 +467,9 @@ int main() {
     /*输出—DCT变化后的系数矩阵*/
     //DCT变化后的系数矩阵
     cout << "DCT变化后的系数矩阵:" << endl;
-    for (int u = 0; u < N; u++) {
-        for (int v = 0; v < N; v++) {
-            printf("%.1f\t", F[u][v]);
+    for (auto &u: F) {
+        for (double v: u) {
+            printf("%.1f\t", v);
             //cout<<F[u][v]<<" ";
         }
         cout << endl;
@@ -480,9 +488,9 @@ int main() {
     /*输出—规格化量化系数矩阵*/
     //规格化量化系数矩阵
     cout << "规格化量化系数:" << endl;
-    for (int u = 0; u < N; u++) {
-        for (int v = 0; v < N; v++) {
-            cout << F_[u][v] << "\t";
+    for (auto &u: F_) {
+        for (int v: u) {
+            cout << v << "\t";
         }
         cout << endl;
     }
@@ -593,9 +601,9 @@ int main() {
     int IF_[N][N];
 
     //初始化矩阵
-    for (int u = 0; u < N; u++) {
-        for (int v = 0; v < N; v++) {
-            IF_[u][v] = 0;
+    for (auto &u: IF_) {
+        for (int &v: u) {
+            v = 0;
         }
     }
 
@@ -678,9 +686,9 @@ int main() {
     /*输出—规格化量化系数矩阵*/
     //规格化量化系数矩阵
     cout << "规格化量化系数:" << endl;
-    for (int u = 0; u < N; u++) {
-        for (int v = 0; v < N; v++) {
-            cout << IF_[u][v] << "\t";
+    for (auto &u: IF_) {
+        for (int v: u) {
+            cout << v << "\t";
         }
         cout << endl;
     }
@@ -689,16 +697,17 @@ int main() {
     //利用公式将规格化量化系数矩阵转换为逆量化后的系数矩阵
     double IF[N][N];//逆量化后的系数矩阵
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {//二维数组Q 为亮度量化值表
+        for (int j = 0; j < N; j++) {
+            //二维数组Q 为亮度量化值表
             IF[i][j] = 1.0 * IF_[i][j] * brightnessQuantizedValueTable.Q[i][j];
         }
     }
 
     /*输出—逆量化后的系数矩阵*/
     cout << "逆量化后的系数矩阵:" << endl;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << IF[i][j] << "\t";
+    for (auto &i: IF) {
+        for (double j: i) {
+            cout << j << "\t";
         }
         cout << endl;
     }
@@ -720,10 +729,10 @@ int main() {
 
     /*输出—IDCT变化后的系数矩阵*/
     cout << "IDCT变化后的系数矩阵:" << endl;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
+    for (auto &i: Iff) {
+        for (double j: i) {
             //cout<<Iff[i][j]<<"\t";
-            printf("%.0f\t", Iff[i][j]);
+            printf("%.0f\t", j);
         }
         cout << endl;
     }
@@ -739,12 +748,14 @@ int main() {
     }
 
     /*输出—源图像的一个分量样本的重构图像*/
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
+    for (auto &i: If) {
+        for (double j: i) {
             //cout<<If[i][j]<<"\t";
-            printf("%.0f\t", If[i][j]);
+            printf("%.0f\t", j);
         }
         cout << endl;
     }
     return 0;
 }
+
+#endif
