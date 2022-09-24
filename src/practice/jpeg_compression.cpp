@@ -3,7 +3,7 @@
 // JPEG图像压缩解压算法——C++实现
 //
 
-#ifdef __linux__
+#ifndef _WIN32
 
 int main() {
     return 1;
