@@ -30,8 +30,8 @@ jobs:
 #            cxx: clang
           - os: windows-latest
             type: Debug
-          - os: windows-latest
-            type: Release
+#          - os: windows-latest
+#            type: Release
 #          - os: macos-latest
 #            type: Debug
 #          - os: macos-latest
@@ -47,8 +47,8 @@ jobs:
 
       - name: Checkout submodules
         run: |
-          cd ${{github.workspace}}/3rd/
-          git submodule add https://github.com/fmtlib/fmt
+          cd ${{github.workspace}}/
+          git submodule update --init --recursive
 
       - name: build 3rd
         run: |
