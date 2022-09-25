@@ -2,9 +2,7 @@
 // Created by AUGUS on 2022/9/8.
 //
 
-#include <iostream>
-#include <vector>
-#include <3rd/fmt/include/fmt/core.h>
+#include <meow.h>
 
 
 int cal_sum(int x) {

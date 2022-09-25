@@ -15,27 +15,27 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            type: Debug
-            cxx: gcc
-          - os: ubuntu-latest
-            type: Release
-            cxx: gcc
-            coverage: -DCMAKE_CXX_FLAGS=--coverage
-          - os: ubuntu-latest
-            type: Debug
-            cxx: clang
-          - os: ubuntu-latest
-            type: Release
-            cxx: clang
+#          - os: ubuntu-latest
+#            type: Debug
+#            cxx: gcc
+#          - os: ubuntu-latest
+#            type: Release
+#            cxx: gcc
+#            coverage: -DCMAKE_CXX_FLAGS=--coverage
+#          - os: ubuntu-latest
+#            type: Debug
+#            cxx: clang
+#          - os: ubuntu-latest
+#            type: Release
+#            cxx: clang
           - os: windows-latest
             type: Debug
           - os: windows-latest
             type: Release
-          - os: macos-latest
-            type: Debug
-          - os: macos-latest
-            type: Release
+#          - os: macos-latest
+#            type: Debug
+#          - os: macos-latest
+#            type: Release
 
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -49,9 +49,7 @@ jobs:
         run: |
           mkdir ${{github.workspace}}/3rd/fmt/build
           cd ${{github.workspace}}/3rd/fmt/
-          cmake -B build -DCMAKE_BUILD_TYPE=${{matrix.type}}
-          cmake --build build --config ${{matrix.type}}
-          cd ${{github.workspace}}/
+          cmake
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
