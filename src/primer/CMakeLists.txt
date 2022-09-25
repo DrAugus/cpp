@@ -16,6 +16,8 @@ foreach (primer_file ${APP_SOURCES})
     endif ()
     find_package (Threads REQUIRED)
     target_link_libraries(${primer_name} ${CMAKE_THREAD_LIBS_INIT})
+    find_package(fmt)
+    target_link_libraries(${primer_name} fmt::fmt)
     install(TARGETS ${primer_name} DESTINATION "bin/backtracking")
 
 endforeach (primer_file ${APP_SOURCES})

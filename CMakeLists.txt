@@ -51,6 +51,9 @@ foreach (add_source ${SRC})
     add_subdirectory(${add_source})
 endforeach ()
 
+# fmt
+add_subdirectory(3rd/fmt)
+
 if (MSVC)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif (MSVC)
