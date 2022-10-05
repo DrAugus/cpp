@@ -50,11 +50,10 @@ jobs:
           cd ${{github.workspace}}/
           git submodule update --init --recursive
 
-      - name: build 3rd
+      - name: build 3rd fmt
         run: |
-          mkdir ${{github.workspace}}/3rd/fmt/build
-          cd ${{github.workspace}}/3rd/fmt/
-          cmake ..
+          cmake -B ${{github.workspace}}/3rd/fmt/build -DCMAKE_BUILD_TYPE=${{matrix.type}}
+          cmake --build ${{github.workspace}}/3rd/fmt/build --config ${{matrix.type}}
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
