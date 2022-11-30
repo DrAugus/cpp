@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(
     description="INVOKE CMAKE OR EXECUTE APPOINT PROGRAM")
 parser.add_argument('-type', default='Debug', help='cmake build type')
 parser.add_argument('-target', help='appoint a file to compile')
-parser.add_argument('-run', help='run some target')
+parser.add_argument('-run', action='store_true', help='run some target')
 parser.add_argument('-l', action='store_true', help='list all cpp')
 parser.add_argument('-j', default=10, type=int,
                     help='make flags, default is 10')
@@ -110,9 +110,8 @@ def handle_l():
 
 
 if __name__ == '__main__':
-    print("run run run run run")
     print("===================")
-    print("===================")
+    print("======= run =======")
     print("===================\n\n")
     build_type = args.type
     all_cpp = find_file_path()
@@ -121,14 +120,12 @@ if __name__ == '__main__':
             handle_l()
             break
 
-        if args.run:
-            run_target = list(filter(lambda e: args.run in e, all_cpp))
-            print("run_target", run_target)
-            subprocess.run(['build'+run_target[0]],  check=True)
-            break
-
         if args.target:
             cmake_appoint(args.target, args.j, build_type)
+            run_target = list(filter(lambda e: args.target in e, all_cpp))
+            print("\n\nrun_target", run_target)
+            print("------->")
+            subprocess.run(['build'+run_target[0]],  check=True)
             break
         else:
             cmake(build_type)
