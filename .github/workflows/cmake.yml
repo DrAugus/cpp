@@ -7,16 +7,16 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - '.gitmodules'
-      - '**.md'
-      - '**.py'
+      # - '**.md'
+      # - '**.py' # 有问题？？？
   pull_request:
     branches: [ master ]
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
       - '.gitmodules'
-      - '**.md'
-      - '**.py'
+      # - '**.md'
+      # - '**.py'
 
 #env:
 #  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)

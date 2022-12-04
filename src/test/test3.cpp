@@ -56,9 +56,11 @@ int main()
 
     const std::string &raw_data = "33ffwfw";
     int64_t offset = 2;
-
+    
+#ifdef __linux__
     int ret = *(int *)(&raw_data[offset]);
     fmt::print("off:{}\n", ntohl(ret));
+#endif
 
     double a = 2.3;
     fmt::print("double:{}\n", a * 4.5);
