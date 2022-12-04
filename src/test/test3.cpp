@@ -1,4 +1,7 @@
 #include <meow.h>
+#ifdef __linux__
+#include <arpa/inet.h>
+#endif
 
 class aa
 {
