@@ -7,16 +7,16 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - '.gitmodules'
-      # - '**.md'
-      # - '**.py' # 有问题？？？
+      - '**.md'
+      - '**.py' 
   pull_request:
     branches: [ master ]
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
       - '.gitmodules'
-      # - '**.md'
-      # - '**.py'
+      - '**.md'
+      - '**.py'
 
 #env:
 #  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -34,20 +34,20 @@ jobs:
            type: Release
            cxx: gcc
            coverage: -DCMAKE_CXX_FLAGS=--coverage
-        #  - os: ubuntu-latest
-        #    type: Debug
-        #    cxx: clang
-        #  - os: ubuntu-latest
-        #    type: Release
-        #    cxx: clang
-          - os: windows-latest
-            type: Debug
-         - os: windows-latest
-           type: Release
-         - os: macos-latest
+         - os: ubuntu-latest
            type: Debug
-         - os: macos-latest
+           cxx: clang
+         - os: ubuntu-latest
            type: Release
+           cxx: clang
+        #   - os: windows-latest
+        #     type: Debug
+        #  - os: windows-latest
+        #    type: Release
+        #  - os: macos-latest
+        #    type: Debug
+        #  - os: macos-latest
+        #    type: Release
 
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
