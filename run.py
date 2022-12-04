@@ -73,6 +73,7 @@ def cmake_appoint(target, j, build_type):
     print("cmake_appoint, build_dir", build_dir)
     cmake_args = ['--build', build_dir, '--config',
                   build_type, '--target', target, '-j', str(j), '--']
+    print("cmake_appoint, cmake_args", cmake_args)
     subprocess.run(['cmake'] + cmake_args,  check=True)
 
 
@@ -85,9 +86,12 @@ def find_file_path():
         l2 = os.path.join(src_path, l1[i])
         prefix = '/src/' + l1[i] + '/'
         file = os.listdir(l2)
-        file = list(filter(lambda e: e.endswith('.cpp'), file))
+        file = list(filter(lambda e: e.endswith('.cpp') or e.endswith('.c'), file))
         file = list(map(lambda e: prefix + e, file))
+	# split cpp
         file = list(map(lambda e: e.split('.cpp')[0], file))
+	# split c
+        file = list(map(lambda e: e.split('.c')[0], file))
         all_cpp += file
         # print(file)
     # print("all_cpp", all_cpp)
@@ -115,6 +119,7 @@ if __name__ == '__main__':
     print("===================\n\n")
     build_type = args.type
     all_cpp = find_file_path()
+    # print(all_cpp)
     while 1:
         if args.l:
             handle_l()
@@ -124,7 +129,7 @@ if __name__ == '__main__':
             cmake_appoint(args.target, args.j, build_type)
             run_target = list(filter(lambda e: args.target in e, all_cpp))
             print("\n\nrun_target", run_target)
-            print("------->")
+            print(">>>>>>>>>>")
             subprocess.run(['build'+run_target[0]],  check=True)
             break
         else:

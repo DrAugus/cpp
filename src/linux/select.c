@@ -21,7 +21,7 @@ int main (void)
     tv.tv_usec = 0;
 
     /* All right, now block! */
-    res = select (STDIN_FILENO + 1,
+    ret = select (STDIN_FILENO + 1,
                     &readfds,
                     NULL,
                     NULL,
