@@ -46,7 +46,11 @@ include_directories(
 #当需要构建大型工程，各个子目录都有对应的CMakeList时，使用该条语法
 file(GLOB SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*)
 foreach (add_source ${SRC})
-    if(${add_source} EQUAL "linux" AND NOT UNIX)
+    if(add_source MATCHES "linux")
+        message("hithithit=======")
+    endif()
+
+    if(add_source MATCHES "linux" AND NOT UNIX)
         message("except ${add_source} in not unix")
         continue()
     endif()

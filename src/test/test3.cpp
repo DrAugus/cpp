@@ -1,5 +1,5 @@
 #include <meow.h>
-#ifdef __linux__
+#ifndef _WIN32
 #include <arpa/inet.h>
 #endif
 
@@ -57,7 +57,7 @@ int main()
     const std::string &raw_data = "33ffwfw";
     int64_t offset = 2;
     
-#ifdef __linux__
+#ifndef _WIN32
     int ret = *(int *)(&raw_data[offset]);
     fmt::print("off:{}\n", ntohl(ret));
 #endif
