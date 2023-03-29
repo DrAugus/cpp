@@ -129,7 +129,7 @@ if __name__ == '__main__':
             cmake_appoint(args.target, args.j, build_type)
             run_target = list(filter(lambda e: args.target in e, all_cpp))
             print("\n\nrun_target", run_target)
-            print(">>>>>>>>>>")
+            print(">>>>>>>>>>\n")
             subprocess.run(['build'+run_target[0]],  check=True)
             break
         else:
