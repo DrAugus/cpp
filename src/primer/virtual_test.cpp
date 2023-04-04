@@ -25,9 +25,10 @@ public:
 
 int main()
 {
-    auto ex = new Extend();
+    Base *ex = new Extend();
     std::cout << sizeof(Base) << " " << sizeof(Extend) << std::endl;
     delete ex;
     fmt::print("base size is {} extend size is {}\n", sizeof(Base), sizeof(Extend));
+
     return 0;
 }
