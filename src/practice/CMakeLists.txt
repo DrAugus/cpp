@@ -15,12 +15,11 @@ foreach (practice_file ${APP_SOURCES})
         target_link_libraries(${practice_name} OpenMP::OpenMP_CXX)
     endif ()
     find_package (Threads REQUIRED)
-
+    target_link_libraries(${practice_name} ${CMAKE_THREAD_LIBS_INIT})
     # curl
     find_package(CURL REQUIRED)
     target_link_libraries(${practice_name} ${CURL_LIBRARIES})
 
-    target_link_libraries(${practice_name} ${CMAKE_THREAD_LIBS_INIT})
     install(TARGETS ${practice_name} DESTINATION "bin/backtracking")
 
 endforeach (practice_file ${APP_SOURCES})
@@ -29,3 +28,6 @@ endforeach (practice_file ${APP_SOURCES})
 include_directories(
         ${CMAKE_SOURCE_DIR}/include
 )
+if (CURL_FOUND)
+    include_directories(${CURL_INCLUDE_DIRS})
+endif ()
