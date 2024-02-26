@@ -62,18 +62,18 @@ jobs:
           cd ${{github.workspace}}/
           git submodule update --init --recursive
 
+      - name: Install libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install libcurl4-openssl-dev
+          sudo apt-get install libssl-dev          
+
       - name: build 3rd fmt
         run: |
           cmake -B ${{github.workspace}}/3rd/fmt/build -DCMAKE_BUILD_TYPE=${{matrix.type}}
           cmake --build ${{github.workspace}}/3rd/fmt/build --config ${{matrix.type}}
           cd ${{github.workspace}}/3rd/fmt/build
           make
-      
-      - name: Install libs
-        run: |
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev
-          sudo apt-get install libssl-dev
 
       - name: build CAF
         run: |
