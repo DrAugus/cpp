@@ -8,15 +8,9 @@ foreach (testsourcefile ${APP_SOURCES})
     # I used a simple string replace, to cut off .cpp.
     string(REPLACE ".cpp" "" testname ${testsourcefile})
     add_executable(${testname} ${testsourcefile})
-
     set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
-    if (OpenMP_CXX_FOUND)
-        target_link_libraries(${testname} OpenMP::OpenMP_CXX)
-    endif ()
     install(TARGETS ${testname} DESTINATION "bin/backtracking")
-
 endforeach (testsourcefile ${APP_SOURCES})
-
 
 include_directories(
         ${CMAKE_SOURCE_DIR}/include
