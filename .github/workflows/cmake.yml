@@ -77,13 +77,13 @@ jobs:
       #     make
       #   working-directory: ${{github.workspace}}/3rd/fmt/
 
-      # - name: build CAF
-      #   run: |
-      #     git clone https://github.com/actor-framework/actor-framework
-      #     cd actor-framework
-      #     ./configure
-      #     make -C build
-      #     sudo make -C build install
+      - name: build CAF
+        run: |
+          git clone https://github.com/actor-framework/actor-framework
+          cd actor-framework
+          ./configure
+          make -C build
+          sudo make -C build install
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.

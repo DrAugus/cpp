@@ -156,20 +156,20 @@ void poker::Poker::SortCardList(unsigned cbCardData[], unsigned cbCardCount, enS
     if (cbCardCount <= 0 || cbCardCount > COUNT_MAX) { return; }
     switch (SortCardType) {
         case enDescend:
-            std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
+            std::sort(cbCardData, cbCardData + cbCardCount, [this](unsigned a, unsigned b) {
                 return (a > b && (GetCardLogicValue(a) == GetCardLogicValue(b)) ||
                         (GetCardLogicValue(a) > GetCardLogicValue(b)));
             });
             break;
         case enAscend:
-            std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
+            std::sort(cbCardData, cbCardData + cbCardCount, [this](unsigned a, unsigned b) {
                 return (a < b && (GetCardLogicValue(a) == GetCardLogicValue(b)) ||
                         (GetCardLogicValue(a) < GetCardLogicValue(b)));
             });
             break;
         case enColor:
             // color des
-            std::sort(cbCardData, cbCardData + cbCardCount, [=](unsigned a, unsigned b) {
+            std::sort(cbCardData, cbCardData + cbCardCount, [this](unsigned a, unsigned b) {
                 return ((GetCardLogicValue(a) > GetCardLogicValue(b) && GetCardColor(a) == GetCardColor(b))) ||
                        (GetCardColor(a) > GetCardColor(b));
             });
@@ -898,7 +898,7 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsi
     }
     std::cout << std::endl;
 
-    std::sort(source_arr, source_arr + source_length, [=](unsigned a, unsigned b) { return a - b; });
+    std::sort(source_arr, source_arr + source_length, [this](unsigned a, unsigned b) { return a - b; });
 
     std::cout << "return a - b " << std::endl;
     for (auto i = 0; i < source_length; i++) {
@@ -907,7 +907,7 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsi
     std::cout << std::endl;
 
 
-    std::sort(source_arr, source_arr + source_length, [=](unsigned a, unsigned b) { return a > b; });
+    std::sort(source_arr, source_arr + source_length, [this](unsigned a, unsigned b) { return a > b; });
 
     std::cout << "return a > b " << std::endl;
     for (auto i = 0; i < source_length; i++) {
@@ -957,7 +957,7 @@ bool poker::CompanyTest::RemoveExist(unsigned source_arr[], unsigned source_leng
             }
         }
     }
-    std::sort(source_arr, source_arr + source_length, [=](unsigned a, unsigned b) { return a > b; });
+    std::sort(source_arr, source_arr + source_length, [this](unsigned a, unsigned b) { return a > b; });
     return true;
 }
 
@@ -983,7 +983,7 @@ std::vector<unsigned> poker::CompanyTest::RemoveZero(std::vector<unsigned> sourc
 }
 
 std::vector<unsigned> poker::CompanyTest::RemoveZero(unsigned source_arr[], unsigned source_length) {
-    std::sort(source_arr, source_arr + source_length, [=](unsigned a, unsigned b) { return a > b; });
+    std::sort(source_arr, source_arr + source_length, [this](unsigned a, unsigned b) { return a > b; });
     unsigned end_index = 0;
     for (unsigned i = 0; i < source_length; i++) {
         if (!source_arr[i]) {
@@ -1056,7 +1056,7 @@ bool poker::CompanyTest::Test() {
                               0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D,    //黑桃 A - K
                               0x4e, 0x4f};
 
-    std::sort(test0826, test0826 + 108, [=](unsigned a, unsigned b) {
+    std::sort(test0826, test0826 + 108, [this](unsigned a, unsigned b) {
         return (a > b && GetCardLogicValue(a) == GetCardLogicValue(b)) || (GetCardLogicValue(a) > GetCardLogicValue(b));
     });
 
