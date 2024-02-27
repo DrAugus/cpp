@@ -54,13 +54,15 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ${{matrix.os}}
 
+    defaults:
+      run:
+        working-directory: ${{github.workspace}}
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Checkout submodules
-        run: |
-          cd ${{github.workspace}}/
-          git submodule update --init --recursive
+        run: git submodule update --init --recursive
 
       - name: Install libs
         run: |
@@ -68,12 +70,13 @@ jobs:
           sudo apt-get install libcurl4-openssl-dev
           sudo apt-get install libssl-dev          
 
-      - name: build 3rd fmt
-        run: |
-          cmake -B ${{github.workspace}}/3rd/fmt/build -DCMAKE_BUILD_TYPE=${{matrix.type}}
-          cmake --build ${{github.workspace}}/3rd/fmt/build --config ${{matrix.type}}
-          cd ${{github.workspace}}/3rd/fmt/build
-          make
+      # - name: build 3rd fmt
+      #   run: |
+      #     cmake -B ${{github.workspace}}/3rd/fmt/build -DCMAKE_BUILD_TYPE=${{matrix.type}}
+      #     cmake --build ${{github.workspace}}/3rd/fmt/build --config ${{matrix.type}}
+      #     cd ${{github.workspace}}/3rd/fmt/build
+      #     make
+      #   working-directory: ${{github.workspace}}/3rd/fmt/
 
       - name: build CAF
         run: |
