@@ -17,6 +17,11 @@ foreach (caf_file ${APP_SOURCES})
 
     find_package (Threads REQUIRED)
     target_link_libraries(${caf_name} ${CMAKE_THREAD_LIBS_INIT})
+
+    # caf
+    find_package(CAF REQUIRED)
+    target_link_libraries(${caf_name} ${CAF_LIBRARIES})
+
     install(TARGETS ${caf_name} DESTINATION "bin/backtracking")
 
 endforeach (caf_file ${APP_SOURCES})
@@ -25,3 +30,7 @@ endforeach (caf_file ${APP_SOURCES})
 include_directories(
         ${CMAKE_SOURCE_DIR}/include
 )
+
+if (CAF_FOUND)
+    include_directories(${CAF_INCLUDE_DIRS})
+endif ()
