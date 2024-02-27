@@ -11,11 +11,27 @@ clang
 
 WORKDIR=$(cd "$(dirname "$0")"; pwd)
 
+# $1 dir $2 cmake type
+_cmake(){
+    echo ">>> cmake" && echo " "
+    cmake -B $1/build -DCMAKE_BUILD_TYPE=$2
+    cmake --build $1/build --config $2
+    echo " "
+}
+
+if [ $# -eq 1 ]; then
+    [[ "$1" = "-d" ]] && _cmake $WORKDIR 'Debug' && exit 1
+    
+    # path, $1 include '/'
+    if [[ $1 =~ "/" ]]; then
+        _cmake $1 'Debug' && exit 1 
+    fi
+
+    exit 1
+fi
+
 for type in ${BUILD_TYPE[@]}
 do
-    echo ">>> cmake $name" && echo " "
-    cmake -B ${WORKDIR}/build -DCMAKE_BUILD_TYPE=${type}
-    cmake --build ${WORKDIR}/build --config ${type}
-    echo " "
+    _cmake $WORKDIR $type
 done
 

@@ -8,21 +8,23 @@ project(augus_cpp
 
 #打印相关消息消息
 message("Project Directory: ${PROJECT_SOURCE_DIR}")
-message("msg: cmake so hard")
 message("Project Name: ${PROJECT_NAME}")
 message("CMake Source Dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 IF (WIN32)
-    message("WIN32")
+    message(STATUS "Platform: WIN32")
 ELSEIF (APPLE)
-    message("APPLE")
+    message(STATUS "Platform: APPLE")
 ELSEIF (UNIX)
-    message("UNIX")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.1)
-        set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_GLIBCXX_USE_CXX11_ABI=0")
-    endif()
+    message(STATUS "Platform: UNIX")
+    # if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.1)
+    #     message(STATUS "set CMAKE_CXX_FLAGS")
+    #     # 设置为1时，编译器会链接到采用新ABI的libstdc++版本；而设置为0时，则链接到旧版ABI兼容的库版本
+    #     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-D_GLIBCXX_USE_CXX11_ABI=0")
+    # endif()
     #设置可执行文件的输出目录
     #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
     #分别设置了Debug版本和Release版本可执行文件的输出目录
@@ -34,7 +36,7 @@ ELSEIF (UNIX)
     #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/../lib)
     #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/../lib)
 ELSE ()
-    message("OTHERS")
+    message(STATUS "Platform: OTHERS ${CMAKE_SYSTEM_NAME}")
 ENDIF ()
 
 include_directories(
@@ -77,7 +79,7 @@ cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0057 NEW)
 
 #指定编译类型 DEBUG/RELEASE
-set(cmake_build_type DEBUG)
+# set(cmake_build_type DEBUG)
 
 # 指定编译器
 #set(cmake_c_flags_debug "-g -Wall)
@@ -99,20 +101,12 @@ set(cmake_build_type DEBUG)
 add_executable(${PROJECT_NAME} augus.cpp)  #设置生成的可执行文件名字，并且把可执行文件和编译源文件关联
 
 if (OpenMP_CXX_FOUND)
+    message(STATUS "link OpenMP")   
     target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
 endif ()
 
-IF (WIN32)
-    message(STATUS "Now is windows.")
-ELSEIF (APPLE)
-    message(STATUS "Now is Apple.")
-ELSEIF (UNIX)
-    message(STATUS "Now is UNIX-like OS's.")
-    find_package (Threads REQUIRED)
-    target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
-ELSE ()
-    message(STATUS "other platform: ${CMAKE_SYSTEM_NAME}")
-ENDIF ()
+find_package (Threads REQUIRED)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 set(AUGUS_LIBRARIES ${AUGUS_LIBRARIES} ${GOOGLE_LIBRARIES})
 
