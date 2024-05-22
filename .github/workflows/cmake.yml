@@ -85,6 +85,14 @@ jobs:
           make -C build
           sudo make -C build install
 
+      - name: build oat++
+        run: |
+          git clone https://github.com/oatpp/oatpp.git
+          cd oatpp/
+          mkdir build && cd build
+          cmake ..
+          sudo make && sudo make install
+
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
