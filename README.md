@@ -13,9 +13,9 @@
 5. make `make`
 6. run `./augus_cpp`
 
-## 项目目录
+## Project Directory
 
-部分子目录独立运行，参看每个子目录下的`CMakeLists`。所有`src`/`*.cpp`文件带`main`函数即可独立运行
+Some subdirectories can be run independently. Please refer to the `CMakeLists.txt` file in each subdirectory for configuration. All `.cpp` files located in the `src/` directory that contain a `main` function can be run independently.
 
 ```
 src
@@ -34,4 +34,3 @@ src
 ├── test
 └── training
 ```
-
