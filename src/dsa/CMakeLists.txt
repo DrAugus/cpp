@@ -2,20 +2,21 @@
 # with full pathname. RELATIVE may makes it easier to extract an executable name
 # automatically.
 file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
+
 # file( GLOB APP_SOURCES ${CMAKE_SOURCE_DIR}/*.c )
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
+find_package(Threads REQUIRED)
+set(fmt_DIR ${PROJECT_SOURCE_DIR}/3rd/fmt/build)
+find_package(fmt)
 
-find_package (Threads REQUIRED)
+set(CURRENT_DIR_NAME "dsa")
+set(LANGUAGE "CXX")
+set(LIBRARIES ${CMAKE_THREAD_LIBS_INIT} fmt::fmt)
 
-foreach (testsourcefile ${APP_SOURCES})
-    # I used a simple string replace, to cut off .cpp.
-    string(REPLACE ".cpp" "" testname ${testsourcefile})
-    add_executable(${testname} ${testsourcefile})
-    set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
-    target_link_libraries(${testname} ${CMAKE_THREAD_LIBS_INIT})
-    install(TARGETS ${testname} DESTINATION "bin/backtracking")
-endforeach (testsourcefile ${APP_SOURCES})
+include(${CMAKE_SOURCE_DIR}/cmake/CMakeFunctions.cmake)
+
+foreach_all_files(${LANGUAGE} ${CURRENT_DIR_NAME} ${APP_SOURCES} ${LIBRARIES})
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/include
 )

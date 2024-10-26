@@ -8,7 +8,7 @@
 
 ## Greedy Algorithms
 
-- Travelling Salesman Problem 
+- Travelling Salesman Problem
 - Prim's Minimal Spanning Tree Algorithm
 - Kruskal's Minimal Spanning Tree Algorithm
 - Dijkstra's Minimal Spanning Tree Algorithm
@@ -57,6 +57,7 @@ When the smaller sub-problems are solved, this stage recursively combines them u
 ### Data type
 
 **Data type** is a way to classify various types of data such as integer, string, etc. which determines the values that can be used with the corresponding type of data, the type of operations that can be performed on the corresponding type of data. There are two data types
+
 - [Built-in Data Type](#Built-in Data Type)
 - [Derived Data Type](#(#Built-in Data Type))
 
@@ -88,4 +89,3 @@ When the smaller sub-problems are solved, this stage recursively combines them u
 - **Simple Linked List** − Item navigation is forward only.
 - **Doubly Linked List** − Items can be navigated forward and backward.
 - **Circular Linked List** − Last item contains link of the primo element as next and the first element has a link to the last element as previous.
-

@@ -2,25 +2,20 @@
 # with full pathname. RELATIVE may makes it easier to extract an executable name
 # automatically.
 
+set(CURRENT_DIR_NAME "linux")
+include(${CMAKE_SOURCE_DIR}/cmake/CMakeFunctions.cmake)
+
 file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
+
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
-foreach (testsourcefile ${APP_SOURCES})
-    # I used a simple string replace, to cut off .cpp.
-    string(REPLACE ".cpp" "" testname ${testsourcefile})
-    add_executable(${testname} ${testsourcefile})
-    set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE CXX)
-    install(TARGETS ${testname} DESTINATION "bin/backtracking")
-endforeach (testsourcefile ${APP_SOURCES})
+set(LANGUAGE "CXX")
+foreach_all_files(${LANGUAGE} ${CURRENT_DIR_NAME} ${APP_SOURCES})
 
 file(GLOB APP_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.c)
+
 # AUX_SOURCE_DIRECTORY(${CMAKE_CURRENT_SOURCE_DIR} APP_SOURCES)
-foreach (testsourcefile ${APP_SOURCES})
-    # I used a simple string replace, to cut off .cpp.
-    string(REPLACE ".c" "" testname ${testsourcefile})
-    add_executable(${testname} ${testsourcefile})
-    set_target_properties(${testname} PROPERTIES LINKER_LANGUAGE C)
-    install(TARGETS ${testname} DESTINATION "bin/backtracking")
-endforeach (testsourcefile ${APP_SOURCES})
+set(LANGUAGE "C")
+foreach_all_files(${LANGUAGE} ${CURRENT_DIR_NAME} ${APP_SOURCES})
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include

@@ -10,13 +10,13 @@
 
 #include <iostream>
 
-#include <vector>
-#include <array>
-#include <string>
-#include <map>
-#include <unordered_map>
 #include <algorithm>
+#include <array>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include <3rd/fmt/include/fmt/core.h>
-
-#endif //AUGUS_CPP_MEOW_H
+#include <3rd/fmt/include/fmt/ranges.h>
+#endif  //AUGUS_CPP_MEOW_H
