@@ -59,7 +59,7 @@ jobs:
         working-directory: ${{github.workspace}}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Checkout submodules
         run: git submodule update --init --recursive
